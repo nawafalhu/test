@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="header-container">
+                <h1>Sign Language Practice</h1>
+                <p>Practice your sign language skills</p>
+            </div>
+            
+            <div class="practice-container">
+                <div class="practice-grid">
+                    <!-- Content will go here -->
+                    <p>Content coming soon...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.header-container {
+    background-color: #4343f4;
+    border-radius: 25px;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(67, 67, 244, 0.2);
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.header-container p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.practice-container {
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 0 20px;
+}
+
+.practice-grid {
+    padding: 20px;
+    text-align: center;
+}
+
+@media (max-width: 576px) {
+    .header-container h1 {
+        font-size: 2rem;
+    }
+    
+    .header-container p {
+        font-size: 1rem;
+    }
+}
+</style>
+{% endblock %}

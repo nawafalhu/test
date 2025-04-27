@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="lesson-page-container">
+    <div class="lesson-header">
+        <h1>Chapter {{ chapter }} Quiz</h1>
+    </div>
+    <div class="quiz-content">
+        <div class="quiz-instructions">
+            <h3>Instructions:</h3>
+            <ul>
+                <li>This quiz will test your knowledge of Chapter {{ chapter }}</li>
+                <li>You will be presented with multiple choice questions</li>
+                <li>Select the best answer for each question</li>
+                <li>You can only take the quiz once</li>
+            </ul>
+        </div>
+        <div class="quiz-start-button">
+            <button class="btn btn-primary btn-lg start-quiz-btn">Start Quiz</button>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,42 @@
+{% if is_search %}
+    {% if videos %}
+        <div class="videos-grid">
+            {% for video in videos %}
+                <div class="video-card">
+                    <div class="video-thumbnail-container">
+                        <a href="{% url 'dictionary:video_detail' video_id=video.id %}" class="play-button">
+                            <span class="play-icon">▶</span>
+                        </a>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">{{ video.title }}</h3>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-results">
+            No results found for "{{ search_query }}"
+        </div>
+    {% endif %}
+{% else %}
+    {% for chapter_num, chapter_data in chapters.items %}
+        <div class="dictionary-chapter">
+            <h2 class="chapter-title">{{ chapter_data.title }}</h2>
+            <div class="videos-grid">
+                {% for video in chapter_data.videos %}
+                    <div class="video-card">
+                        <div class="video-thumbnail-container">
+                            <a href="{% url 'dictionary:video_detail' video_id=video.id %}" class="play-button">
+                                <span class="play-icon">▶</span>
+                            </a>
+                        </div>
+                        <div class="video-info">
+                            <h3 class="video-title">{{ video.title }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %} 

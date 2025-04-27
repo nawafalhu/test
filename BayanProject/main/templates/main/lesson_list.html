@@ -1,0 +1,50 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="lesson-list-container">
+    <!-- Header Section -->
+    <div class="lesson-list-header">
+        <a href="{% url 'home' %}" class="back-arrow">←</a>
+        <span class="chapter-label">CHAPTER {{ chapter.number }}</span>
+        <h1>{{ chapter.title }}</h1>
+        <p>{{ chapter.description }}</p>
+        <span class="star-decoration star-left">★</span>
+        <span class="star-decoration star-right">★</span>
+    </div>
+
+    <!-- Timeline with Lessons -->
+    <div class="lesson-timeline">
+        <div class="timeline-line"></div>
+        
+        {% for lesson in lessons %}
+        <a href="{% url 'lesson_view' chapter=chapter.number lesson=lesson.number %}" class="lesson-card">
+            <div class="lesson-icon">
+                {% if lesson.type == 'vocabulary' %}
+                    <img src="{% static 'main/icons/magnifier.svg' %}" alt="Vocabulary">
+                {% elif lesson.type == 'dialogue' %}
+                    <img src="{% static 'main/icons/chat.svg' %}" alt="Dialogue">
+                {% elif lesson.type == 'signs' %}
+                    <img src="{% static 'main/icons/hand.svg' %}" alt="Signs">
+                {% elif lesson.type == 'review' %}
+                    <img src="{% static 'main/icons/review.svg' %}" alt="Review">
+                {% endif %}
+            </div>
+            <div class="lesson-content">
+                <h3 class="lesson-title">Lesson {{ lesson.number }}</h3>
+                <p class="lesson-description">{{ lesson.description }}</p>
+            </div>
+            <div class="lesson-arrow">→</div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Start Learning Button -->
+    <div class="start-learning-container">
+        <a href="{% url 'lesson_view' chapter=chapter.number lesson=1 %}" class="start-learning-btn">
+            Start Learning
+            <span class="start-icon">▶</span>
+        </a>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/dictionary.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="video-detail-container">
+    <div class="video-header">
+        <a href="{% url 'dictionary:home' %}" class="back-button">
+            <span>←</span> Back to Dictionary
+            
+        </a>
+        <h1>{{ video.title }}</h1>
+    </div>
+
+    <div class="video-player-container">
+        <video controls autoplay loop class="video-player" preload="auto">
+            <source src="{{ video.video_file.url }}" type="video/mp4">
+            <source src="{{ video.video_file.url }}" type="video/webm">
+            <source src="{{ video.video_file.url }}" type="video/ogg">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.querySelector('.video-player');
+    
+    // Add error handling
+    video.addEventListener('error', function(e) {
+        console.error('Video error:', video.error);
+        alert('Error loading video. Please try again later.');
+    });
+
+    // Try to play the video
+    video.play().catch(function(error) {
+        console.error('Playback failed:', error);
+        // If autoplay fails, show controls and let user play manually
+        video.controls = true;
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,101 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/dictionary.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dictionary-lesson-container">
+    <div class="lesson-header">
+        <a href="{% url 'dictionary:home' %}" class="back-button">
+            <span>←</span> Back to Dictionary
+        </a>
+        <h1>{{ lesson.title }}</h1>
+        <p class="lesson-category">{{ lesson.category }}</p>
+    </div>
+
+    <div class="lesson-content">
+        <div class="lesson-description">
+            <p>{{ lesson.description }}</p>
+        </div>
+        
+        <!-- Videos Section -->
+        {% if videos %}
+            <div class="videos-section">
+                <h2>Related Videos</h2>
+                <div class="videos-grid">
+                    {% for video in videos %}
+                        <div class="video-card">
+                            <div class="video-thumbnail-container">
+                                {% if video.thumbnail %}
+                                    <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="video-thumbnail">
+                                {% else %}
+                                    <div class="video-placeholder">
+                                        <span>🎥</span>
+                                    </div>
+                                {% endif %}
+                                <button class="play-button" data-video-url="{{ video.video_file.url }}">
+                                    <span class="play-icon">▶</span>
+                                    <span class="video-title">{{ video.title }}</span>
+                                </button>
+                            </div>
+                            <div class="video-info">
+                                <p>{{ video.description }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="lesson-main-content">
+            {{ lesson.content }}
+        </div>
+    </div>
+</div>
+
+<!-- Video Modal -->
+<div class="video-modal" id="videoModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <video id="modalVideo" controls>
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const closeModal = document.querySelector('.close-modal');
+    const playButtons = document.querySelectorAll('.play-button');
+
+    playButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const videoUrl = this.getAttribute('data-video-url');
+            modalVideo.src = videoUrl;
+            modal.style.display = 'block';
+            modalVideo.play();
+        });
+    });
+
+    closeModal.addEventListener('click', function() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            modalVideo.pause();
+            modalVideo.src = '';
+        }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

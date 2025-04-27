@@ -1,0 +1,77 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/dictionary.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dictionary-container">
+    <div class="chapter-header">
+        <a href="{% url 'dictionary:home' %}" class="back-button">
+            <span>←</span> Back to Dictionary
+        </a>
+        <h1>{{ chapter_title }}</h1>
+    </div>
+
+    <div class="videos-section">
+        <div class="videos-grid">
+            {% for video in videos %}
+                <div class="video-card">
+                    <div class="video-thumbnail-container">
+                        <a href="{% url 'dictionary:video_detail' video_id=video.id %}" class="play-button">
+                            <span class="play-icon">▶</span>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Video Modal -->
+<div class="video-modal" id="videoModal">
+    <div class="modal-content">
+        <video id="modalVideo" controls>
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const playButtons = document.querySelectorAll('.play-button');
+
+    // Video Modal Functionality
+    playButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const videoUrl = this.getAttribute('data-video-url');
+            modalVideo.src = videoUrl;
+            modal.classList.add('active');
+            modalVideo.play();
+            document.body.style.overflow = 'hidden';
+            
+            // Scroll to top of the page
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Close modal when clicking outside the video
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.classList.remove('active');
+            modalVideo.pause();
+            modalVideo.src = '';
+            document.body.style.overflow = '';
+        }
+    });
+});
+</script>
+{% endblock %} 

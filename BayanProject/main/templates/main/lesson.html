@@ -1,0 +1,322 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.lesson-page-container {
+    padding: 1rem;
+    margin-top: -1rem;  /* Move the container up */
+}
+
+.lesson-header {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.lesson-content {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 12px;
+    margin: 0 auto;
+    max-width: 1000px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.video-container {
+    position: relative;
+    margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    background-color: transparent;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.video-title {
+    position: relative;
+    margin-top: 1.5rem;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #1a237e;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.8rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    min-width: 120px;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.video-subtitle {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    color: #666;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border-radius: 8px;
+}
+
+.video-title:hover {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .lesson-page-container {
+        padding: 0.5rem;
+        margin-top: -0.5rem;  /* Slightly less negative margin for mobile */
+    }
+    
+    .video-container {
+        margin-bottom: 2rem;
+    }
+    
+    .video-title {
+        font-size: 2.5rem;
+        padding: 0.6rem 1.8rem;
+        min-width: 100px;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-title {
+        font-size: 2rem;
+        padding: 0.5rem 1.5rem;
+    }
+}
+</style>
+
+<div class="lesson-page-container">
+    <div class="lesson-header">
+        <a href="{% url 'lesson_list' chapter=chapter %}" class="back-to-list">← Back to Lessons</a>
+        {% if chapter == 1 %}
+            <h1>Alphabet Signs - Lesson {{ lesson }}</h1>
+        {% elif chapter == 2 %}
+            <h1>Numbers Signs</h1>
+        {% elif chapter == 3 %}
+            <h1>Common Words</h1>
+        {% elif chapter == 4 %}
+            <h1>Daily Communication</h1>
+        {% endif %}
+    </div>
+    <div class="lesson-content">
+        {% if chapter == 1 %}
+            <div class="video-container">
+                <video controls width="100%" autoplay loop muted>
+                    {% if lesson == 1 %}
+                        <source src="{% static 'dictionary/videos/videos/أ.mp4' %}" type="video/mp4">
+                    {% elif lesson == 2 %}
+                        <source src="{% static 'dictionary/videos/videos/د.mp4' %}" type="video/mp4">
+                    {% elif lesson == 3 %}
+                        <source src="{% static 'dictionary/videos/videos/ض.mp4' %}" type="video/mp4">
+                    {% elif lesson == 4 %}
+                        <source src="{% static 'dictionary/videos/videos/ك.mp4' %}" type="video/mp4">
+                    {% endif %}
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-title">
+                    {% if lesson == 1 %}
+                        أ
+                    {% elif lesson == 2 %}
+                        د
+                    {% elif lesson == 3 %}
+                        ض
+                    {% elif lesson == 4 %}
+                        ك
+                    {% endif %}
+                </div>
+                <div class="video-subtitle" id="videoSubtitle">
+                    Loading...
+                </div>
+            </div>
+        {% elif chapter == 2 %}
+            <div class="video-container">
+                <video controls width="100%" autoplay loop muted>
+                    <source src="{% static 'dictionary/videos/videos/د.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-title">د</div>
+            </div>
+            <div class="lesson-text">
+                <h2>Learning the Numbers in Sign Language</h2>
+                <p>In this lesson, we will learn how to sign numbers</p>
+            </div>
+        {% elif chapter == 3 %}
+            <div class="video-container">
+                <video controls width="100%" autoplay loop muted>
+                    <source src="{% static 'dictionary/videos/videos/ض.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-title">ض</div>
+            </div>
+            <div class="lesson-text">
+                <h2>Learning Common Words in Sign Language</h2>
+                <p>In this lesson, we will learn how to sign common words</p>
+            </div>
+        {% elif chapter == 4 %}
+            <div class="video-container">
+                <video controls width="100%" autoplay loop muted>
+                    <source src="{% static 'dictionary/videos/videos/ك.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-title">ك</div>
+            </div>
+            <div class="lesson-text">
+                <h2>Learning Daily Communication in Sign Language</h2>
+                <p>In this lesson, we will learn how to sign daily communication phrases</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Navigation -->
+    <div class="lesson-navigation">
+        {% if chapter == 1 %}
+            <div class="letter-navigation">
+                <a href="#" class="nav-btn prev-letter-btn">
+                    <span class="nav-arrow">←</span>
+                    Previous Letter
+                </a>
+                <a href="#" class="nav-btn next-letter-btn">
+                    Next Letter
+                    <span class="nav-arrow">→</span>
+                </a>
+            </div>
+            <div class="next-lesson-container" style="display: none;">
+                {% if lesson == 4 %}
+                    <a href="{% url 'quiz_start' chapter=1 %}" class="nav-btn next-lesson-btn">
+                        Take Quiz on Chapter 1
+                        <span class="nav-arrow">→</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn">
+                        Next Lesson
+                        <span class="nav-arrow">→</span>
+                    </a>
+                {% endif %}
+            </div>
+        {% else %}
+            {% if lesson > 1 %}
+                <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'-1' %}" class="nav-btn prev-btn">
+                    <span class="nav-arrow">←</span>
+                    Previous Lesson
+                </a>
+            {% endif %}
+            
+            {% if lesson < 4 %}
+                <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-btn">
+                    Next Lesson
+                    <span class="nav-arrow">→</span>
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const videoElement = document.querySelector('.video-container video');
+    const videoTitle = document.querySelector('.video-title');
+    const videoSubtitle = document.getElementById('videoSubtitle');
+    const prevLetterBtn = document.querySelector('.prev-letter-btn');
+    const nextLetterBtn = document.querySelector('.next-letter-btn');
+    const nextLessonContainer = document.querySelector('.next-lesson-container');
+    
+    // Define videos for each lesson with their titles and positions
+    const lessonVideos = {
+        1: [
+            { src: "{% static 'dictionary/videos/videos/أ.mp4' %}", title: "أ", position: "First" },
+            { src: "{% static 'dictionary/videos/videos/ب.mp4' %}", title: "ب", position: "Second" },
+            { src: "{% static 'dictionary/videos/videos/ت.mp4' %}", title: "ت", position: "Third" },
+            { src: "{% static 'dictionary/videos/videos/ث.mp4' %}", title: "ث", position: "Fourth" },
+            { src: "{% static 'dictionary/videos/videos/ج.mp4' %}", title: "ج", position: "Fifth" },
+            { src: "{% static 'dictionary/videos/videos/ح.mp4' %}", title: "ح", position: "Sixth" },
+            { src: "{% static 'dictionary/videos/videos/خ.mp4' %}", title: "خ", position: "Seventh" }
+        ],
+        2: [
+            { src: "{% static 'dictionary/videos/videos/د.mp4' %}", title: "د", position: "Eighth" },
+            { src: "{% static 'dictionary/videos/videos/ذ.mp4' %}", title: "ذ", position: "Ninth" },
+            { src: "{% static 'dictionary/videos/videos/ر.mp4' %}", title: "ر", position: "Tenth" },
+            { src: "{% static 'dictionary/videos/videos/ز.mp4' %}", title: "ز", position: "Eleventh" },
+            { src: "{% static 'dictionary/videos/videos/س.mp4' %}", title: "س", position: "Twelfth" },
+            { src: "{% static 'dictionary/videos/videos/ش.mp4' %}", title: "ش", position: "Thirteenth" },
+            { src: "{% static 'dictionary/videos/videos/ص.mp4' %}", title: "ص", position: "Fourteenth" }
+        ],
+        3: [
+            { src: "{% static 'dictionary/videos/videos/ض.mp4' %}", title: "ض", position: "Fifteenth" },
+            { src: "{% static 'dictionary/videos/videos/ط.mp4' %}", title: "ط", position: "Sixteenth" },
+            { src: "{% static 'dictionary/videos/videos/ظ.mp4' %}", title: "ظ", position: "Seventeenth" },
+            { src: "{% static 'dictionary/videos/videos/ع.mp4' %}", title: "ع", position: "Eighteenth" },
+            { src: "{% static 'dictionary/videos/videos/غ.mp4' %}", title: "غ", position: "Nineteenth" },
+            { src: "{% static 'dictionary/videos/videos/ف.mp4' %}", title: "ف", position: "Twentieth" },
+            { src: "{% static 'dictionary/videos/videos/ق.mp4' %}", title: "ق", position: "Twenty-first" }
+        ],
+        4: [
+            { src: "{% static 'dictionary/videos/videos/ك.mp4' %}", title: "ك", position: "Twenty-second" },
+            { src: "{% static 'dictionary/videos/videos/ل.mp4' %}", title: "ل", position: "Twenty-third" },
+            { src: "{% static 'dictionary/videos/videos/م.mp4' %}", title: "م", position: "Twenty-fourth" },
+            { src: "{% static 'dictionary/videos/videos/ن.mp4' %}", title: "ن", position: "Twenty-fifth" },
+            { src: "{% static 'dictionary/videos/videos/ه.mp4' %}", title: "ه", position: "Twenty-sixth" },
+            { src: "{% static 'dictionary/videos/videos/و.mp4' %}", title: "و", position: "Twenty-seventh" },
+            { src: "{% static 'dictionary/videos/videos/ي.mp4' %}", title: "ي", position: "Twenty-eighth" }
+        ]
+    };
+    
+    const videos = lessonVideos[{{ lesson }}] || [];
+    let currentVideoIndex = 0;
+    
+    function updateVideo(video) {
+        videoElement.src = video.src;
+        videoTitle.textContent = video.title;
+        videoSubtitle.textContent = `${video.position} letter of the Arabic alphabet`;
+        videoElement.load();
+        videoElement.play();
+    }
+    
+    function updateNavigationButtons() {
+        prevLetterBtn.style.display = currentVideoIndex > 0 ? 'flex' : 'none';
+        nextLetterBtn.style.display = currentVideoIndex < videos.length - 1 ? 'flex' : 'none';
+        nextLessonContainer.style.display = currentVideoIndex === videos.length - 1 ? 'flex' : 'none';
+    }
+    
+    prevLetterBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (currentVideoIndex > 0) {
+            currentVideoIndex--;
+            updateVideo(videos[currentVideoIndex]);
+            updateNavigationButtons();
+        }
+    });
+    
+    nextLetterBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (currentVideoIndex < videos.length - 1) {
+            currentVideoIndex++;
+            updateVideo(videos[currentVideoIndex]);
+            updateNavigationButtons();
+        }
+    });
+    
+    // Initialize with first video
+    if (videos.length > 0) {
+        updateVideo(videos[0]);
+    }
+    updateNavigationButtons();
+});
+</script>
+{% endblock %} 

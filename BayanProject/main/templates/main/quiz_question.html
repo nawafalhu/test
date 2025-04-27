@@ -1,0 +1,219 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="quiz-container">
+                <div class="header-section">
+                    <h1>ما هو الحرف الصحيح؟</h1>
+                    <a href="{% url 'quiz' %}" class="exit-btn">خروج</a>
+                </div>
+                
+                <div class="video-section">
+                    <video controls width="100%" autoplay loop muted src="{{ video_path }}">
+                        <source src="{{ video_path }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <div class="options-section">
+                    <div class="options-grid">
+                        {% for option in options %}
+                        <button class="option-btn" data-option="{{ option }}">{{ option }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.container-fluid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.row {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.col-12 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.quiz-container {
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 120px);
+    margin-top: 40px;
+}
+
+.header-section {
+    background-color: #4343f4;
+    border-radius: 25px 25px 0 0;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.header-section h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+}
+
+.exit-btn {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 5px 15px;
+    border: 2px solid white;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.exit-btn:hover {
+    background-color: white;
+    color: #4343f4;
+}
+
+.video-section {
+    margin: 0;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.video-section video {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.options-section {
+    margin: 0;
+    padding: 20px;
+    padding-bottom: 40px;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.option-btn {
+    background-color: #f8f9fa;
+    border: 2px solid #4343f4;
+    color: #4343f4;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 1.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-btn:hover {
+    background-color: #4343f4;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.option-btn.correct {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.option-btn.wrong {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+@media (max-width: 576px) {
+    .header-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .option-btn {
+        font-size: 1.5rem;
+        padding: 12px;
+    }
+}
+</style>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const options = document.querySelectorAll('.option-btn');
+    const correctAnswer = '{{ correct_answer }}';
+    
+    options.forEach(option => {
+        option.addEventListener('click', function() {
+            const selectedOption = this.getAttribute('data-option');
+            
+            if (selectedOption === correctAnswer) {
+                // Correct answer
+                this.classList.add('correct');
+                setTimeout(() => {
+                    // Redirect to next question
+                    window.location.href = '/quiz/question/{{ question_number|add:"1" }}/';
+                }, 1000);
+            } else {
+                // Wrong answer
+                this.classList.add('wrong');
+                setTimeout(() => {
+                    this.classList.remove('wrong');
+                }, 1000);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

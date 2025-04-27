@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Account Settings</h2>
+    <div class="profile-section">
+        <h3>Profile Information</h3>
+        <form method="post" class="profile-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" value="{{ user.username }}" readonly>
+            </div>
+            <!-- Add more profile fields as needed -->
+        </form>
+    </div>
+</div>
+{% endblock %}

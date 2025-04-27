@@ -1,0 +1,186 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="header-container">
+                <h1>Quiz</h1>
+                <p>Test your sign language knowledge</p>
+            </div>
+            
+            <div class="quiz-container">
+                <!-- Chapter 1 Quiz -->
+                <div class="chapter-card">
+                    <div class="chapter-header">
+                        <span class="chapter-label">CHAPTER 1</span>
+                    </div>
+                    <h2 class="chapter-title">Alphabet Signs</h2>
+                    <div class="lessons-list">
+                        <a href="{% url 'quiz_question' question_number=1 %}" class="lesson-link">
+                            <div class="lesson-item quiz-item">Take Quiz</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Chapter 2 Quiz -->
+                <div class="chapter-card">
+                    <div class="chapter-header">
+                        <span class="chapter-label">CHAPTER 2</span>
+                    </div>
+                    <h2 class="chapter-title">Numbers Signs</h2>
+                    <div class="lessons-list">
+                        <a href="{% url 'quiz_question' question_number=1 %}" class="lesson-link">
+                            <div class="lesson-item quiz-item">Take Quiz</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Chapter 3 Quiz -->
+                <div class="chapter-card">
+                    <div class="chapter-header">
+                        <span class="chapter-label">CHAPTER 3</span>
+                    </div>
+                    <h2 class="chapter-title">Common Words</h2>
+                    <div class="lessons-list">
+                        <a href="{% url 'quiz_question' question_number=1 %}" class="lesson-link">
+                            <div class="lesson-item quiz-item">Take Quiz</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Chapter 4 Quiz -->
+                <div class="chapter-card">
+                    <div class="chapter-header">
+                        <span class="chapter-label">CHAPTER 4</span>
+                    </div>
+                    <h2 class="chapter-title">Daily Communication</h2>
+                    <div class="lessons-list">
+                        <a href="{% url 'quiz_question' question_number=1 %}" class="lesson-link">
+                            <div class="lesson-item quiz-item">Take Quiz</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.header-container {
+    background-color: #4343f4;
+    border-radius: 25px;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(67, 67, 244, 0.2);
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.header-container p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.quiz-container {
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin: 0 0 20px;
+}
+
+.chapter-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.chapter-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chapter-header {
+    margin-bottom: 12px;
+}
+
+.chapter-label {
+    background-color: #4343f4;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.chapter-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 12px 0;
+}
+
+.lessons-list {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.lesson-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+
+.lesson-item {
+    background-color: #4343f4;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-size: 0.9rem;
+    min-width: 100px;
+}
+
+.lesson-item:hover {
+    background-color: #3535d4;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 576px) {
+    .header-container h1 {
+        font-size: 2rem;
+    }
+    
+    .header-container p {
+        font-size: 1rem;
+    }
+
+    .chapter-title {
+        font-size: 1.3rem;
+    }
+
+    .quiz-container {
+        padding: 15px;
+    }
+
+    .chapter-card {
+        padding: 15px;
+    }
+}
+</style>
+{% endblock %} 

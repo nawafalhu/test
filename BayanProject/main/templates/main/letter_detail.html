@@ -1,0 +1,415 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="letter-practice-container" id="letter-container">
+                <div class="letter-header">
+                    <h2>Letter Practice: {{ letter }} ({{ letter_name }})</h2>
+                    <div class="prediction-display">
+                        <span class="prediction-label">Model Prediction:</span>
+                        <span class="prediction-value" id="prediction-value">-</span>
+                    </div>
+                </div>
+                
+                <div class="letter-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="letter-box">
+                                <h1 class="display-letter">{{ letter }}</h1>
+                                <p class="letter-name">{{ letter_name }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <div class="camera-section">
+                                <video id="video" width="100%" autoplay></video>
+                                <canvas id="canvas" style="display: none;"></canvas>
+                                
+                                <div class="camera-controls">
+                                    <button id="start-camera" class="btn camera-btn start-btn">
+                                        <i class="fas fa-camera"></i> Start Camera
+                                    </button>
+                                    <button id="stop-camera" class="btn camera-btn stop-btn" disabled>
+                                        <i class="fas fa-stop"></i> Stop Camera
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <a href="{% url 'alphabet_practice' %}" class="back-btn">
+                            <i class="fas fa-arrow-right"></i> Back to Letters
+                        </a>
+                        <a href="#" class="next-btn" id="next-letter-btn" style="display: none;">
+                            Next Letter <i class="fas fa-arrow-left"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.letter-practice-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 20px 0;
+    transition: background-color 0.5s ease;
+}
+
+.letter-practice-container.correct {
+    background-color: #28a745;
+}
+
+.letter-header {
+    background-color: #4343f4;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+.letter-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.letter-content {
+    padding: 20px;
+}
+
+.letter-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.display-letter {
+    font-size: 4rem;
+    color: #4343f4;
+    margin: 0;
+    line-height: 1;
+}
+
+.letter-name {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 10px;
+}
+
+.camera-section {
+    height: 100%;
+    min-height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.camera-section video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.camera-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.camera-btn {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.start-btn {
+    background-color: #4343f4;
+    color: white;
+}
+
+.start-btn:hover {
+    background-color: #3535d4;
+}
+
+.stop-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.stop-btn:hover {
+    background-color: #c82333;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 10px 30px;
+    border: 2px solid #4343f4;
+    border-radius: 25px;
+    color: #4343f4;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #4343f4;
+    color: white;
+    text-decoration: none;
+}
+
+.prediction-display {
+    margin-top: 10px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.prediction-label {
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+.prediction-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.next-btn {
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: #4343f4;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+    background-color: #3535d4;
+    color: white;
+    text-decoration: none;
+    transform: translateX(-5px);
+}
+
+.next-btn i {
+    margin-left: 5px;
+}
+</style>
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script>
+    let video = document.getElementById('video');
+    let canvas = document.getElementById('canvas');
+    let startButton = document.getElementById('start-camera');
+    let stopButton = document.getElementById('stop-camera');
+    let container = document.getElementById('letter-container');
+    let nextLetterBtn = document.getElementById('next-letter-btn');
+    let stream = null;
+    let model = null;
+    let isProcessing = false;
+    let correctPredictionTimeout = null;
+    let isWaitingForDelay = false;
+
+    // Load the model
+    async function loadModel() {
+        try {
+            // Create a simple model for testing
+            model = tf.sequential();
+            model.add(tf.layers.conv2d({
+                inputShape: [224, 224, 3],
+                kernelSize: 3,
+                filters: 32,
+                activation: 'relu'
+            }));
+            model.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
+            model.add(tf.layers.conv2d({
+                kernelSize: 3,
+                filters: 64,
+                activation: 'relu'
+            }));
+            model.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
+            model.add(tf.layers.flatten());
+            model.add(tf.layers.dense({units: 128, activation: 'relu'}));
+            model.add(tf.layers.dropout({rate: 0.5}));
+            model.add(tf.layers.dense({units: 2, activation: 'softmax'}));
+            
+            // Compile the model
+            model.compile({
+                optimizer: 'adam',
+                loss: 'categoricalCrossentropy',
+                metrics: ['accuracy']
+            });
+            
+            console.log('Model created successfully');
+            document.getElementById('prediction-value').textContent = 'Model Ready';
+        } catch (error) {
+            console.error('Error creating model:', error);
+            alert('Error creating the model. Please try again later.');
+        }
+    }
+
+    // Process frame and make prediction
+    async function processFrame() {
+        if (!isProcessing) return;
+
+        try {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+
+            // Convert canvas to tensor
+            let tensor = tf.browser.fromPixels(canvas)
+                .resizeNearestNeighbor([224, 224])
+                .toFloat()
+                .expandDims();
+
+            // Normalize the image
+            tensor = tensor.div(255.0);
+
+            // Make prediction
+            const predictions = await model.predict(tensor);
+            const probabilities = predictions.dataSync();
+            const yesConfidence = probabilities[0] * 100;
+            const noConfidence = probabilities[1] * 100;
+            
+            // Update prediction display with more information
+            const predictionText = `Yes: ${yesConfidence.toFixed(1)}%, No: ${noConfidence.toFixed(1)}%`;
+            document.getElementById('prediction-value').textContent = predictionText;
+
+            // If Yes confidence is above 50.1% and not already waiting for delay
+            if (yesConfidence >= 50.1 && !isWaitingForDelay) {
+                isWaitingForDelay = true;
+                console.log('Starting 3-second delay...');
+                
+                // Clear any existing timeout
+                if (correctPredictionTimeout) {
+                    clearTimeout(correctPredictionTimeout);
+                }
+                
+                // Set new timeout to show green and stop camera after 3 seconds
+                correctPredictionTimeout = setTimeout(() => {
+                    console.log('Delay completed, showing green and stopping camera');
+                    container.classList.add('correct');
+                    document.getElementById('next-letter-btn').style.display = 'inline-block';
+                    stopCamera();
+                    isWaitingForDelay = false;
+                }, 3000);
+            } else if (yesConfidence < 50.1) {
+                isWaitingForDelay = false;
+                container.classList.remove('correct');
+                document.getElementById('next-letter-btn').style.display = 'none';
+                if (correctPredictionTimeout) {
+                    clearTimeout(correctPredictionTimeout);
+                    correctPredictionTimeout = null;
+                }
+            }
+
+            // Clean up tensors
+            tf.dispose([tensor, predictions]);
+        } catch (error) {
+            console.error('Error in processFrame:', error);
+            document.getElementById('prediction-value').textContent = 'Error in prediction';
+        }
+
+        // Continue processing
+        requestAnimationFrame(processFrame);
+    }
+
+    function startCamera() {
+        container.classList.remove('correct');
+        document.getElementById('next-letter-btn').style.display = 'none';
+        isWaitingForDelay = false;
+        if (correctPredictionTimeout) {
+            clearTimeout(correctPredictionTimeout);
+            correctPredictionTimeout = null;
+        }
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(mediaStream) {
+                stream = mediaStream;
+                video.srcObject = stream;
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                isProcessing = true;
+                processFrame();
+            })
+            .catch(function(err) {
+                console.error('Error accessing camera:', err);
+                alert('Error accessing camera. Please make sure you have granted camera permissions.');
+            });
+    }
+
+    function stopCamera() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            video.srcObject = null;
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            isProcessing = false;
+            isWaitingForDelay = false;
+            if (correctPredictionTimeout) {
+                clearTimeout(correctPredictionTimeout);
+                correctPredictionTimeout = null;
+            }
+        }
+    }
+
+    // Setup next letter button
+    nextLetterBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Get current letter from the displayed letter
+        const currentLetter = document.querySelector('.display-letter').textContent;
+        
+        // Define Arabic alphabet order
+        const letters = 'ابتثجحخدذرزسشصضطظعغفقكلمنهو'.split('');
+        const currentIndex = letters.indexOf(currentLetter);
+        const nextIndex = (currentIndex + 1) % letters.length;
+        const nextLetter = letters[nextIndex];
+        
+        // Navigate to next letter
+        window.location.href = `/letter/${nextLetter}/`;
+    });
+
+    startButton.addEventListener('click', startCamera);
+    stopButton.addEventListener('click', stopCamera);
+
+    // Load model when page loads
+    loadModel();
+</script>
+{% endblock %}
+{% endblock %} 

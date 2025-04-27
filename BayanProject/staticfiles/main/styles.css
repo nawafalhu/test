@@ -1,0 +1,1434 @@
+/* General Styles - Applied across all pages */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Navigation Bar - Applied across all pages */
+nav {
+    background-color: rgb(45, 51, 107);
+    padding: 1em 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar Styles - Applied across all pages */
+.navbar-collapse {
+    background-color: rgb(255, 255, 255);
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #dff0d8;
+}
+
+/* Container Styles - Applied across all pages */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgb(237, 238, 239);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+/* Common Heading Styles - Applied across all pages */
+h1 {
+    color: #333333;
+    font-size: 2em;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+h2 {
+    color: #705ef8;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+/* Common List Styles - Applied across all pages */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background: rgb(237, 238, 239);
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+}
+
+/* Common Button Styles - Applied across all pages */
+button {
+    background-color: #4343f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Common Form Styles - Applied across all pages */
+form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    width: 100%;
+}
+
+/* Footer Styles - Applied across all pages */
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 0;
+    background-color: #333;
+    color: white;
+    font-size: 0.9em;
+}
+
+/* Responsive Design - Applied across all pages */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+
+    nav a {
+        margin: 10px 0;
+    }
+
+    .container {
+        width: 95%;
+    }
+}
+
+/* Logout Page Styles */
+.logout-container {
+    text-align: center;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.logout-button {
+    padding: 0.5rem 1rem;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 0.5rem 1rem;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+/* Signup Page Styles */
+.signup-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.signup-container h2 {
+    text-align: center;
+    color: #1a237e;
+    margin-bottom: 1.5rem;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.signup-form p {
+    margin: 0;
+}
+
+.signup-form label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.signup-form input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.signup-form .helptext {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.signup-form ul.errorlist {
+    color: #dc3545;
+    font-size: 0.9rem;
+    padding-left: 1.5rem;
+    margin-top: 0.25rem;
+}
+
+/* Navbar Styles - Applied across all pages */
+.navbar {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    background-color: #1a237e !important;
+    font-size:larger;
+}
+
+.navbar-brand.mx-auto {
+    float: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1rem 0;
+    margin: 0;
+    font-size: 2.5rem !important;
+    line-height: 1.2;
+    vertical-align: middle;
+    color: black !important;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.navbar .container {
+    position: relative;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.navbar-dark .navbar-brand {
+    color: black;
+}
+
+.navbar-dark .navbar-brand:hover {
+    color: #333333;
+}
+
+.nav-link.btn {
+    color: black !important;
+    border-color: black !important;
+}
+
+.nav-link.btn:hover {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: black !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #333333 !important;
+}
+
+/* Signup Header Styles */
+.signup-header {
+    text-align: center;
+    padding: 2rem 0;
+    background-color: rgb(219, 220, 221);
+    margin-bottom: 2rem;
+}
+
+.bayan-title {
+    color: black;
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Login Page Styles */
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+    text-align: center;
+    color: #1a237e;
+    margin-bottom: 1.5rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.login-form p {
+    margin: 0;
+}
+
+.login-form label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Chapter Page Styles */
+.chapters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.chapter-card {
+    background-color: rgb(251, 251, 251);
+    border-radius: 10px;
+    padding: 0.8rem 1.2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.8rem;
+}
+
+.chapter-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.2rem;
+}
+
+.chapter-label {
+    background-color: #fff3e0;
+    color: #5f72f0;
+    font-weight: bold;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 4px;
+}
+
+.progress-info {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 0.2rem;
+}
+
+.chapter-title {
+    color: #333;
+    font-size: 1.5rem;
+    margin: 0.6rem 0;
+    padding: 0;
+    border: none;
+    font-weight: 600;
+    text-align: center;
+}
+
+.chapter-footer {
+    margin-top: 0.1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.continue-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #5f72f0;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 16px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.75rem;
+    transition: background-color 0.3s ease;
+}
+
+.continue-btn:hover {
+    background-color: #7080e5;
+    color: white;
+}
+
+.continue-icon {
+    font-size: 0.65rem;
+}
+
+/* Lesson Page Styles */
+.lesson-page-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 1rem auto;
+    max-width: 1200px;
+    width: 95%;
+}
+
+.lesson-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem 1rem 1rem;
+    border-bottom: 2px solid #e0e0e0;
+    position: relative;
+}
+
+.lesson-header h1 {
+    color: #1a237e;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.lesson-content {
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.lesson-card {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: relative;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    min-height: unset;
+}
+
+.lesson-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-icon {
+    position: absolute;
+    left: -35px;
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.lesson-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+.lesson-title {
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+    margin-bottom: 0.2rem;
+}
+
+.lesson-description {
+    color: #666;
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .lesson-page-container {
+        padding: 1rem;
+    }
+
+    .lesson-header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Quiz Page Styles */
+.lesson-link {
+    text-decoration: none;
+}
+
+.quiz-item {
+    background-color: #502387;
+    color: white !important;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    width: 110px;
+    margin: 0 auto;
+    border-radius: 16px;
+    display: block;
+    text-decoration: none !important;
+}
+
+.quiz-item:hover {
+    background-color: #6a1b9a !important;
+    color: white !important;
+    text-decoration: none !important;
+    transform: translateX(5px);
+    transition: all 0.3s ease;
+}
+
+.quiz-content {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    min-height: 300px;
+}
+
+.quiz-instructions {
+    margin-bottom: 2rem;
+}
+
+.quiz-instructions h3 {
+    color: #1a237e;
+    margin-bottom: 1rem;
+}
+
+.quiz-instructions ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    color: #333;
+}
+
+.quiz-instructions li {
+    margin-bottom: 0.5rem;
+    background: none;
+    box-shadow: none;
+    padding: 0.25rem 0;
+}
+
+.quiz-start-button {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.start-quiz-btn {
+    background-color: #502387;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.start-quiz-btn:hover {
+    background-color: #6a1b9a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Progress Bar Styles - Applied across all pages */
+.progress-section {
+    margin-top: 0.4rem;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background-color: #c2c0e2;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #5f72f0;
+    border-radius: 2px;
+}
+
+/* Quiz Page Specific Styles */
+.quiz-page .chapter-header {
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.quiz-page .chapter-card {
+    padding: 1.2rem;
+    margin-bottom: 0.8rem;
+}
+
+.quiz-page .chapter-title {
+    font-size: 1.5rem;
+    margin: 0.8rem 0;
+    font-weight: 600;
+}
+
+.quiz-page .chapter-header {
+    margin-bottom: 0.3rem;
+}
+
+.quiz-page .quiz-item {
+    background-color: #502387 !important;
+    color: white !important;
+    opacity: 1;
+}
+
+.quiz-page.chapters-container {
+    gap: 0.8rem;
+    padding: 1.2rem;
+    max-width: 850px;
+}
+
+/* Profile Page Styles */
+.profile-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+.dropdown-menu {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    min-width: 220px;
+    padding: 0.5rem;
+    border-radius: 12px;
+    margin-top: 0.5rem;
+}
+
+.dropdown-item {
+    padding: 0.8rem 1.2rem;
+    color: #333;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #1a237e;
+    transform: translateX(5px);
+}
+
+.dropdown-item i {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.dropdown-item.settings::before {
+    content: "⚙️";
+    margin-right: 8px;
+}
+
+.dropdown-item.logout::before {
+    content: "🚩";
+    margin-right: 8px;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section {
+    margin-top: 2rem;
+}
+
+.profile-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.profile-form label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.profile-form .form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.profile-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid white;
+}
+
+.nav-link.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-toggle:hover .profile-icon {
+    border-color: #e0e0e0;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+
+.welcome-message {
+    color: rgb(0, 0, 0);
+    margin-right: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-top: 0.2rem;
+    margin-bottom: -0.7rem;
+}
+
+.nav-item.dropdown {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.1rem;
+}
+
+/* Dictionary Page Styles */
+.dictionary-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.search-section {
+    margin-bottom: 2rem;
+}
+
+.search-box {
+    display: flex;
+    gap: 0.3rem;
+    max-width: 600px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.8rem 1.2rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #1a237e;
+    box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
+}
+
+.search-button {
+    padding: 0.5rem 0.7rem;
+    background-color: #1a237e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.search-button:hover {
+    background-color: #283593;
+    transform: translateY(-1px);
+}
+
+.search-button span {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.dictionary-chapter {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dictionary-chapter .chapter-header {
+    margin-bottom: 1.5rem;
+}
+
+.dictionary-chapter .chapter-header h2 {
+    color: #1a237e;
+    font-size: 1.5rem;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.lesson-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.lesson-item {
+    padding: 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.lesson-item .lesson-link {
+    display: block;
+    padding: 1rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.lesson-item:hover {
+    background-color: #f0f2f5;
+    transform: translateX(5px);
+}
+
+.lesson-item h3 {
+    color: #1a237e;
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.lesson-item p {
+    color: #666;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.lesson-item:hover h3 {
+    color: #502387;
+}
+
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-results p {
+    color: #666;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+.highlight {
+    background-color: rgba(95, 114, 240, 0.1);
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* Sign Practice Page Styles */
+.practice-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.practice-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.practice-header h1 {
+    color: #1a237e;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.practice-description {
+    color: #666;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.practice-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.practice-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.practice-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.practice-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.practice-card-header h2 {
+    color: #1a237e;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.practice-icon {
+    font-size: 1.8rem;
+}
+
+.practice-card p {
+    color: #666;
+    margin: 0 0 1.5rem 0;
+    flex-grow: 1;
+}
+
+.practice-button {
+    background-color: #502387;
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.practice-button:hover {
+    background-color: #6a1b9a;
+    color: white;
+    transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+    .practice-categories {
+        grid-template-columns: 1fr;
+    }
+
+    .practice-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .practice-card {
+        padding: 1.2rem;
+    }
+}
+
+/* Dictionary Lesson Detail Page Styles */
+.dictionary-lesson-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e0e0e0;
+    position: relative;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    color: #666;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    color: #1a237e;
+    transform: translateX(-5px);
+}
+
+.back-button span {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.lesson-header h1 {
+    color: #1a237e;
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.lesson-category {
+    color: #666;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.lesson-content {
+    padding: 1rem 0;
+}
+
+.lesson-description {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.lesson-description p {
+    color: #666;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.lesson-main-content {
+    line-height: 1.6;
+    color: #333;
+}
+
+.lesson-link {
+    color: #1a237e;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.lesson-link:hover {
+    color: #502387;
+}
+
+/* Lesson List Page Styles */
+.lesson-list-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    position: relative;
+}
+/* background-color  of lesson header*/
+.lesson-list-header {
+    background-color: #9fb3fb;
+    padding: 1.2rem 1rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.lesson-list-header h1 {
+    color: #333;
+    font-size: 1.5rem;
+    margin: 0;
+    margin-bottom: 0.3rem;
+}
+
+.lesson-list-header p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.lesson-list-header .chapter-label {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: white;
+    color: #333;
+    padding: 0.2rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+/* Timeline and Lessons */
+.lesson-timeline {
+    position: relative;
+    padding-left: 45px;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #e0e0e0;
+}
+
+.lesson-card {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: relative;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    min-height: unset;
+}
+
+.lesson-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-icon {
+    position: absolute;
+    left: -35px;
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.lesson-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+.lesson-content {
+    flex: 1;
+    padding: 0;
+}
+
+.lesson-title {
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+    margin-bottom: 0.2rem;
+}
+
+.lesson-description {
+    color: #666;
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+}
+
+.lesson-arrow {
+    margin-left: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Star decorations */
+.star-decoration {
+    position: absolute;
+    color: #000dff;
+    opacity: 0.5;
+    font-size: 1.5rem;
+}
+
+.star-left {
+    left: -20px;
+    top: 50%;
+}
+
+.star-right {
+    right: -20px;
+    top: 50%;
+}
+
+@media (max-width: 768px) {
+    .lesson-list-container {
+        padding: 1rem;
+    }
+
+    .lesson-list-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .lesson-list-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .lesson-timeline {
+        padding-left: 40px;
+    }
+
+    .timeline-line {
+        left: 15px;
+    }
+
+    .lesson-icon {
+        left: -35px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .lesson-icon img {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Start Learning Button Styles */
+.start-learning-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem 0;
+}
+
+.start-learning-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #502387;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.start-learning-btn:hover {
+    background-color: #6a1b9a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.start-icon {
+    font-size: 0.9rem;
+}
+
+/* Lesson Navigation Styles */
+.lesson-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.letter-navigation {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.next-lesson-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #502387;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.nav-btn:hover {
+    background-color: #6a1b9a;
+    color: white;
+    transform: translateX(0);
+}
+
+.prev-letter-btn:hover {
+    transform: translateX(-5px);
+}
+
+.next-letter-btn:hover,
+.next-lesson-btn:hover {
+    transform: translateX(5px);
+}
+
+.nav-arrow {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.back-to-list {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: inline-flex;
+    align-items: center;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.back-to-list:hover {
+    color: #502387;
+    transform: translateX(-5px);
+}
+
+/* Video Lesson Styles */
+.video-container {
+    margin: 1rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.video-container video {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    background-color: #000;
+}
+
+.lesson-text {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-text h2 {
+    color: #1a237e;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.lesson-text p {
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.letter-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    padding: 0 1rem;
+}
+
+.letter-navigation .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #502387;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.letter-navigation .nav-btn:hover {
+    background-color: #7080e5;
+}
+
+.letter-navigation .nav-arrow {
+    font-size: 1.2rem;
+}
+

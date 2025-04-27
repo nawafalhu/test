@@ -1,0 +1,93 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="chapters-container">
+    <!-- Chapter 1 -->
+    <div class="chapter-card">
+        <div class="chapter-header">
+            <span class="chapter-label">CHAPTER 1</span>
+        </div>
+        <h2 class="chapter-title">Alphabet Signs</h2>
+        <div class="chapter-footer">
+            <a href="{% url 'lesson_list' chapter=1 %}" class="continue-btn">
+                CONTINUE
+                <span class="continue-icon">▶</span>
+            </a>
+        </div>
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text">0 of 4 lessons completed</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="chapter-card">
+        <div class="chapter-header">
+            <span class="chapter-label">CHAPTER 2</span>
+        </div>
+        <h2 class="chapter-title">Numbers Signs</h2>
+        <div class="chapter-footer">
+            <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn">
+                CONTINUE
+                <span class="continue-icon">▶</span>
+            </a>
+        </div>
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text">0 of 4 lessons completed</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="chapter-card">
+        <div class="chapter-header">
+            <span class="chapter-label">CHAPTER 3</span>
+        </div>
+        <h2 class="chapter-title">Common Words</h2>
+        <div class="chapter-footer">
+            <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn">
+                CONTINUE
+                <span class="continue-icon">▶</span>
+            </a>
+        </div>
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text">0 of 4 lessons completed</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 4 -->
+    <div class="chapter-card">
+        <div class="chapter-header">
+            <span class="chapter-label">CHAPTER 4</span>
+        </div>
+        <h2 class="chapter-title">Daily Communication</h2>
+        <div class="chapter-footer">
+            <a href="{% url 'lesson_list' chapter=4 %}" class="continue-btn">
+                CONTINUE
+                <span class="continue-icon">▶</span>
+            </a>
+        </div>
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text">0 of 4 lessons completed</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,401 @@
+/* Main Container */
+.dictionary-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Search Section */
+.search-section {
+    margin-bottom: 40px;
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.search-box {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: 20px 25px;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    text-align: right;
+    font-family: 'Noto Sans Arabic', sans-serif;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.15);
+}
+
+/* Dictionary Content */
+.dictionary-content {
+    padding: 20px;
+}
+
+/* Chapter Styling */
+.dictionary-chapter {
+    margin-bottom: 40px;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.dictionary-chapter:hover {
+    transform: translateY(-5px);
+}
+
+.chapter-title {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    font-family: 'Noto Sans Arabic', sans-serif;
+}
+
+/* Videos Grid */
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Video Card */
+.video-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    aspect-ratio: 16/9;
+    cursor: pointer;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.video-card.active {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 45vw;
+    max-width: 1200px;
+    max-height: 675px;
+    z-index: 1000;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.video-card.active .video-thumbnail-container {
+    width: 100%;
+    height: 100%;
+}
+
+.video-card.active .play-button {
+    display: none;
+}
+
+/* Overlay for active video */
+.video-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease;
+}
+
+.video-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Close button for active video */
+.close-video {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.close-video:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.close-icon {
+    color: white;
+    font-size: 20px;
+}
+
+.video-thumbnail-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #f0f0f0;
+    overflow: hidden;
+}
+
+.video-thumbnail-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.video-card:hover .video-thumbnail-container img {
+    transform: scale(1.05);
+}
+
+/* Play Button */
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(74, 144, 226, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.play-button:hover {
+    background: rgba(74, 144, 226, 1);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.play-icon {
+    color: white;
+    font-size: 24px;
+    margin-left: 3px;
+}
+
+/* Video Info */
+.video-info {
+    padding: 15px;
+    background: white;
+}
+
+.video-title {
+    font-size: 16px;
+    color: #2c3e50;
+    margin: 0;
+    font-family: 'Noto Sans Arabic', sans-serif;
+    line-height: 1.4;
+    text-align: right;
+}
+
+/* No Results Message */
+.no-results {
+    text-align: center;
+    padding: 50px;
+    font-size: 20px;
+    color: #666;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin: 20px;
+    grid-column: 1 / -1;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+    .videos-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .videos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .video-card.active {
+        width: 90vw;
+        height: 50.625vw;
+    }
+    
+    .dictionary-container {
+        padding: 15px;
+    }
+    
+    .search-input {
+        padding: 15px 20px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 992px) {
+    .videos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .videos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .video-card.active {
+        width: 95vw;
+        height: 53.4375vw;
+    }
+    
+    .search-section {
+        padding: 20px;
+    }
+    
+    .video-card {
+        margin-bottom: 15px;
+    }
+}
+
+/* Lessons Section */
+.lesson-list {
+    padding: 20px 30px;
+    display: grid;
+    gap: 15px;
+}
+
+.lesson-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.lesson-item:hover {
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transform: translateX(5px);
+}
+
+.lesson-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.lesson-link h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+/* Remove old modal styles */
+.video-modal,
+.modal-content,
+.close-modal {
+    display: none;
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #4a90e2;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin: 20px;
+    grid-column: 1 / -1;
+}
+
+/* Show More Link */
+.show-more-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.show-more-link {
+    display: inline-block;
+    background: #4a90e2;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.show-more-link:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hidden-videos {
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Back Button */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover {
+    transform: translateX(-5px);
+}
+
+.back-button span {
+    margin-right: 8px;
+    font-size: 1.2em;
+} 

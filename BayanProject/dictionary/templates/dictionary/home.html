@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/dictionary.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dictionary-container" dir="rtl">
+    <div class="search-section">
+        <div class="search-box">
+            <input type="text" 
+                   id="searchInput" 
+                   class="search-input" 
+                   placeholder="Live search videos..." 
+                   value="{{ search_query }}"
+                   dir="rtl">
+        </div>
+    </div>
+
+    <div class="dictionary-content">
+        {% for chapter_num, chapter_data in chapters.items %}
+            <div class="dictionary-chapter">
+                <h2 class="chapter-title">{{ chapter_data.title }}</h2>
+                <div class="videos-grid">
+                    {% for video in chapter_data.videos %}
+                        <div class="video-card">
+                            <div class="video-thumbnail-container">
+                                <a href="{% url 'dictionary:video_detail' video_id=video.id %}" class="play-button">
+                                    <span class="play-icon">▶</span>
+                                </a>
+                            </div>
+                            <div class="video-info">
+                                <h3 class="video-title">{{ video.title }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'dictionary/js/live-search.js' %}"></script>
+{% endblock %} 
