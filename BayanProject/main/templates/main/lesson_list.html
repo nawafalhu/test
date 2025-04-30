@@ -18,7 +18,7 @@
         <div class="timeline-line"></div>
         
         {% for lesson in lessons %}
-        <a href="{% url 'lesson_view' chapter=chapter.number lesson=lesson.number %}" class="lesson-card">
+        <div class="lesson-card">
             <div class="lesson-icon">
                 {% if lesson.type == 'vocabulary' %}
                     <img src="{% static 'main/icons/magnifier.svg' %}" alt="Vocabulary">
@@ -35,7 +35,7 @@
                 <p class="lesson-description">{{ lesson.description }}</p>
             </div>
             <div class="lesson-arrow">→</div>
-        </a>
+        </div>
         {% endfor %}
     </div>
 
