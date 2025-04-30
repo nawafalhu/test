@@ -17,9 +17,23 @@
                         <span class="chapter-label">CHAPTER 1</span>
                     </div>
                     <h2 class="chapter-title">Alphabet Signs</h2>
+                    {% if last_score %}
+                    <div class="score-container">
+                        <div class="last-score">
+                            <h3>Previous Attempt</h3>
+                            <p class="score-value">Score: {{ last_score.score }}/{{ last_score.total_questions }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="lessons-list">
                         <a href="{% url 'quiz_question' question_number=1 %}" class="lesson-link">
-                            <div class="lesson-item quiz-item">Take Quiz</div>
+                            <div class="lesson-item quiz-item">
+                                {% if last_score %}
+                                Retake Quiz
+                                {% else %}
+                                Take Quiz
+                                {% endif %}
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -118,18 +132,17 @@
 }
 
 .chapter-label {
-    background-color: #4343f4;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    color: #5f72f0;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 4px;
 }
 
 .chapter-title {
     font-size: 1.5rem;
     color: #333;
-    margin: 12px 0;
+    margin: 4px 0;
 }
 
 .lessons-list {
@@ -159,6 +172,30 @@
 .lesson-item:hover {
     background-color: #3535d4;
     transform: translateY(-2px);
+}
+
+.score-container {
+    margin: 10px 0;
+    padding: 0 10px;
+}
+
+.last-score {
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.last-score h3 {
+    color: #4343f4;
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+}
+
+.score-value {
+    font-size: 1.3rem;
+    color: #4343f4;
+    font-weight: bold;
+    margin: 0;
 }
 
 @media (max-width: 576px) {

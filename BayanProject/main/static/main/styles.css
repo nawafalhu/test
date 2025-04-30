@@ -403,10 +403,9 @@ footer {
 }
 
 .chapter-label {
-    background-color: #fff3e0;
     color: #5f72f0;
     font-weight: bold;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     padding: 0.25rem 0.7rem;
     border-radius: 4px;
 }

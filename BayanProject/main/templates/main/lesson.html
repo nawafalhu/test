@@ -11,35 +11,67 @@
 .lesson-header {
     margin-bottom: 1.5rem;
     position: relative;
+    background-color: #4343f4;
+    border-radius: 25px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-header h1 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+.lesson-header .back-to-list {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.lesson-header .back-to-list:hover {
+    opacity: 0.8;
+    text-decoration: none;
+    color: white;
 }
 
 .lesson-content {
     padding: 1rem;
-    background-color: white;
+    background-color: transparent;
     border-radius: 12px;
     margin: 0 auto;
     max-width: 1000px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .video-container {
     position: relative;
-    margin-bottom: 2rem;
-    width: 100%;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto 2rem auto !important;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f8f9fa;
+    background-color: transparent;
     padding: 0;
     border-radius: 12px;
     overflow: hidden;
 }
 
 .video-container video {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    max-width: 800px !important;
+    height: auto !important;
     display: block;
-    background-color: transparent;
+    background-color: #000;
+    border-radius: 8px;
     aspect-ratio: 16/9;
     object-fit: cover;
 }
@@ -100,6 +132,81 @@
         padding: 0.5rem 1.5rem;
     }
 }
+
+.lesson-navigation {
+    margin-top: -20px;
+    padding: 0 20px;
+}
+
+.letter-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    gap: 10px;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #4343f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: none;
+    outline: none;
+}
+
+.nav-btn:hover, .nav-btn:focus {
+    background-color: #3535d4;
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
+.nav-arrow {
+    margin: 0 8px;
+}
+
+.prev-letter-btn {
+    margin-right: auto;
+}
+
+.next-letter-btn {
+    margin-left: auto;
+}
+
+.next-lesson-container {
+    display: inline-flex;
+    margin: 0;
+}
+
+.next-lesson-btn {
+    background-color: #502387;
+    margin-left: auto;
+}
+
+.next-lesson-btn:hover, .next-lesson-btn:focus {
+    background-color: #6d2da1;
+}
+
+.practice-btn {
+    background-color: #4a90e2;  /* Light blue color */
+}
+
+.practice-btn:hover, .practice-btn:focus {
+    background-color: #357abd;  /* Slightly darker blue on hover */
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
 </style>
 
 <div class="lesson-page-container">
@@ -120,19 +227,19 @@
             <div class="video-container">
                 <video controls width="100%" autoplay loop muted>
                     {% if lesson == 1 %}
-                        <source src="{% static 'dictionary/videos/videos/أ.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ا.mp4' %}" type="video/mp4">
                     {% elif lesson == 2 %}
-                        <source src="{% static 'dictionary/videos/videos/د.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/د.mp4' %}" type="video/mp4">
                     {% elif lesson == 3 %}
-                        <source src="{% static 'dictionary/videos/videos/ض.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ض.mp4' %}" type="video/mp4">
                     {% elif lesson == 4 %}
-                        <source src="{% static 'dictionary/videos/videos/ك.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ك.mp4' %}" type="video/mp4">
                     {% endif %}
                     Your browser does not support the video tag.
                 </video>
                 <div class="video-title">
                     {% if lesson == 1 %}
-                        أ
+                        ا
                     {% elif lesson == 2 %}
                         د
                     {% elif lesson == 3 %}
@@ -148,7 +255,7 @@
         {% elif chapter == 2 %}
             <div class="video-container">
                 <video controls width="100%" autoplay loop muted>
-                    <source src="{% static 'dictionary/videos/videos/د.mp4' %}" type="video/mp4">
+                    <source src="{% static 'videos/videos/د.mp4' %}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <div class="video-title">د</div>
@@ -160,7 +267,7 @@
         {% elif chapter == 3 %}
             <div class="video-container">
                 <video controls width="100%" autoplay loop muted>
-                    <source src="{% static 'dictionary/videos/videos/ض.mp4' %}" type="video/mp4">
+                    <source src="{% static 'videos/videos/ض.mp4' %}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <div class="video-title">ض</div>
@@ -172,7 +279,7 @@
         {% elif chapter == 4 %}
             <div class="video-container">
                 <video controls width="100%" autoplay loop muted>
-                    <source src="{% static 'dictionary/videos/videos/ك.mp4' %}" type="video/mp4">
+                    <source src="{% static 'videos/videos/ك.mp4' %}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <div class="video-title">ك</div>
@@ -188,42 +295,45 @@
     <div class="lesson-navigation">
         {% if chapter == 1 %}
             <div class="letter-navigation">
-                <a href="#" class="nav-btn prev-letter-btn">
+                <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
                     <span class="nav-arrow">←</span>
                     Previous Letter
+                </a>
+                <a href="#" class="nav-btn practice-btn" id="practice-btn">
+                    Practice Letter
                 </a>
                 <a href="#" class="nav-btn next-letter-btn">
                     Next Letter
                     <span class="nav-arrow">→</span>
                 </a>
-            </div>
-            <div class="next-lesson-container" style="display: none;">
-                {% if lesson == 4 %}
-                    <a href="{% url 'quiz_start' chapter=1 %}" class="nav-btn next-lesson-btn">
-                        Take Quiz on Chapter 1
-                        <span class="nav-arrow">→</span>
-                    </a>
+                {% if lesson < 4 %}
+                <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
+                    Next Lesson
+                    <span class="nav-arrow">→</span>
+                </a>
                 {% else %}
-                    <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn">
+                <a href="{% url 'quiz_question' question_number=1 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                    Take Quiz
+                    <span class="nav-arrow">→</span>
+                </a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="letter-navigation">
+                {% if lesson > 1 %}
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'-1' %}" class="nav-btn prev-btn">
+                        <span class="nav-arrow">←</span>
+                        Previous Lesson
+                    </a>
+                {% endif %}
+                
+                {% if lesson < 4 %}
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-btn">
                         Next Lesson
                         <span class="nav-arrow">→</span>
                     </a>
                 {% endif %}
             </div>
-        {% else %}
-            {% if lesson > 1 %}
-                <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'-1' %}" class="nav-btn prev-btn">
-                    <span class="nav-arrow">←</span>
-                    Previous Lesson
-                </a>
-            {% endif %}
-            
-            {% if lesson < 4 %}
-                <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-btn">
-                    Next Lesson
-                    <span class="nav-arrow">→</span>
-                </a>
-            {% endif %}
         {% endif %}
     </div>
 </div>
@@ -235,88 +345,101 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoSubtitle = document.getElementById('videoSubtitle');
     const prevLetterBtn = document.querySelector('.prev-letter-btn');
     const nextLetterBtn = document.querySelector('.next-letter-btn');
-    const nextLessonContainer = document.querySelector('.next-lesson-container');
-    
-    // Define videos for each lesson with their titles and positions
+    const nextLessonBtn = document.querySelector('.next-lesson-btn');
+    const practiceBtn = document.getElementById('practice-btn');
+    let currentVideoIndex = 0;
+    const currentLesson = parseInt("{{ lesson }}");
     const lessonVideos = {
         1: [
-            { src: "{% static 'dictionary/videos/videos/أ.mp4' %}", title: "أ", position: "First" },
-            { src: "{% static 'dictionary/videos/videos/ب.mp4' %}", title: "ب", position: "Second" },
-            { src: "{% static 'dictionary/videos/videos/ت.mp4' %}", title: "ت", position: "Third" },
-            { src: "{% static 'dictionary/videos/videos/ث.mp4' %}", title: "ث", position: "Fourth" },
-            { src: "{% static 'dictionary/videos/videos/ج.mp4' %}", title: "ج", position: "Fifth" },
-            { src: "{% static 'dictionary/videos/videos/ح.mp4' %}", title: "ح", position: "Sixth" },
-            { src: "{% static 'dictionary/videos/videos/خ.mp4' %}", title: "خ", position: "Seventh" }
+            { src: "{% static 'videos/videos/ا.mp4' %}", title: "ا", position: "First" },
+            { src: "{% static 'videos/videos/ب.mp4' %}", title: "ب", position: "Second" },
+            { src: "{% static 'videos/videos/ت.mp4' %}", title: "ت", position: "Third" },
+            { src: "{% static 'videos/videos/ث.mp4' %}", title: "ث", position: "Fourth" },
+            { src: "{% static 'videos/videos/ج.mp4' %}", title: "ج", position: "Fifth" },
+            { src: "{% static 'videos/videos/ح.mp4' %}", title: "ح", position: "Sixth" },
+            { src: "{% static 'videos/videos/خ.mp4' %}", title: "خ", position: "Seventh" }
         ],
         2: [
-            { src: "{% static 'dictionary/videos/videos/د.mp4' %}", title: "د", position: "Eighth" },
-            { src: "{% static 'dictionary/videos/videos/ذ.mp4' %}", title: "ذ", position: "Ninth" },
-            { src: "{% static 'dictionary/videos/videos/ر.mp4' %}", title: "ر", position: "Tenth" },
-            { src: "{% static 'dictionary/videos/videos/ز.mp4' %}", title: "ز", position: "Eleventh" },
-            { src: "{% static 'dictionary/videos/videos/س.mp4' %}", title: "س", position: "Twelfth" },
-            { src: "{% static 'dictionary/videos/videos/ش.mp4' %}", title: "ش", position: "Thirteenth" },
-            { src: "{% static 'dictionary/videos/videos/ص.mp4' %}", title: "ص", position: "Fourteenth" }
+            { src: "{% static 'videos/videos/د.mp4' %}", title: "د", position: "Eighth" },
+            { src: "{% static 'videos/videos/ذ.mp4' %}", title: "ذ", position: "Ninth" },
+            { src: "{% static 'videos/videos/ر.mp4' %}", title: "ر", position: "Tenth" },
+            { src: "{% static 'videos/videos/ز.mp4' %}", title: "ز", position: "Eleventh" },
+            { src: "{% static 'videos/videos/س.mp4' %}", title: "س", position: "Twelfth" },
+            { src: "{% static 'videos/videos/ش.mp4' %}", title: "ش", position: "Thirteenth" },
+            { src: "{% static 'videos/videos/ص.mp4' %}", title: "ص", position: "Fourteenth" }
         ],
         3: [
-            { src: "{% static 'dictionary/videos/videos/ض.mp4' %}", title: "ض", position: "Fifteenth" },
-            { src: "{% static 'dictionary/videos/videos/ط.mp4' %}", title: "ط", position: "Sixteenth" },
-            { src: "{% static 'dictionary/videos/videos/ظ.mp4' %}", title: "ظ", position: "Seventeenth" },
-            { src: "{% static 'dictionary/videos/videos/ع.mp4' %}", title: "ع", position: "Eighteenth" },
-            { src: "{% static 'dictionary/videos/videos/غ.mp4' %}", title: "غ", position: "Nineteenth" },
-            { src: "{% static 'dictionary/videos/videos/ف.mp4' %}", title: "ف", position: "Twentieth" },
-            { src: "{% static 'dictionary/videos/videos/ق.mp4' %}", title: "ق", position: "Twenty-first" }
+            { src: "{% static 'videos/videos/ض.mp4' %}", title: "ض", position: "Fifteenth" },
+            { src: "{% static 'videos/videos/ط.mp4' %}", title: "ط", position: "Sixteenth" },
+            { src: "{% static 'videos/videos/ظ.mp4' %}", title: "ظ", position: "Seventeenth" },
+            { src: "{% static 'videos/videos/ع.mp4' %}", title: "ع", position: "Eighteenth" },
+            { src: "{% static 'videos/videos/غ.mp4' %}", title: "غ", position: "Nineteenth" },
+            { src: "{% static 'videos/videos/ف.mp4' %}", title: "ف", position: "Twentieth" },
+            { src: "{% static 'videos/videos/ق.mp4' %}", title: "ق", position: "Twenty-first" }
         ],
         4: [
-            { src: "{% static 'dictionary/videos/videos/ك.mp4' %}", title: "ك", position: "Twenty-second" },
-            { src: "{% static 'dictionary/videos/videos/ل.mp4' %}", title: "ل", position: "Twenty-third" },
-            { src: "{% static 'dictionary/videos/videos/م.mp4' %}", title: "م", position: "Twenty-fourth" },
-            { src: "{% static 'dictionary/videos/videos/ن.mp4' %}", title: "ن", position: "Twenty-fifth" },
-            { src: "{% static 'dictionary/videos/videos/ه.mp4' %}", title: "ه", position: "Twenty-sixth" },
-            { src: "{% static 'dictionary/videos/videos/و.mp4' %}", title: "و", position: "Twenty-seventh" },
-            { src: "{% static 'dictionary/videos/videos/ي.mp4' %}", title: "ي", position: "Twenty-eighth" }
+            { src: "{% static 'videos/videos/ك.mp4' %}", title: "ك", position: "Twenty-second" },
+            { src: "{% static 'videos/videos/ل.mp4' %}", title: "ل", position: "Twenty-third" },
+            { src: "{% static 'videos/videos/م.mp4' %}", title: "م", position: "Twenty-fourth" },
+            { src: "{% static 'videos/videos/ن.mp4' %}", title: "ن", position: "Twenty-fifth" },
+            { src: "{% static 'videos/videos/ه.mp4' %}", title: "ه", position: "Twenty-sixth" },
+            { src: "{% static 'videos/videos/و.mp4' %}", title: "و", position: "Twenty-seventh" },
+            { src: "{% static 'videos/videos/ي.mp4' %}", title: "ي", position: "Twenty-eighth" }
         ]
     };
-    
-    const videos = lessonVideos[{{ lesson }}] || [];
-    let currentVideoIndex = 0;
-    
+    let videos = lessonVideos[currentLesson] || [];
+
     function updateVideo(video) {
+        if (!video) return;
         videoElement.src = video.src;
         videoTitle.textContent = video.title;
         videoSubtitle.textContent = `${video.position} letter of the Arabic alphabet`;
         videoElement.load();
         videoElement.play();
-    }
-    
-    function updateNavigationButtons() {
+        // Update practice button URL with the correct letter
+        const letterUrl = "{% url 'letter_detail' letter='PLACEHOLDER' %}".replace('PLACEHOLDER', video.title);
+        practiceBtn.href = letterUrl;
+        // Update navigation buttons
         prevLetterBtn.style.display = currentVideoIndex > 0 ? 'flex' : 'none';
         nextLetterBtn.style.display = currentVideoIndex < videos.length - 1 ? 'flex' : 'none';
-        nextLessonContainer.style.display = currentVideoIndex === videos.length - 1 ? 'flex' : 'none';
+        if (currentVideoIndex === videos.length - 1) {
+            if (nextLessonBtn) nextLessonBtn.style.display = 'flex';
+        } else {
+            if (nextLessonBtn) nextLessonBtn.style.display = 'none';
+        }
     }
-    
+
+    // Check if we need to scroll to a specific letter
+    const scrollToLetter = localStorage.getItem('scrollToLetter');
+    if (scrollToLetter) {
+        const videoIndex = videos.findIndex(v => v.title === scrollToLetter);
+        if (videoIndex !== -1) {
+            currentVideoIndex = videoIndex;
+            updateVideo(videos[currentVideoIndex]);
+            localStorage.removeItem('scrollToLetter');
+        }
+    } else {
+        if (videos.length > 0) {
+            updateVideo(videos[0]);
+        }
+    }
+
+    // Event listeners for navigation buttons
     prevLetterBtn.addEventListener('click', function(e) {
         e.preventDefault();
         if (currentVideoIndex > 0) {
             currentVideoIndex--;
             updateVideo(videos[currentVideoIndex]);
-            updateNavigationButtons();
         }
     });
-    
+
     nextLetterBtn.addEventListener('click', function(e) {
         e.preventDefault();
         if (currentVideoIndex < videos.length - 1) {
             currentVideoIndex++;
             updateVideo(videos[currentVideoIndex]);
-            updateNavigationButtons();
         }
     });
-    
-    // Initialize with first video
-    if (videos.length > 0) {
-        updateVideo(videos[0]);
-    }
-    updateNavigationButtons();
 });
 </script>
 {% endblock %} 

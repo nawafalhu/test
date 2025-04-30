@@ -1,29 +1,67 @@
 {% extends 'main/base.html' %}
-{% load static %}
 
 {% block content %}
-<div class="container-fluid px-4">
+<!-- Add meta charset to ensure proper Arabic character handling -->
+<meta charset="UTF-8">
+<div class="container mt-0">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="quiz-container">
-                <div class="header-section">
-                    <h1>ما هو الحرف الصحيح؟</h1>
-                    <a href="{% url 'quiz' %}" class="exit-btn">خروج</a>
+            <div class="card">
+                <div class="card-header bg-primary text-white position-relative">
+                    <h4 class="mb-0 position-absolute">Question {{ question_number }} of {{ total_questions }}</h4>
+                    <h4 class="mb-0 text-center">Quiz 1</h4>
                 </div>
-                
-                <div class="video-section">
-                    <video controls width="100%" autoplay loop muted src="{{ video_path }}">
-                        <source src="{{ video_path }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-
-                <div class="options-section">
-                    <div class="options-grid">
-                        {% for option in options %}
-                        <button class="option-btn" data-option="{{ option }}">{{ option }}</button>
-                        {% endfor %}
+                <div class="card-body">
+                    <!-- Video Player -->
+                    <div class="video-container text-center" style="width: 100%; max-width: 800px; margin: 0 auto 2rem auto;">
+                        <video id="quizVideo" 
+                               style="width: 100% !important; max-width: 800px !important; height: auto !important;" 
+                               controls autoplay loop muted playsinline class="mx-auto">
+                            <source src="{{ video_path }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div id="videoError" class="alert alert-danger mt-2" style="display: none;">
+                            Error loading video. Please refresh the page.
+                        </div>
                     </div>
+
+                    <h4 class="card-title text-center mb-4" style="font-size: 1.6rem; font-weight: 500;">What is the letter shown in the sign above?</h4>
+
+                    <!-- Answer Options -->
+                    <form method="POST" class="mt-4" id="quizForm" accept-charset="UTF-8">
+                        {% csrf_token %}
+                        <div class="row justify-content-center">
+                            {% for option in options %}
+                            <div class="col-md-6 mb-3">
+                                <button type="button" 
+                                        class="btn btn-outline-primary w-100 py-4 answer-btn" 
+                                        style="font-size: 1.5rem;"
+                                        data-answer="{{ option|safe }}"
+                                        data-correct="{% if option == correct_answer %}true{% else %}false{% endif %}">
+                                    {{ option|safe }}
+                                </button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <input type="hidden" name="selected_answer" id="selectedAnswer" value="">
+                        
+                        <!-- Next Question Button -->
+                        <div class="text-center mt-4">
+                            <button type="button" 
+                                    class="btn btn-primary btn-lg next-question-btn" 
+                                    style="display: none; font-size: 1.2rem; padding: 0.8rem 2rem;"
+                                    onclick="submitForm()">
+                                {% if question_number == total_questions %}
+                                    Show Result
+                                {% else %}
+                                    Next Question
+                                {% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-muted text-center">
+                    Progress: {{ question_number }} / {{ total_questions }}
                 </div>
             </div>
         </div>
@@ -31,189 +69,127 @@
 </div>
 
 <style>
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background-color: #f8f9fa;
-}
-
-.container-fluid {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-}
-
-.row {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-}
-
-.col-12 {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-}
-
-.quiz-container {
-    background: white;
-    border-radius: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 0;
-    margin: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 120px);
-    margin-top: 40px;
-}
-
-.header-section {
-    background-color: #4343f4;
-    border-radius: 25px 25px 0 0;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    margin-bottom: 0;
+.video-container {
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto 2rem auto !important;
     position: relative;
 }
 
-.header-section h1 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: bold;
-    color: white;
+.video-container video {
+    width: 100% !important;
+    max-width: 800px !important;
+    height: auto !important;
+    background-color: #000;
+    border-radius: 8px;
 }
 
-.exit-btn {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: white;
-    text-decoration: none;
-    font-size: 1.2rem;
-    padding: 5px 15px;
-    border: 2px solid white;
-    border-radius: 10px;
+.card-title {
+    margin-top: 2rem !important;
+    font-size: 1.6rem !important;
+    font-weight: 500 !important;
+}
+
+.btn-outline-primary {
+    font-size: 1.5rem !important;
+    padding: 1rem !important;
+}
+
+.answer-btn {
     transition: all 0.3s ease;
 }
 
-.exit-btn:hover {
-    background-color: white;
-    color: #4343f4;
-}
-
-.video-section {
-    margin: 0;
-    text-align: center;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.video-section video {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.options-section {
-    margin: 0;
-    padding: 20px;
-    padding-bottom: 40px;
-}
-
-.options-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.option-btn {
-    background-color: #f8f9fa;
-    border: 2px solid #4343f4;
-    color: #4343f4;
-    padding: 15px;
-    border-radius: 15px;
-    font-size: 1.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.option-btn:hover {
-    background-color: #4343f4;
-    color: white;
+.answer-btn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.option-btn.correct {
-    background-color: #28a745;
-    border-color: #28a745;
-    color: white;
+.answer-btn.correct {
+    background-color: #4caf50 !important;
+    color: white !important;
+    border-color: #4caf50 !important;
 }
 
-.option-btn.wrong {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: white;
+.answer-btn.incorrect {
+    background-color: #f44336 !important;
+    color: white !important;
+    border-color: #f44336 !important;
 }
 
-@media (max-width: 576px) {
-    .header-section h1 {
-        font-size: 1.8rem;
-    }
+.next-question-btn {
+    transition: all 0.3s ease;
+}
 
-    .options-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .option-btn {
-        font-size: 1.5rem;
-        padding: 12px;
-    }
+.next-question-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>
 
-{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const options = document.querySelectorAll('.option-btn');
-    const correctAnswer = '{{ correct_answer }}';
-    
-    options.forEach(option => {
-        option.addEventListener('click', function() {
-            const selectedOption = this.getAttribute('data-option');
-            
-            if (selectedOption === correctAnswer) {
-                // Correct answer
-                this.classList.add('correct');
-                setTimeout(() => {
-                    // Redirect to next question
-                    window.location.href = '/quiz/question/{{ question_number|add:"1" }}/';
-                }, 1000);
-            } else {
-                // Wrong answer
-                this.classList.add('wrong');
-                setTimeout(() => {
-                    this.classList.remove('wrong');
-                }, 1000);
+    const form = document.getElementById('quizForm');
+    const answerButtons = document.querySelectorAll('.answer-btn');
+    const selectedAnswerInput = document.getElementById('selectedAnswer');
+    const video = document.getElementById('quizVideo');
+    const videoError = document.getElementById('videoError');
+    const nextQuestionBtn = document.querySelector('.next-question-btn');
+    let answered = false;
+
+    // Video error handling
+    if (video) {
+        video.addEventListener('error', function() {
+            videoError.style.display = 'block';
+        });
+
+        video.addEventListener('loadeddata', function() {
+            video.play().catch(function(error) {
+                console.error('Error playing video:', error);
+                videoError.style.display = 'block';
+            });
+        });
+
+        video.addEventListener('canplay', function() {
+            video.play().catch(function(error) {
+                console.error('Error playing video:', error);
+                videoError.style.display = 'block';
+            });
+        });
+    }
+
+    answerButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (answered) {
+                return;
             }
+
+            answered = true;
+            const selectedAnswer = this.getAttribute('data-answer');
+            const isCorrect = this.getAttribute('data-correct') === 'true';
+            
+            // Set the selected answer in the hidden input
+            selectedAnswerInput.value = selectedAnswer;
+            
+            // Show feedback - only highlight the correct answer and the selected wrong answer
+            answerButtons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.getAttribute('data-correct') === 'true') {
+                    btn.classList.add('correct');
+                } else if (btn === this && !isCorrect) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            // Show next question button after a short delay
+            setTimeout(() => {
+                nextQuestionBtn.style.display = 'inline-block';
+            }, 1000);
         });
     });
 });
+
+function submitForm() {
+    document.getElementById('quizForm').submit();
+}
 </script>
-{% endblock %}
 {% endblock %} 

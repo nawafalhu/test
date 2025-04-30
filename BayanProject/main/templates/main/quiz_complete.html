@@ -1,0 +1,216 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Quiz Completed!</h2>
+                    
+                    <!-- Debug info (only visible during development) -->
+                    {% if debug %}
+                    <div class="alert alert-info">
+                        <p>Debug Info:</p>
+                        <p>Results: {{ results }}</p>
+                        <p>Score: {{ score }}</p>
+                        <p>Total questions: {{ total_questions }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="score-section mb-4">
+                        <h3>Your Score</h3>
+                        <div class="score-display">
+                            <span class="score-number">{{ score }}</span>
+                            <span class="score-divider">/</span>
+                            <span class="total-number">{{ total_questions }}</span>
+                        </div>
+                        <p class="lead mt-3">
+                            {% if score == total_questions %}
+                                Perfect score! Excellent work! 🎉
+                            {% elif score >= total_questions|divisibleby:2 %}
+                                Good job! Keep practicing! 👍
+                            {% else %}
+                                Keep practicing to improve your score! 💪
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <!-- Results Summary -->
+                    <div class="results-summary">
+                        <h4 class="mb-3">Question Summary</h4>
+                        <div class="row">
+                            {% for result in results %}
+                            <div class="col-md-6 mb-3">
+                                <div class="result-item {% if result.correct %}correct{% else %}incorrect{% endif %}">
+                                    <div class="result-number">Q{{ result.question }}</div>
+                                    <div class="result-letter">{{ result.letter }}</div>
+                                    <div class="result-status">
+                                        {% if result.correct %}
+                                            <span class="text-success">✓ Correct</span>
+                                        {% else %}
+                                            <span class="text-danger">✗ Incorrect</span>
+                                            <div class="user-answer">Your answer: {{ result.user_answer }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="actions mt-4">
+                        <a href="{% url 'quiz' %}" class="btn btn-primary me-2">Try Another Quiz</a>
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    color: #502387;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.score-section {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+}
+
+.score-section h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.score-display {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #502387;
+    margin: 1rem 0;
+}
+
+.score-number {
+    color: #502387;
+}
+
+.score-divider {
+    margin: 0 0.5rem;
+    color: #666;
+}
+
+.total-number {
+    color: #666;
+}
+
+.lead {
+    color: #444;
+    font-size: 1.2rem;
+}
+
+.results-summary {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border-left: 4px solid transparent;
+    height: 100%;
+}
+
+.result-item.correct {
+    border-left-color: #28a745;
+}
+
+.result-item.incorrect {
+    border-left-color: #dc3545;
+}
+
+.result-number {
+    font-weight: bold;
+    margin-right: 1rem;
+    min-width: 40px;
+}
+
+.result-letter {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    min-width: 30px;
+    text-align: center;
+}
+
+.result-status {
+    flex-grow: 1;
+}
+
+.user-answer {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.actions {
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.5rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background-color: #502387;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #6a1b9a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Debug styles */
+.alert-info {
+    background-color: #e3f2fd;
+    border-color: #90caf9;
+    color: #0d47a1;
+    margin-bottom: 2rem;
+    text-align: left;
+    padding: 1rem;
+}
+</style>
+{% endblock %} 

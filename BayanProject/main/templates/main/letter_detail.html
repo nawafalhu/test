@@ -5,6 +5,11 @@
 <div class="container-fluid px-4">
     <div class="row justify-content-center">
         <div class="col-12">
+            <!-- Back button -->
+            <a href="{% url 'lesson_view' chapter=1 lesson=lesson_number %}" class="back-to-chapter" id="back-to-lesson">
+                <i class="fas fa-arrow-left"></i> Back to Lesson {{ lesson_number }}
+            </a>
+            
             <div class="letter-practice-container" id="letter-container">
                 <div class="letter-header">
                     <h2>Letter Practice: {{ letter }} ({{ letter_name }})</h2>
@@ -55,6 +60,32 @@
 </div>
 
 <style>
+.back-to-chapter {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #4343f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(67, 67, 244, 0.2);
+}
+
+.back-to-chapter:hover {
+    background-color: #3535d4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(67, 67, 244, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.back-to-chapter i {
+    margin-right: 8px;
+}
+
 .letter-practice-container {
     background: white;
     border-radius: 15px;
@@ -410,6 +441,16 @@
 
     // Load model when page loads
     loadModel();
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Store the current letter in localStorage before leaving
+        const backButton = document.getElementById('back-to-lesson');
+        if (backButton) {
+            backButton.addEventListener('click', function(e) {
+                localStorage.setItem('scrollToLetter', '{{ letter }}');
+            });
+        }
+    });
 </script>
 {% endblock %}
 {% endblock %} 

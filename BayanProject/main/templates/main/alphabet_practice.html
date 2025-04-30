@@ -13,8 +13,8 @@
             <div class="alphabet-practice-container">
                 <div class="alphabet-grid">
                     {% for letter in letters %}
-                    <a href="{% url 'letter_detail' letter=letter %}" class="letter-link">
-                        <div class="letter-box">
+                    <a href="{% url 'letter_detail' letter=letter %}" class="letter-link" id="letter-{{ letter }}">
+                        <div class="letter-box {% if letter == selected_letter %}selected{% endif %}">
                             <span class="letter">{{ letter }}</span>
                             <span class="letter-name">{{ letter_names|get_item:letter }}</span>
                         </div>
@@ -81,6 +81,20 @@
     background-color: #e9ecef;
 }
 
+.letter-box.selected {
+    background-color: #4343f4;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(67, 67, 244, 0.3);
+}
+
+.letter-box.selected .letter {
+    color: white;
+}
+
+.letter-box.selected .letter-name {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 .letter {
     font-size: 2.5rem;
     color: #4343f4;
@@ -125,4 +139,21 @@
     }
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's a selected letter
+    const selectedLetter = '{{ selected_letter|escapejs }}';
+    if (selectedLetter) {
+        const letterElement = document.getElementById(`letter-${selectedLetter}`);
+        if (letterElement) {
+            // Scroll the letter into view with a smooth animation
+            letterElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+    }
+});
+</script>
 {% endblock %} 

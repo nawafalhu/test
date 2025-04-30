@@ -7,14 +7,39 @@
         <div class="col-12">
             <div class="header-container">
                 <h1>Sign Language Practice</h1>
-                <p>Practice your sign language skills</p>
+                {% if letter %}
+                    <p>Practice signing the letter "{{ letter }}"</p>
+                {% else %}
+                    <p>Practice your sign language skills</p>
+                {% endif %}
             </div>
             
             <div class="practice-container">
-                <div class="practice-grid">
-                    <!-- Content will go here -->
-                    <p>Content coming soon...</p>
-                </div>
+                {% if letter and video_url %}
+                    <div class="video-section">
+                        <video controls autoplay loop muted class="practice-video">
+                            <source src="{% static video_url %}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="practice-instructions">
+                        <h3>Practice Instructions</h3>
+                        <ol>
+                            <li>Watch the video carefully to observe the hand movements</li>
+                            <li>Practice the sign in front of a mirror</li>
+                            <li>Repeat the movement several times until you feel comfortable</li>
+                            <li>Try to make the sign without watching the video</li>
+                        </ol>
+                        <div class="practice-controls">
+                            <a href="{% url 'lesson_list' chapter=1 %}" class="btn btn-secondary">Back to Lessons</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="practice-grid">
+                        <p>Please select a letter from the lessons to practice.</p>
+                        <a href="{% url 'lesson_list' chapter=1 %}" class="btn btn-primary">Go to Lessons</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -52,9 +77,67 @@
     margin: 0 0 20px;
 }
 
-.practice-grid {
+.video-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.practice-video {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.practice-instructions {
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+}
+
+.practice-instructions h3 {
+    color: #4343f4;
+    margin-bottom: 1rem;
+}
+
+.practice-instructions ol {
+    margin-bottom: 2rem;
+}
+
+.practice-instructions li {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.practice-controls {
     text-align: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #4343f4;
+    border-color: #4343f4;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 576px) {
@@ -64,6 +147,14 @@
     
     .header-container p {
         font-size: 1rem;
+    }
+    
+    .practice-container {
+        padding: 15px;
+    }
+    
+    .practice-instructions {
+        padding: 15px;
     }
 }
 </style>

@@ -1,0 +1,28 @@
+.alphabet-card-link {
+    text-decoration: none !important;
+    color: inherit;
+    transition: transform 0.2s;
+    outline: none;
+}
+
+.alphabet-card-link:hover {
+    transform: scale(1.05);
+    text-decoration: none !important;
+    outline: none;
+}
+
+.alphabet-card-link:hover .alphabet-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.letter {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    outline: none;
+}
+
+.alphabet-card {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    outline: none;
+} 
