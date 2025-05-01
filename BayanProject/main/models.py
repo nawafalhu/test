@@ -25,3 +25,16 @@ class QuizScore(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - Chapter {self.chapter} - {self.score}/{self.total_questions}"
+
+class UserProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    chapter = models.IntegerField()
+    lesson = models.IntegerField()
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'chapter', 'lesson']
+        ordering = ['chapter', 'lesson']
+
+    def __str__(self):
+        return f"{self.user.username} - Chapter {self.chapter}, Lesson {self.lesson}"

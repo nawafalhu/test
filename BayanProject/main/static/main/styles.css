@@ -1173,11 +1173,10 @@ footer {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
-    background-color: white;
-    color: #333;
+    color: #4343f4;
     padding: 0.2rem 0.8rem;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 500;
 }
 

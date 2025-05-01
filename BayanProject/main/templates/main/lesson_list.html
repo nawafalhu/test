@@ -2,6 +2,81 @@
 {% load static %}
 
 {% block content %}
+<style>
+.lesson-card {
+    position: relative;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.lesson-card.completed {
+    opacity: 1;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: white;
+    transform: translateX(-50%);
+}
+
+.timeline-progress {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    background-color: #4343f4;
+    transform: translateX(-50%);
+    transition: height 0.3s ease;
+}
+
+.lesson-card.completed .lesson-icon {
+    background-color: #4343f4;
+    border-color: #4343f4;
+}
+
+.lesson-card.completed .lesson-icon img {
+    filter: brightness(0) invert(1);    
+}
+
+.progress-counter {
+    text-align: center;
+    color: #4343f4;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 10px 0;
+    padding: 5px;
+    border-radius: 20px;
+    display: inline-block;
+    min-width: 200px;
+}
+
+/* New styles for clickable state */
+.lesson-card.clickable {
+    cursor: pointer !important;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.lesson-card.clickable:hover {
+    transform: scale(1.02);
+}
+
+.lesson-card:not(.clickable) {
+    cursor: default !important;
+    pointer-events: none;
+}
+
+.lesson-card.completed:not(.clickable) {
+    opacity: 0.8;
+}
+
+
+
+</style>
+
 <div class="lesson-list-container">
     <!-- Header Section -->
     <div class="lesson-list-header">
@@ -9,16 +84,17 @@
         <span class="chapter-label">CHAPTER {{ chapter.number }}</span>
         <h1>{{ chapter.title }}</h1>
         <p>{{ chapter.description }}</p>
-        <span class="star-decoration star-left">★</span>
-        <span class="star-decoration star-right">★</span>
+        <div class="progress-counter" id="progressCounter">{{ completed_lessons|length }} of 4 lessons completed</div>
+
     </div>
 
     <!-- Timeline with Lessons -->
     <div class="lesson-timeline">
         <div class="timeline-line"></div>
+        <div class="timeline-progress" id="timelineProgress"></div>
         
         {% for lesson in lessons %}
-        <div class="lesson-card">
+        <div class="lesson-card {% if lesson.number in completed_lessons %}completed{% endif %}" data-lesson="{{ lesson.number }}">
             <div class="lesson-icon">
                 {% if lesson.type == 'vocabulary' %}
                     <img src="{% static 'main/icons/magnifier.svg' %}" alt="Vocabulary">
@@ -32,19 +108,80 @@
             </div>
             <div class="lesson-content">
                 <h3 class="lesson-title">Lesson {{ lesson.number }}</h3>
-                <p class="lesson-description">{{ lesson.description }}</p>
             </div>
             <div class="lesson-arrow">→</div>
         </div>
         {% endfor %}
     </div>
 
-    <!-- Start Learning Button -->
+    <!-- Start/Continue Learning Button -->
     <div class="start-learning-container">
-        <a href="{% url 'lesson_view' chapter=chapter.number lesson=1 %}" class="start-learning-btn">
-            Start Learning
-            <span class="start-icon">▶</span>
-        </a>
+        {% if completed_lessons %}
+            {% if completed_lessons|length == 4 %}
+                <a href="{% url 'lesson_view' chapter=chapter.number lesson=1 %}" class="start-learning-btn" id="learningButton">
+                    All Lessons Completed
+                    <span class="start-icon">▶</span>
+                </a>
+            {% else %}
+                <a href="{% url 'lesson_view' chapter=chapter.number lesson=next_lesson %}" class="start-learning-btn" id="learningButton">
+                    Continue Learning
+                    <span class="start-icon">▶</span>
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'lesson_view' chapter=chapter.number lesson=next_lesson %}" class="start-learning-btn" id="learningButton">
+                Start Learning
+                <span class="start-icon">▶</span>
+            </a>
+        {% endif %}
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements
+    const lessonCards = document.querySelectorAll('.lesson-card');
+    const learningButton = document.getElementById('learningButton');
+    const timelineProgress = document.getElementById('timelineProgress');
+    
+    // Get next lesson number from Django context
+    const nextLesson = parseInt("{{ next_lesson }}");
+    const completedLessonsCount = parseInt("{{ completed_lessons|length }}");
+    const allLessonsCompleted = completedLessonsCount === 4;
+    const currentChapter = parseInt("{{ chapter.number }}");
+
+    // Only allow chapters 1, 2, 3
+    if (![1, 2, 3].includes(currentChapter)) {
+        // Optionally, redirect or show an error
+        document.body.innerHTML = '<div style="text-align:center;margin-top:2rem;font-size:1.5rem;color:#c00;">This chapter is not available.</div>';
+        return;
+    }
+    
+    // Update timeline progress height
+    if (timelineProgress) {
+        const progressPercentage = (nextLesson / 4) * 100;
+        timelineProgress.style.height = `${progressPercentage}%`;
+    }
+    
+    // Make lesson cards clickable only when all lessons are completed
+    if (lessonCards) {
+        lessonCards.forEach(function(card) {
+            if (allLessonsCompleted) {
+                card.classList.add('clickable');
+                card.addEventListener('click', function() {
+                    const lessonNumber = this.dataset.lesson;
+                    const baseUrl = window.location.origin;
+                    const lessonUrl = `${baseUrl}/lesson/${currentChapter}/${lessonNumber}/`;
+                    window.location.href = lessonUrl;
+                });
+            }
+        });
+    }
+
+    // Update button style if all lessons completed
+    if (learningButton && learningButton.textContent.includes('All Lessons Completed')) {
+        learningButton.style.backgroundColor = '#4CAF50';
+    }
+});
+</script>
 {% endblock %} 

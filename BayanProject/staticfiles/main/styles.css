@@ -79,7 +79,8 @@ ul li {
 
 /* Common Button Styles - Applied across all pages */
 button {
-    color: #5f72f0;
+    background-color: #4343f4;
+    color: white;
     border: none;
     padding: 10px 20px;
     font-size: 1em;

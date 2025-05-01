@@ -8,11 +8,29 @@ from django.template.defaulttags import register
 import random
 import os
 from django.conf import settings
-from .models import QuizScore
+from .models import QuizScore, UserProgress
+from django.http import JsonResponse
+from django.db.models import Max
+
+@register.filter
+def multiply(value, arg):
+    """Multiply the arg by the value."""
+    try:
+        return int(value) * int(arg)
+    except (ValueError, TypeError):
+        return ''
 
 @login_required
 def home(request):
-    return render(request, 'main/home.html')
+    # Get completed lessons count for chapter 1
+    chapter1_completed_count = UserProgress.objects.filter(
+        user=request.user,
+        chapter=1
+    ).count()
+    
+    return render(request, 'main/home.html', {
+        'chapter1_completed_count': chapter1_completed_count
+    })
 
 @login_required
 def sign_practice(request):
@@ -78,35 +96,86 @@ def get_chapter_info(chapter):
                 {'number': 3, 'title': 'Colors & Objects', 'description': 'Learn iconic signs', 'type': 'signs'},
                 {'number': 4, 'title': 'Intermediate Review', 'description': 'Review intermediate signs', 'type': 'review'}
             ]
-        },
-        4: {
-            'title': 'Daily Communication',
-            'description': 'Practice everyday conversations and interactions.',
-            'lessons': [
-                {'number': 1, 'title': 'Complex Sentences', 'description': 'Discover new vocabulary', 'type': 'vocabulary'},
-                {'number': 2, 'title': 'Questions & Answers', 'description': 'Practice a dialogue', 'type': 'dialogue'},
-                {'number': 3, 'title': 'Story Telling', 'description': 'Learn iconic signs', 'type': 'signs'},
-                {'number': 4, 'title': 'Advanced Review', 'description': 'Review advanced signs', 'type': 'review'}
-            ]
         }
     }
     return chapters.get(chapter, None)
 
 @login_required
 def lesson_list(request, chapter):
-    chapter_info = get_chapter_info(chapter)
-    if chapter_info is None:
-        return redirect('home')
-        
+    # Get user's completed lessons for this chapter
+    completed_lessons = list(UserProgress.objects.filter(
+        user=request.user,
+        chapter=chapter
+    ).values_list('lesson', flat=True))
+
+    # Get the last completed lesson number
+    last_completed = UserProgress.objects.filter(
+        user=request.user,
+        chapter=chapter
+    ).aggregate(Max('lesson'))['lesson__max'] or 0
+
+    # Calculate next lesson
+    next_lesson = min(last_completed + 1, 4)
+
     context = {
-        'chapter': {
-            'number': chapter,
-            'title': chapter_info['title'],
-            'description': chapter_info['description']
-        },
-        'lessons': chapter_info['lessons']
+        'chapter': {'number': chapter, 'title': get_chapter_title(chapter)},
+        'lessons': get_chapter_lessons(chapter),
+        'completed_lessons': completed_lessons,
+        'next_lesson': next_lesson
     }
     return render(request, 'main/lesson_list.html', context)
+
+@login_required
+def lesson_view(request, chapter, lesson):
+    lesson_title = get_lesson_title(chapter, lesson)
+    context = {
+        'chapter': chapter,
+        'lesson': lesson,
+        'lesson_title': lesson_title
+    }
+    return render(request, 'main/lesson.html', context)
+
+@login_required
+def mark_lesson_complete(request):
+    if request.method == 'POST':
+        chapter = int(request.POST.get('chapter'))
+        lesson = int(request.POST.get('lesson'))
+        
+        # Create or update progress
+        UserProgress.objects.get_or_create(
+            user=request.user,
+            chapter=chapter,
+            lesson=lesson
+        )
+        
+        # Calculate next lesson
+        next_lesson = min(lesson + 1, 4)
+        
+        return JsonResponse({
+            'status': 'success',
+            'next_lesson': next_lesson,
+            'completed_lessons': list(UserProgress.objects.filter(
+                user=request.user,
+                chapter=chapter
+            ).values_list('lesson', flat=True))
+        })
+    
+    return JsonResponse({'status': 'error'}, status=400)
+
+def get_chapter_title(chapter):
+    titles = {
+        1: 'Alphabet Signs',
+        2: 'Numbers Signs',
+        3: 'Common Words'
+    }
+    return titles.get(chapter, '')
+
+def get_chapter_lessons(chapter):
+    # You can customize this based on your needs
+    return [
+        {'number': i, 'type': 'signs', 'description': f'Lesson {i}'} 
+        for i in range(1, 5)
+    ]
 
 def get_lesson_title(chapter, lesson):
     chapter_info = get_chapter_info(chapter)
@@ -115,14 +184,6 @@ def get_lesson_title(chapter, lesson):
             if lesson_info['number'] == lesson:
                 return lesson_info['title']
     return "Lesson Not Found"
-
-def lesson_view(request, chapter, lesson):
-    lesson_title = get_lesson_title(chapter, lesson)
-    return render(request, 'main/lesson.html', {
-        'chapter': chapter,
-        'lesson': lesson,
-        'lesson_title': lesson_title
-    })
 
 @login_required
 def quiz(request):

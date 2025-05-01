@@ -9,17 +9,17 @@
         </div>
         <h2 class="chapter-title">Alphabet Signs</h2>
         <div class="chapter-footer">
-            <a href="{% url 'lesson_list' chapter=1 %}" class="continue-btn">
-                CONTINUE
+            <a href="{% url 'lesson_list' chapter=1 %}" class="continue-btn" id="chapter1Button">
+                START
                 <span class="continue-icon">▶</span>
             </a>
         </div>
         <div class="progress-section">
             <div class="progress-info">
-                <span class="progress-text">0 of 4 lessons completed</span>
+                <span class="progress-text" id="chapter1Progress">{{ chapter1_completed_count }} of 4 lessons completed</span>
             </div>
             <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 0%"></div>
+                <div class="progress-bar" id="chapter1ProgressBar"></div>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
         <h2 class="chapter-title">Numbers Signs</h2>
         <div class="chapter-footer">
             <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn">
-                CONTINUE
+                START
                 <span class="continue-icon">▶</span>
             </a>
         </div>
@@ -54,29 +54,7 @@
         <h2 class="chapter-title">Common Words</h2>
         <div class="chapter-footer">
             <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn">
-                CONTINUE
-                <span class="continue-icon">▶</span>
-            </a>
-        </div>
-        <div class="progress-section">
-            <div class="progress-info">
-                <span class="progress-text">0 of 4 lessons completed</span>
-            </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 0%"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Chapter 4 -->
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <span class="chapter-label">CHAPTER 4</span>
-        </div>
-        <h2 class="chapter-title">Daily Communication</h2>
-        <div class="chapter-footer">
-            <a href="{% url 'lesson_list' chapter=4 %}" class="continue-btn">
-                CONTINUE
+                START
                 <span class="continue-icon">▶</span>
             </a>
         </div>
@@ -90,4 +68,26 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chapter1Button = document.getElementById('chapter1Button');
+    const chapter1Progress = document.getElementById('chapter1Progress');
+    const chapter1ProgressBar = document.getElementById('chapter1ProgressBar');
+    const completedCount = parseInt(chapter1Progress.textContent.split(' ')[0]);
+    const totalLessons = 4;
+
+    // Update progress bar width
+    const progressPercentage = (completedCount / totalLessons) * 100;
+    chapter1ProgressBar.style.width = progressPercentage + '%';
+
+    // Update continue button text based on completion
+    if (completedCount > 0 && completedCount < totalLessons) {
+        chapter1Button.innerHTML = 'CONTINUE <span class="continue-icon">▶</span>';
+    } else if (completedCount === totalLessons) {
+        chapter1Button.innerHTML = 'COMPLETED <span class="continue-icon">▶</span>';
+        chapter1Button.style.backgroundColor = '#4CAF50';
+    }
+});
+</script>
 {% endblock %}
