@@ -336,8 +336,8 @@
                         <span class="nav-arrow">→</span>
                     </a>
                     {% if lesson == 3 %}
-                    <a href="{% url 'quiz_question' question_number=1 %}" class="nav-btn next-lesson-btn" style="display: none;">
-                        Take Quiz
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=4 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Next Lesson
                         <span class="nav-arrow">→</span>
                     </a>
                     {% else %}
@@ -375,10 +375,10 @@
                 <span class="nav-arrow">→</span>
             </a>
             {% if lesson == 3 %}
-            <a href="{% url 'quiz_question' question_number=1 %}" class="nav-btn next-lesson-btn" style="display: none;">
-                Take Quiz
-                    <span class="nav-arrow">→</span>
-                </a>
+            <a href="{% url 'lesson_view' chapter=chapter lesson=4 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                Next Lesson
+                <span class="nav-arrow">→</span>
+            </a>
             {% else %}
             <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
                     Next Lesson
@@ -470,27 +470,27 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (currentChapter === 2) {
         if (currentLesson === 1) {
             videos = [
-                { src: "{% static 'videos/videos/1.mp4' %}", title: "1", position: "First" },
-                { src: "{% static 'videos/videos/2.mp4' %}", title: "2", position: "Second" },
-                { src: "{% static 'videos/videos/3.mp4' %}", title: "3", position: "Third" },
-                { src: "{% static 'videos/videos/4.mp4' %}", title: "4", position: "Fourth" },
-                { src: "{% static 'videos/videos/5.mp4' %}", title: "5", position: "Fifth" }
+                { src: "{% static 'chapter2/1.mp4' %}", title: "1", position: "First" },
+                { src: "{% static 'chapter2/2.mp4' %}", title: "2", position: "Second" },
+                { src: "{% static 'chapter2/3.mp4' %}", title: "3", position: "Third" },
+                { src: "{% static 'chapter2/4.mp4' %}", title: "4", position: "Fourth" },
+                { src: "{% static 'chapter2/5.mp4' %}", title: "5", position: "Fifth" }
             ];
         } else if (currentLesson === 2) {
             videos = [
-                { src: "{% static 'videos/videos/6.mp4' %}", title: "6", position: "Sixth" },
-                { src: "{% static 'videos/videos/7.mp4' %}", title: "7", position: "Seventh" },
-                { src: "{% static 'videos/videos/8.mp4' %}", title: "8", position: "Eighth" },
-                { src: "{% static 'videos/videos/9.mp4' %}", title: "9", position: "Ninth" },
-                { src: "{% static 'videos/videos/10.mp4' %}", title: "10", position: "Tenth" }
+                { src: "{% static 'chapter2/6.mp4' %}", title: "6", position: "Sixth" },
+                { src: "{% static 'chapter2/7.mp4' %}", title: "7", position: "Seventh" },
+                { src: "{% static 'chapter2/8.mp4' %}", title: "8", position: "Eighth" },
+                { src: "{% static 'chapter2/9.mp4' %}", title: "9", position: "Ninth" },
+                { src: "{% static 'chapter2/10.mp4' %}", title: "10", position: "Tenth" }
             ];
         } else if (currentLesson === 3) {
             videos = [
-                { src: "{% static 'videos/videos/11.mp4' %}", title: "11", position: "Eleventh" },
-                { src: "{% static 'videos/videos/12.mp4' %}", title: "12", position: "Twelfth" },
-                { src: "{% static 'videos/videos/13.mp4' %}", title: "13", position: "Thirteenth" },
-                { src: "{% static 'videos/videos/14.mp4' %}", title: "14", position: "Fourteenth" },
-                { src: "{% static 'videos/videos/15.mp4' %}", title: "15", position: "Fifteenth" }
+                { src: "{% static 'chapter2/11.mp4' %}", title: "11", position: "Eleventh" },
+                { src: "{% static 'chapter2/12.mp4' %}", title: "12", position: "Twelfth" },
+                { src: "{% static 'chapter2/13.mp4' %}", title: "13", position: "Thirteenth" },
+                { src: "{% static 'chapter2/14.mp4' %}", title: "14", position: "Fourteenth" },
+                { src: "{% static 'chapter2/15.mp4' %}", title: "15", position: "Fifteenth" }
             ];
         }
     } else if (currentChapter === 3) {
@@ -602,12 +602,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 // If this is the last number of lesson 3 in chapter 2, update the button to go to quiz
                 if (currentChapter === 2 && currentLesson === 3) {
                     nextLessonBtn.textContent = 'Take Quiz';
-                    nextLessonBtn.href = "{% url 'quiz_question' question_number=1 %}";
+                    nextLessonBtn.href = "{% url 'quiz_start' chapter=2 %}";
                 }
                 // If this is the last letter of lesson 4 in chapter 1, update the button to go to quiz
                 if (currentChapter === 1 && currentLesson === 4) {
                     nextLessonBtn.textContent = 'Take Quiz';
-                    nextLessonBtn.href = "{% url 'quiz_question' question_number=1 %}";
+                    nextLessonBtn.href = "{% url 'quiz_start' chapter=1 %}";
+                }
+                // If this is the last letter of lesson 3 in chapter 1, update the button to go to lesson 4
+                if (currentChapter === 1 && currentLesson === 3) {
+                    nextLessonBtn.textContent = 'Next Lesson';
+                    nextLessonBtn.href = `{window.location.origin}/lesson/1/4/`;
                 }
             }
         } else {
@@ -662,14 +667,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.status === 'success') {
                     // If this is the last number of lesson 3 in chapter 2, go to quiz
                     if (currentChapter === 2 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
-                        console.log('Redirecting to quiz');
-                        window.location.href = "{% url 'quiz_question' question_number=1 %}";
+                        console.log('Redirecting to quiz start');
+                        window.location.href = "{% url 'quiz_start' chapter=2 %}";
                         return;
                     }
                     // If this is the last letter of lesson 4 in chapter 1, go to quiz
                     if (currentChapter === 1 && currentLesson === 4 && currentVideoIndex === videos.length - 1) {
-                        console.log('Redirecting to quiz');
-                        window.location.href = "{% url 'quiz_question' question_number=1 %}";
+                        console.log('Redirecting to quiz start');
+                        window.location.href = "{% url 'quiz_start' chapter=1 %}";
+                        return;
+                    }
+                    // If this is the last letter of lesson 3 in chapter 1, go to lesson 4
+                    if (currentChapter === 1 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
+                        console.log('Redirecting to lesson 4');
+                        window.location.href = `${window.location.origin}/lesson/1/4/`;
                         return;
                     }
                     
