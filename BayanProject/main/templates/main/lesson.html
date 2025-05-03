@@ -80,7 +80,7 @@
     position: relative;
     margin-top: 1.5rem;
     font-size: 3.5rem;
-    font-weight: bold;
+    font-weight: 500;
     color: #1a237e;
     background: rgba(255, 255, 255, 0.95);
     padding: 0.8rem 2.5rem;
@@ -94,7 +94,7 @@
 
 .video-subtitle {
     margin-top: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #666;
     text-align: center;
     padding: 0.5rem 1rem;
@@ -134,7 +134,7 @@
 }
 
 .lesson-navigation {
-    margin-top: -20px;
+    margin-top: -10px;
     padding: 0 20px;
     min-height: 80px;
     display: flex;
@@ -226,7 +226,7 @@
         {% if chapter == 1 %}
             <h1>Alphabet Signs - Lesson {{ lesson }}</h1>
         {% elif chapter == 2 %}
-            <h1>Numbers Signs</h1>
+            <h1>Numbers Signs - Lesson {{ lesson }}</h1>
         {% elif chapter == 3 %}
             <h1>Common Words</h1>
         {% endif %}
@@ -259,6 +259,14 @@
                         <source src="{% static 'videos/videos/غ.mp4' %}" type="video/mp4">
                         <source src="{% static 'videos/videos/ف.mp4' %}" type="video/mp4">
                         <source src="{% static 'videos/videos/ق.mp4' %}" type="video/mp4">
+                    {% elif lesson == 4 %}
+                        <source src="{% static 'videos/videos/ك.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ل.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/م.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ن.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ه.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/و.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ي.mp4' %}" type="video/mp4">
                     {% endif %}
                     Your browser does not support the video tag.
                 </video>
@@ -269,6 +277,8 @@
                         د
                     {% elif lesson == 3 %}
                         ض
+                    {% elif lesson == 4 %}
+                        ك
                     {% endif %}
                 </div>
                 <div class="video-subtitle" id="videoSubtitle">
@@ -278,14 +288,65 @@
         {% elif chapter == 2 %}
             <div class="video-container">
                 <video controls width="100%" autoplay loop muted>
-                    <source src="{% static 'videos/videos/د.mp4' %}" type="video/mp4">
+                    {% if lesson == 1 %}
+                        <source src="{% static 'chapter2/1.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/2.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/3.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/4.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/5.mp4' %}" type="video/mp4">
+                    {% elif lesson == 2 %}
+                        <source src="{% static 'chapter2/6.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/7.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/8.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/9.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/10.mp4' %}" type="video/mp4">
+                    {% elif lesson == 3 %}
+                        <source src="{% static 'chapter2/11.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/12.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/13.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/14.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/15.mp4' %}" type="video/mp4">
+                    {% endif %}
                     Your browser does not support the video tag.
                 </video>
-                <div class="video-title">د</div>
+                <div class="video-title">
+                    {% if lesson == 1 %}
+                        1
+                    {% elif lesson == 2 %}
+                        6
+                    {% elif lesson == 3 %}
+                        11
+                    {% endif %}
+                </div>
+                <div class="video-subtitle" id="videoSubtitle">
+                    Loading...
+                </div>
             </div>
-            <div class="lesson-text">
-                <h2>Learning the Numbers in Sign Language</h2>
-                <p>In this lesson, we will learn how to sign numbers</p>
+            <!-- Navigation for Chapter 2 -->
+            <div class="lesson-navigation">
+                <div class="letter-navigation">
+                    <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
+                        <span class="nav-arrow">←</span>
+                        Previous Number
+                    </a>
+                    <a href="#" class="nav-btn practice-btn" id="practice-btn">
+                        {% if chapter == 2 %}{% else %}Practice Number{% endif %} Practice Number</a>
+                    <a href="#" class="nav-btn next-letter-btn">
+                        Next Number
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% if lesson == 3 %}
+                    <a href="{% url 'quiz_start' chapter=2 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Take Quiz
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Next Lesson
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         {% elif chapter == 3 %}
             <div class="video-container">
@@ -295,58 +356,87 @@
                 </video>
                 <div class="video-title">ض</div>
             </div>
-            <div class="lesson-text">
-                <h2>Learning Common Words in Sign Language</h2>
-                <p>In this lesson, we will learn how to sign common words</p>
-            </div>
         {% endif %}
     </div>
 
     <!-- Navigation -->
+    {% if chapter == 1 %}
     <div class="lesson-navigation">
-        {% if chapter == 1 %}
-            <div class="letter-navigation">
-                <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
-                    <span class="nav-arrow">←</span>
-                    Previous Letter
-                </a>
-                <a href="#" class="nav-btn practice-btn" id="practice-btn">
-                    Practice Letter
-                </a>
-                <a href="#" class="nav-btn next-letter-btn">
-                    Next Letter
-                    <span class="nav-arrow">→</span>
-                </a>
-                {% if lesson == 3 %}
-                <a href="{% url 'quiz_question' question_number=1 %}" class="nav-btn next-lesson-btn" style="display: none;">
-                    Take Quiz
-                        <span class="nav-arrow">→</span>
-                    </a>
-                {% else %}
-                <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
-                        Next Lesson
-                        <span class="nav-arrow">→</span>
-                    </a>
-                {% endif %}
-            </div>
-        {% else %}
-            <div class="letter-navigation">
-            {% if lesson > 1 %}
-                <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'-1' %}" class="nav-btn prev-btn">
-                    <span class="nav-arrow">←</span>
-                    Previous Lesson
-                </a>
-            {% endif %}
-            
-            {% if lesson < 3 %}
-                <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-btn">
+        <div class="letter-navigation">
+            <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
+                <span class="nav-arrow">←</span>
+                Previous Letter
+            </a>
+            <a href="#" class="nav-btn practice-btn" id="practice-btn">
+                Practice Letter
+            </a>
+            <a href="#" class="nav-btn next-letter-btn">
+                Next Letter
+                <span class="nav-arrow">→</span>
+            </a>
+            {% if lesson == 4 %}
+            <a href="{% url 'quiz_start' chapter=1 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                Take Quiz
+                <span class="nav-arrow">→</span>
+            </a>
+            {% else %}
+            <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
                     Next Lesson
                     <span class="nav-arrow">→</span>
                 </a>
             {% endif %}
-            </div>
-        {% endif %}
+        </div>
     </div>
+    {% elif chapter == 2 %}
+    <div class="lesson-navigation">
+        <div class="letter-navigation">
+            <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
+                <span class="nav-arrow">←</span>
+                Previous Number
+            </a>
+            <a href="#" class="nav-btn practice-btn" id="practice-btn">
+                Practice Number
+            </a>
+            <a href="#" class="nav-btn next-letter-btn">
+                Next Number
+                <span class="nav-arrow">→</span>
+            </a>
+            {% if lesson == 3 %}
+            <a href="{% url 'quiz_start' chapter=2 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                Take Quiz
+                <span class="nav-arrow">→</span>
+            </a>
+            {% else %}
+            <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
+                Next Lesson
+                <span class="nav-arrow">→</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% elif chapter == 3 %}
+    <div class="lesson-navigation">
+        <div class="letter-navigation">
+            {% if lesson > 1 %}
+            <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'-1' %}" class="nav-btn prev-btn">
+                <span class="nav-arrow">←</span>
+                Previous Lesson
+            </a>
+            {% endif %}
+            {% if lesson == 4 %}
+            <a href="{% url 'quiz_start' chapter=3 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                Take Quiz
+                <span class="nav-arrow">→</span>
+            </a>
+            {% elif lesson < 4 %}
+            <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-btn">
+                Next Lesson
+                <span class="nav-arrow">→</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 <script>
@@ -397,17 +487,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 { src: "{% static 'videos/videos/ف.mp4' %}", title: "ف", position: "Twentieth" },
                 { src: "{% static 'videos/videos/ق.mp4' %}", title: "ق", position: "Twenty-first" }
             ];
+        } else if (currentLesson === 4) {
+            videos = [
+                { src: "{% static 'videos/videos/ك.mp4' %}", title: "ك", position: "Twenty-second" },
+                { src: "{% static 'videos/videos/ل.mp4' %}", title: "ل", position: "Twenty-third" },
+                { src: "{% static 'videos/videos/م.mp4' %}", title: "م", position: "Twenty-fourth" },
+                { src: "{% static 'videos/videos/ن.mp4' %}", title: "ن", position: "Twenty-fifth" },
+                { src: "{% static 'videos/videos/ه.mp4' %}", title: "ه", position: "Twenty-sixth" },
+                { src: "{% static 'videos/videos/و.mp4' %}", title: "و", position: "Twenty-seventh" },
+                { src: "{% static 'videos/videos/ي.mp4' %}", title: "ي", position: "Twenty-eighth" }
+            ];
         }
     } else if (currentChapter === 2) {
-        videos = [
-            { src: "{% static 'videos/videos/د.mp4' %}", title: "د", position: "Eighth" },
-            { src: "{% static 'videos/videos/ذ.mp4' %}", title: "ذ", position: "Ninth" },
-            { src: "{% static 'videos/videos/ر.mp4' %}", title: "ر", position: "Tenth" },
-            { src: "{% static 'videos/videos/ز.mp4' %}", title: "ز", position: "Eleventh" },
-            { src: "{% static 'videos/videos/س.mp4' %}", title: "س", position: "Twelfth" },
-            { src: "{% static 'videos/videos/ش.mp4' %}", title: "ش", position: "Thirteenth" },
-            { src: "{% static 'videos/videos/ص.mp4' %}", title: "ص", position: "Fourteenth" }
-        ];
+        if (currentLesson === 1) {
+            videos = [
+                { src: "{% static 'videos/videos/1.mp4' %}", title: "1", position: "First" },
+                { src: "{% static 'videos/videos/2.mp4' %}", title: "2", position: "Second" },
+                { src: "{% static 'videos/videos/3.mp4' %}", title: "3", position: "Third" },
+                { src: "{% static 'videos/videos/4.mp4' %}", title: "4", position: "Fourth" },
+                { src: "{% static 'videos/videos/5.mp4' %}", title: "5", position: "Fifth" }
+            ];
+        } else if (currentLesson === 2) {
+            videos = [
+                { src: "{% static 'videos/videos/6.mp4' %}", title: "6", position: "Sixth" },
+                { src: "{% static 'videos/videos/7.mp4' %}", title: "7", position: "Seventh" },
+                { src: "{% static 'videos/videos/8.mp4' %}", title: "8", position: "Eighth" },
+                { src: "{% static 'videos/videos/9.mp4' %}", title: "9", position: "Ninth" },
+                { src: "{% static 'videos/videos/10.mp4' %}", title: "10", position: "Tenth" }
+            ];
+        } else if (currentLesson === 3) {
+            videos = [
+                { src: "{% static 'videos/videos/11.mp4' %}", title: "11", position: "Eleventh" },
+                { src: "{% static 'videos/videos/12.mp4' %}", title: "12", position: "Twelfth" },
+                { src: "{% static 'videos/videos/13.mp4' %}", title: "13", position: "Thirteenth" },
+                { src: "{% static 'videos/videos/14.mp4' %}", title: "14", position: "Fourteenth" },
+                { src: "{% static 'videos/videos/15.mp4' %}", title: "15", position: "Fifteenth" }
+            ];
+        }
     } else if (currentChapter === 3) {
         videos = [
             { src: "{% static 'videos/videos/ض.mp4' %}", title: "ض", position: "Fifteenth" },
@@ -486,13 +602,22 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Updating video:', video.title, 'Current video index:', currentVideoIndex);
         videoElement.src = video.src;
         videoTitle.textContent = video.title;
-        videoSubtitle.textContent = `${video.position} letter of the Arabic alphabet`;
+        if (currentChapter === 1) {
+            videoSubtitle.textContent = `${video.position} letter of the Arabic alphabet`;
+        } else if (currentChapter === 2) {
+            videoSubtitle.textContent = `${video.position} number`;
+        }
         videoElement.load();
         videoElement.play();
         
         // Update practice button URL
-        const letterUrl = "{% url 'letter_detail' letter='PLACEHOLDER' %}".replace('PLACEHOLDER', video.title);
-        practiceBtn.href = letterUrl;
+        if (currentChapter === 1) {
+            const letterUrl = "{% url 'letter_detail' letter='PLACEHOLDER' %}".replace('PLACEHOLDER', video.title);
+            practiceBtn.href = letterUrl;
+        } else if (currentChapter === 2) {
+            const numberUrl = `/number/${video.title}/`;
+            practiceBtn.href = numberUrl;
+        }
     
         // Update navigation buttons visibility
         prevLetterBtn.style.display = currentVideoIndex > 0 ? 'flex' : 'none';
@@ -500,13 +625,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Show next lesson or quiz button when all letters are viewed
         if (currentVideoIndex === videos.length - 1) {
-            console.log('Reached last letter of lesson', currentLesson);
+            console.log('Reached last number of lesson', currentLesson);
             if (nextLessonBtn) {
                 console.log('Showing next button');
                 nextLessonBtn.style.display = 'flex';
                 
-                // If this is the last letter of lesson 3 in chapter 1, update the button to go to quiz
-                if (currentChapter === 1 && currentLesson === 3) {
+                // If this is the last number of lesson 3 in chapter 2, update the button to go to quiz
+                if (currentChapter === 2 && currentLesson === 3) {
+                    nextLessonBtn.textContent = 'Take Quiz';
+                    nextLessonBtn.href = "{% url 'quiz_question' question_number=1 %}";
+                }
+                // If this is the last letter of lesson 4 in chapter 1, update the button to go to quiz
+                if (currentChapter === 1 && currentLesson === 4) {
                     nextLessonBtn.textContent = 'Take Quiz';
                     nextLessonBtn.href = "{% url 'quiz_question' question_number=1 %}";
                 }
@@ -561,8 +691,14 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 console.log('Server response:', data);
                 if (data.status === 'success') {
-                    // If this is the last letter of lesson 3 in chapter 1, go to quiz
-                    if (currentChapter === 1 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
+                    // If this is the last number of lesson 3 in chapter 2, go to quiz
+                    if (currentChapter === 2 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
+                        console.log('Redirecting to quiz');
+                        window.location.href = "{% url 'quiz_question' question_number=1 %}";
+                        return;
+                    }
+                    // If this is the last letter of lesson 4 in chapter 1, go to quiz
+                    if (currentChapter === 1 && currentLesson === 4 && currentVideoIndex === videos.length - 1) {
                         console.log('Redirecting to quiz');
                         window.location.href = "{% url 'quiz_question' question_number=1 %}";
                         return;

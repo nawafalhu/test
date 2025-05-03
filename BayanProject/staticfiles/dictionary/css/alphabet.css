@@ -1,0 +1,63 @@
+/* Alphabet Section Styles */
+.dictionary-container {
+    background: white;
+    border-radius: 25px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.chapter-title {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 600;
+}
+
+.alphabet-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.letter-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    text-align: center;
+}
+
+.letter {
+    font-size: 3rem;
+    color: #4343f4;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.letter-name {
+    font-size: 1rem;
+    color: #4343f4;
+    text-decoration: underline;
+}
+
+@media (max-width: 1200px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .chapter-title {
+        font-size: 2rem;
+    }
+} 

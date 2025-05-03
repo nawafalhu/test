@@ -11,6 +11,7 @@ from django.conf import settings
 from .models import QuizScore, UserProgress
 from django.http import JsonResponse
 from django.db.models import Max
+from django.templatetags.static import static
 
 @register.filter
 def multiply(value, arg):
@@ -27,18 +28,40 @@ def home(request):
         user=request.user,
         chapter=1
     ).count()
-    
+    # Get completed lessons count for chapter 2
+    chapter2_completed_count = UserProgress.objects.filter(
+        user=request.user,
+        chapter=2
+    ).count()
     return render(request, 'main/home.html', {
-        'chapter1_completed_count': chapter1_completed_count
+        'chapter1_completed_count': chapter1_completed_count,
+        'chapter2_completed_count': chapter2_completed_count
     })
 
 @login_required
 def sign_practice(request):
     letter = request.GET.get('letter')
-    context = {
-        'letter': letter,
-        'video_url': f'videos/{letter}.mp4' if letter else None,
-    }
+    chapter = request.GET.get('chapter')
+    if chapter == '2':
+        # Numbers Practice: show numbers 1-15
+        numbers = list(range(1, 16))
+        number_words = [
+            '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+            'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen'
+        ]
+        context = {
+            'numbers': numbers,
+            'selected_number': letter,  # for consistency, use 'letter' param for number too
+            'video_url': f'videos/{letter}.mp4' if letter else None,
+            'is_numbers': True,
+            'number_words': number_words
+        }
+    else:
+        context = {
+            'letter': letter,
+            'video_url': f'videos/{letter}.mp4' if letter else None,
+            'is_numbers': False
+        }
     return render(request, 'main/sign_practice.html', context)
 
 class CustomUserCreationForm(UserCreationForm):
@@ -83,8 +106,7 @@ def get_chapter_info(chapter):
             'lessons': [
                 {'number': 1, 'title': 'Common Phrases', 'description': 'Discover new vocabulary', 'type': 'vocabulary'},
                 {'number': 2, 'title': 'Family Members', 'description': 'Practice a dialogue', 'type': 'dialogue'},
-                {'number': 3, 'title': 'Weather Terms', 'description': 'Learn iconic signs', 'type': 'signs'},
-                {'number': 4, 'title': 'Daily Review', 'description': 'Review daily signs', 'type': 'review'}
+                {'number': 3, 'title': 'Weather Terms', 'description': 'Learn iconic signs', 'type': 'signs'}
             ]
         },
         3: {
@@ -115,8 +137,9 @@ def lesson_list(request, chapter):
     ).aggregate(Max('lesson'))['lesson__max'] or 0
 
     # Calculate next lesson
-    next_lesson = min(last_completed + 1, 4)
-
+    max_lesson = 3 if int(chapter) == 2 else 4
+    next_lesson = min(last_completed + 1, max_lesson)
+        
     context = {
         'chapter': {'number': chapter, 'title': get_chapter_title(chapter)},
         'lessons': get_chapter_lessons(chapter),
@@ -149,7 +172,8 @@ def mark_lesson_complete(request):
         )
         
         # Calculate next lesson
-        next_lesson = min(lesson + 1, 4)
+        max_lesson = 3 if chapter == 2 else 4
+        next_lesson = min(lesson + 1, max_lesson)
         
         return JsonResponse({
             'status': 'success',
@@ -172,9 +196,10 @@ def get_chapter_title(chapter):
 
 def get_chapter_lessons(chapter):
     # You can customize this based on your needs
+    max_lesson = 3 if int(chapter) == 2 else 4
     return [
-        {'number': i, 'type': 'signs', 'description': f'Lesson {i}'} 
-        for i in range(1, 5)
+        {'number': i, 'type': 'signs', 'description': f'Lesson {i}'}
+        for i in range(1, max_lesson + 1)
     ]
 
 def get_lesson_title(chapter, lesson):
@@ -192,6 +217,16 @@ def quiz(request):
         user=request.user,
         chapter=1
     ).order_by('-date_taken').first()
+    # Get the last score for the current user in Chapter 2
+    last_score_ch2 = QuizScore.objects.filter(
+        user=request.user,
+        chapter=2
+    ).order_by('-date_taken').first()
+    # Get the last score for the current user in Chapter 3
+    last_score_ch3 = QuizScore.objects.filter(
+        user=request.user,
+        chapter=3
+    ).order_by('-date_taken').first()
     
     # Reset the quiz session when viewing the quiz page
     if 'correct_answers' in request.session:
@@ -201,11 +236,15 @@ def quiz(request):
     request.session.modified = True
     
     return render(request, 'main/quiz.html', {
-        'last_score': last_score
+        'last_score': last_score,
+        'last_score_ch2': last_score_ch2,
+        'last_score_ch3': last_score_ch3
     })
 
 @login_required
 def quiz_start(request, chapter):
+    # Store the current quiz chapter in session
+    request.session['quiz_chapter'] = int(chapter)
     return render(request, 'main/quiz_start.html', {'chapter': chapter})
 
 @login_required
@@ -259,8 +298,15 @@ def alphabet_practice(request):
     return render(request, 'main/alphabet_practice.html', context)
 
 @register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)
+def get_item(obj, key):
+    try:
+        if isinstance(obj, dict):
+            return obj.get(key)
+        elif isinstance(obj, list):
+            return obj[int(key)]
+    except (KeyError, IndexError, ValueError, TypeError):
+        return ''
+    return ''
 
 def letter_detail(request, letter):
     # أسماء الأحرف
@@ -319,6 +365,12 @@ def get_arabic_letters():
 
 @login_required
 def quiz_question(request, question_number):
+    # Allow chapter selection via GET parameter for direct links
+    chapter_param = request.GET.get('chapter')
+    if chapter_param:
+        request.session['quiz_chapter'] = int(chapter_param)
+    chapter = request.session.get('quiz_chapter', 1)
+    
     print(f"\n[QUIZ DEBUG] Question {question_number}")
     
     # Initialize session variables if they don't exist
@@ -336,8 +388,7 @@ def quiz_question(request, question_number):
         print(f"[QUIZ COMPLETE] Final score: {final_score}/10")
         print(f"[QUIZ COMPLETE] Answers: {correct_answers}")
         
-        # Save the quiz score
-        chapter = 1  # Currently only Chapter 1 is implemented
+        # Save the quiz score for the correct chapter
         QuizScore.objects.update_or_create(
             user=request.user,
             chapter=chapter,
@@ -350,7 +401,8 @@ def quiz_question(request, question_number):
         context = {
             'score': final_score,
             'total_questions': 10,
-            'results': correct_answers
+            'results': correct_answers,
+            'chapter': chapter
         }
         
         # Clear session for next quiz
@@ -402,67 +454,104 @@ def quiz_question(request, question_number):
         return redirect('quiz_question', question_number=question_number + 1)
 
     # Generate new question
-    videos_dir = os.path.join(settings.STATIC_ROOT, 'videos', 'videos')
-    if not os.path.exists(videos_dir):
-        videos_dir = os.path.join(settings.BASE_DIR, 'static', 'videos', 'videos')
-    
-    # Get list of video files and their corresponding letters
-    video_files = [f for f in os.listdir(videos_dir) if f.endswith('.mp4')]
-    video_letters = [f.replace('.mp4', '') for f in video_files]
-    
-    print(f"\n[QUIZ DEBUG] Available videos and letters:")
-    for v, l in zip(video_files, video_letters):
-        print(f"- Video: {v}, Letter: {l}")
-    
-    if not video_files:
-        return render(request, 'main/quiz_error.html', {
-            'error': 'No videos available for the quiz.'
+    if chapter == 2:
+        # Numbers quiz: use static/chapter2/1.mp4 ... 15.mp4
+        numbers_dir = os.path.join(settings.BASE_DIR, 'static', 'chapter2')
+        video_files = [f for f in os.listdir(numbers_dir) if f.endswith('.mp4')]
+        video_numbers = [f.replace('.mp4', '') for f in video_files]
+        # Only use numbers 1-15
+        video_files = [f for f in video_files if f.replace('.mp4', '').isdigit() and 1 <= int(f.replace('.mp4', '')) <= 15]
+        video_numbers = [f.replace('.mp4', '') for f in video_files]
+        # Sort by number
+        video_files = sorted(video_files, key=lambda x: int(x.replace('.mp4', '')))
+        video_numbers = sorted(video_numbers, key=lambda x: int(x))
+        if not video_files:
+            return render(request, 'main/quiz_error.html', {
+                'error': 'No number videos available for the quiz.'
+            })
+        used_videos = request.session.get('quiz_progress', [])
+        available_videos = [(v, n) for v, n in zip(video_files, video_numbers) if v not in used_videos]
+        if not available_videos:
+            return redirect('quiz_question', question_number=11)
+        current_video, correct_number = random.choice(available_videos)
+        used_videos.append(current_video)
+        request.session['quiz_progress'] = used_videos
+        request.session['current_video'] = current_video
+        request.session['current_correct_answer'] = str(int(correct_number))
+        request.session.modified = True
+        # Prepare options as numbers
+        all_numbers = list(range(1, 16))
+        other_numbers = [n for n in all_numbers if n != int(correct_number)]
+        wrong_answers = random.sample(other_numbers, 3)
+        all_options = [str(n) for n in wrong_answers] + [str(int(correct_number))]
+        random.shuffle(all_options)
+        current_score = len([ans for ans in request.session.get('correct_answers', []) if ans.get('correct', False)])
+        video_url = static('chapter2/' + current_video)
+        return render(request, 'main/quiz_question.html', {
+            'question_number': question_number,
+            'total_questions': 10,
+            'video_path': video_url,
+            'options': all_options,
+            'correct_answer': str(int(correct_number)),
+            'current_score': current_score,
+            'debug': True,
+            'current_video': current_video,
+            'chapter': chapter
+        })
+    else:
+        # Chapter 1 (default): Arabic letters
+        videos_dir = os.path.join(settings.STATIC_ROOT, 'videos', 'videos')
+        if not os.path.exists(videos_dir):
+            videos_dir = os.path.join(settings.BASE_DIR, 'static', 'videos', 'videos')
+        video_files = [f for f in os.listdir(videos_dir) if f.endswith('.mp4')]
+        video_letters = [f.replace('.mp4', '') for f in video_files]
+        print(f"\n[QUIZ DEBUG] Available videos and letters:")
+        for v, l in zip(video_files, video_letters):
+            print(f"- Video: {v}, Letter: {l}")
+        if not video_files:
+            return render(request, 'main/quiz_error.html', {
+                'error': 'No videos available for the quiz.'
+            })
+        used_videos = request.session.get('quiz_progress', [])
+        available_videos = [(v, l) for v, l in zip(video_files, video_letters) if v not in used_videos]
+        if not available_videos:
+            return redirect('quiz_question', question_number=11)
+        current_video, correct_answer = random.choice(available_videos)
+        used_videos.append(current_video)
+        request.session['quiz_progress'] = used_videos
+        request.session['current_video'] = current_video
+        request.session['current_correct_answer'] = correct_answer
+        request.session.modified = True
+        all_letters = get_arabic_letters()
+        other_letters = [l for l in all_letters if l != correct_answer]
+        wrong_answers = random.sample(other_letters, 3)
+        all_options = wrong_answers + [correct_answer]
+        random.shuffle(all_options)
+        current_score = len([ans for ans in request.session.get('correct_answers', []) if ans.get('correct', False)])
+        video_url = f'/static/videos/videos/{current_video}'
+        return render(request, 'main/quiz_question.html', {
+            'question_number': question_number,
+            'total_questions': 10,
+            'video_path': video_url,
+            'options': all_options,
+            'correct_answer': correct_answer,
+            'current_score': current_score,
+            'debug': True,
+            'current_video': current_video,
+            'chapter': chapter
         })
 
-    # Get a random video that hasn't been used yet
-    used_videos = request.session.get('quiz_progress', [])
-    available_videos = [(v, l) for v, l in zip(video_files, video_letters) if v not in used_videos]
-    
-    if not available_videos:
-        return redirect('quiz_question', question_number=11)  # Redirect to completion
-
-    # Select random video and get its letter
-    current_video, correct_answer = random.choice(available_videos)
-    used_videos.append(current_video)
-    request.session['quiz_progress'] = used_videos
-    
-    # Store current video and answer in session
-    request.session['current_video'] = current_video
-    request.session['current_correct_answer'] = correct_answer
-    request.session.modified = True
-    
-    print("\n[QUIZ DEBUG] New Question Generated:")
-    print(f"- Question number: {question_number}")
-    print(f"- Selected video: {current_video}")
-    print(f"- Correct answer: {correct_answer}")
-    
-    # Get all possible answers
-    all_letters = get_arabic_letters()
-    other_letters = [l for l in all_letters if l != correct_answer]
-    wrong_answers = random.sample(other_letters, 3)
-    
-    # Combine and shuffle all options
-    all_options = wrong_answers + [correct_answer]
-    random.shuffle(all_options)
-    
-    # Calculate current score
-    current_score = len([ans for ans in request.session.get('correct_answers', []) if ans.get('correct', False)])
-    
-    # Create the video URL
-    video_url = f'/static/videos/videos/{current_video}'
-    
-    return render(request, 'main/quiz_question.html', {
-        'question_number': question_number,
-        'total_questions': 10,
-        'video_path': video_url,
-        'options': all_options,
-        'correct_answer': correct_answer,
-        'current_score': current_score,
-        'debug': True,
-        'current_video': current_video
-    })
+def number_detail(request, number):
+    number_words = [
+        '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+        'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen'
+    ]
+    number = int(number)
+    lesson_number = ((number - 1) // 5) + 1
+    context = {
+        'number': number,
+        'number_word': number_words[number] if 1 <= number <= 15 else 'Unknown',
+        'lesson_number': lesson_number,
+        'chapter': 2,
+    }
+    return render(request, 'main/number_detail.html', context)

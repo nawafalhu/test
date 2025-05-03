@@ -31,17 +31,29 @@
         </div>
         <h2 class="chapter-title">Numbers Signs</h2>
         <div class="chapter-footer">
-            <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn">
-                START
-                <span class="continue-icon">▶</span>
-            </a>
+            {% if chapter2_completed_count == 0 %}
+                <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn" id="chapter2Button">
+                    START
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% elif chapter2_completed_count < 3 %}
+                <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn" id="chapter2Button">
+                    CONTINUE
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% else %}
+                <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn" id="chapter2Button" style="background-color: #4CAF50;">
+                    COMPLETED
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% endif %}
         </div>
         <div class="progress-section">
             <div class="progress-info">
-                <span class="progress-text">0 of 4 lessons completed</span>
+                <span class="progress-text" id="chapter2Progress">{{ chapter2_completed_count|default:0 }} of 3 lessons completed</span>
             </div>
             <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 0%"></div>
+                <div class="progress-bar" id="chapter2ProgressBar"></div>
             </div>
         </div>
     </div>
@@ -69,6 +81,17 @@
     </div>
 </div>
 
+<div class="practice-grid">
+    {% for number in numbers %}
+    <a href="{% url 'sign_practice' %}?chapter=2&letter={{ number }}" class="sign-link" id="number-{{ number }}">
+        <div class="sign-card {% if number|stringformat:'s' == selected_number %}selected{% endif %}">
+            <span class="sign-symbol">{{ number }}</span>
+            <span class="sign-label">{{ number_words.number }}</span>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const chapter1Button = document.getElementById('chapter1Button');
@@ -87,6 +110,16 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (completedCount === totalLessons) {
         chapter1Button.innerHTML = 'COMPLETED <span class="continue-icon">▶</span>';
         chapter1Button.style.backgroundColor = '#4CAF50';
+    }
+
+    // Chapter 2 progress bar
+    const chapter2Progress = document.getElementById('chapter2Progress');
+    const chapter2ProgressBar = document.getElementById('chapter2ProgressBar');
+    if (chapter2Progress && chapter2ProgressBar) {
+        const completed2 = parseInt(chapter2Progress.textContent.split(' ')[0]);
+        const total2 = 3;
+        const percent2 = (completed2 / total2) * 100;
+        chapter2ProgressBar.style.width = percent2 + '%';
     }
 });
 </script>

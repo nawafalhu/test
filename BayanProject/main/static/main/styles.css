@@ -280,7 +280,7 @@ footer {
     margin: 0;
     font-size: 1.5rem !important;
     line-height: 1.2;
-    color: #000 !important;
+    color: #5f72f0 !important;
     font-weight: bold;
     margin-right: 2rem;
     text-decoration: none;
@@ -305,8 +305,8 @@ footer {
 
 .nav-link {
     color: #000 !important;
-    font-weight: 500;
-    font-size: 0.9rem;
+    font-weight: 510;
+    font-size: 0.93rem;
     text-decoration: none;
     padding: 0.3rem 0;
     display: inline-flex;
@@ -392,7 +392,7 @@ footer {
     flex-direction: column;
     gap: 0.2rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.3rem;
 }
 
 .chapter-header {
@@ -979,7 +979,7 @@ footer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
-    padding: 1rem;
+    padding: 3rem;
 }
 
 .practice-card {
@@ -1021,7 +1021,7 @@ footer {
 }
 
 .practice-button {
-    background-color: #502387;
+    background-color: #4343f4;
     color: white;
     text-decoration: none;
     padding: 0.8rem 1.2rem;
@@ -1032,7 +1032,7 @@ footer {
 }
 
 .practice-button:hover {
-    background-color: #6a1b9a;
+    background-color: #2828f6;
     color: white;
     transform: translateX(5px);
 }

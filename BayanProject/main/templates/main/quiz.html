@@ -26,7 +26,7 @@
                     </div>
                     {% endif %}
                     <div class="lessons-list">
-                        <a href="{% url 'quiz_question' question_number=1 %}" class="lesson-link">
+                        <a href="{% url 'quiz_start' chapter=1 %}" class="lesson-link">
                             <div class="lesson-item quiz-item">
                                 {% if last_score %}
                                 Retake Quiz
@@ -44,9 +44,23 @@
                         <span class="chapter-label">CHAPTER 2</span>
                     </div>
                     <h2 class="chapter-title">Numbers Signs</h2>
+                    {% if last_score_ch2 %}
+                    <div class="score-container">
+                        <div class="last-score">
+                            <h3>Previous Attempt</h3>
+                            <p class="score-value">Score: {{ last_score_ch2.score }}/{{ last_score_ch2.total_questions }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="lessons-list">
-                        <a href="{% url 'quiz_question' question_number=1 %}" class="lesson-link">
-                            <div class="lesson-item quiz-item">Take Quiz</div>
+                        <a href="{% url 'quiz_start' chapter=2 %}" class="lesson-link">
+                            <div class="lesson-item quiz-item">
+                                {% if last_score_ch2 %}
+                                Retake Quiz
+                                {% else %}
+                                Take Quiz
+                                {% endif %}
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -57,9 +71,23 @@
                         <span class="chapter-label">CHAPTER 3</span>
                     </div>
                     <h2 class="chapter-title">Common Words</h2>
+                    {% if last_score_ch3 %}
+                    <div class="score-container">
+                        <div class="last-score">
+                            <h3>Previous Attempt</h3>
+                            <p class="score-value">Score: {{ last_score_ch3.score }}/{{ last_score_ch3.total_questions }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="lessons-list">
-                        <a href="{% url 'quiz_question' question_number=1 %}" class="lesson-link">
-                            <div class="lesson-item quiz-item">Take Quiz</div>
+                        <a href="{% url 'quiz_start' chapter=3 %}" class="lesson-link">
+                            <div class="lesson-item quiz-item">
+                                {% if last_score_ch3 %}
+                                Retake Quiz
+                                {% else %}
+                                Take Quiz
+                                {% endif %}
+                            </div>
                         </a>
                     </div>
                 </div>

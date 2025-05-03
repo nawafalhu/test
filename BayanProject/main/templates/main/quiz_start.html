@@ -1,22 +1,63 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+<style>
+.quiz-start-btn-custom {
+    background-color: #4343f4 !important;
+    color: white !important;
+    font-size: 1.1rem !important;
+    padding: 0.6rem 1.5rem !important;
+    border-radius: 13px !important;
+    border: none;
+    transition: background 0.3s;
+    max-width: 300px;
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+.quiz-start-btn-custom:hover, .quiz-start-btn-custom:focus {
+    background-color: #3535d4 !important;
+    color: white !important;
+}
+.quiz-start-button form {
+    max-width: 300px;
+    margin: 0 auto;
+}
+.quiz-title-custom {
+    background-color: #4343f4;
+    color: white !important;
+    border-radius: 25px;
+    padding: 30px 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(67,67,244,0.2);
+    margin-bottom: 1.5rem;
+    width: 100%;
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+}
+</style>
 <div class="lesson-page-container">
     <div class="lesson-header">
-        <h1>Chapter {{ chapter }} Quiz</h1>
+        <h1 class="quiz-title-custom">Chapter {{ chapter }} Quiz</h1>
     </div>
     <div class="quiz-content">
         <div class="quiz-instructions">
             <h3>Instructions:</h3>
             <ul>
                 <li>This quiz will test your knowledge of Chapter {{ chapter }}</li>
-                <li>You will be presented with multiple choice questions</li>
-                <li>Select the best answer for each question</li>
-                <li>You can only take the quiz once</li>
+                <li>You will be presented with sign videos and multiple choice questions</li>
+                <li>Select the best answer for each question that matches the sign video</li>
+                <li>You can take the quiz multiple times</li>
             </ul>
         </div>
         <div class="quiz-start-button">
-            <button class="btn btn-primary btn-lg start-quiz-btn">Start Quiz</button>
+            <form action="{% url 'quiz_question' question_number=1 %}" method="get" style="display:inline;">
+                <input type="hidden" name="chapter" value="{{ chapter }}">
+                <button type="submit" class="quiz-start-btn-custom">Start Quiz</button>
+            </form>
         </div>
     </div>
 </div>

@@ -4,8 +4,8 @@
 {% block content %}
 <style>
 .quiz-results-container {
-    padding: 2rem;
-    max-width: 800px;
+    padding: 1.2rem;
+    max-width: 990px;
     margin: 0 auto;
 }
 
@@ -126,7 +126,9 @@
     <div class="results-summary">
         {% for result in results %}
         <div class="result-item {% if result.correct %}correct{% else %}incorrect{% endif %}">
-            <div class="result-letter">{{ result.letter }}</div>
+            <div class="result-letter">
+                {{ result.letter }}
+            </div>
             <div class="result-status {% if result.correct %}correct{% else %}incorrect{% endif %}">
                 {% if result.correct %}✓ Correct{% else %}✗ Incorrect{% endif %}
             </div>
@@ -140,7 +142,7 @@
     </div>
 
     <div class="actions">
-        <a href="{% url 'quiz_start' chapter=1 %}" class="retry-btn">Retry Quiz</a>
+        <a href="{% url 'quiz_start' chapter=chapter %}" class="retry-btn">Retry Quiz</a>
         <a href="{% url 'home' %}" class="home-btn">Back to Home</a>
     </div>
 </div>

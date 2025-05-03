@@ -18,5 +18,6 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('alphabet-practice/', views.alphabet_practice, name='alphabet_practice'),
     path('letter/<str:letter>/', views.letter_detail, name='letter_detail'),
+    path('number/<int:number>/', views.number_detail, name='number_detail'),
 ]
 

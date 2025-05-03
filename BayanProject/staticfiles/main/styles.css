@@ -1,23 +1,28 @@
 /* General Styles - Applied across all pages */
 body {
+    padding-top: 70px;
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: white;
     color: #333;
 }
 
 /* Navigation Bar - Applied across all pages */
-nav {
-    background-color: rgb(45, 51, 107);
-    padding: 1em 0;
+.navbar {
+    min-height: 50px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    position: sticky;
+    background-color: white !important;
+    font-size: 0.95rem;
+    padding: 0.3rem 2rem;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #eaeaea;
 }
 
 /* Navbar Styles - Applied across all pages */
@@ -26,7 +31,7 @@ nav {
 }
 
 nav a {
-    color: white;
+    color: #000;
     text-decoration: none;
     margin: 0 15px;
     font-size: 1.2em;
@@ -35,18 +40,19 @@ nav a {
 }
 
 nav a:hover {
-    color: #dff0d8;
+    color: #333;
 }
 
 /* Container Styles - Applied across all pages */
 .container {
     width: 90%;
     max-width: 1200px;
-    margin: 20px auto;
+    margin: 0 auto;
     padding: 20px;
-    background: rgb(237, 238, 239);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
+}
+
+.container.mt-4 {
+    margin-top: 100px !important;
 }
 
 /* Common Heading Styles - Applied across all pages */
@@ -162,14 +168,54 @@ footer {
     background-color: #c82333;
 }
 
+/* Login Page Styles */
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: transparent;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.login-container h2 {
+    text-align: center;
+    color: #1a237e;
+    margin-bottom: 1.5rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.login-form p {
+    margin: 0;
+}
+
+.login-form label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
 /* Signup Page Styles */
 .signup-container {
     max-width: 400px;
     margin: 0 auto;
     padding: 2rem;
-    background-color: white;
+    background-color: transparent;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
 }
 
 .signup-container h2 {
@@ -216,114 +262,113 @@ footer {
 }
 
 /* Navbar Styles - Applied across all pages */
-.navbar {
-    min-height: 70px;
+.navbar .container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.3rem 1rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 2rem;
+}
+
+.navbar-brand {
+    float: left;
+    position: relative;
+    padding: 0.3rem 0;
+    margin: 0;
+    font-size: 1.5rem !important;
+    line-height: 1.2;
+    color: #5f72f0 !important;
+    font-weight: bold;
+    margin-right: 2rem;
+    text-decoration: none;
+}
+
+.nav-items {
     display: flex;
     align-items: center;
-    background-color: #1a237e !important;
-    font-size:larger;
-}
-
-.navbar-brand.mx-auto {
-    float: none;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 1rem 0;
-    margin: 0;
-    font-size: 2.5rem !important;
-    line-height: 1.2;
-    vertical-align: middle;
-    color: black !important;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-.navbar .container {
+    gap: 1.5rem;
+    margin-left: 2rem;
     position: relative;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
 }
 
-.navbar-dark .navbar-brand {
-    color: black;
+.nav-items::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    height: 20px;
+    width: 1px;
+    background-color: #eaeaea;
 }
 
-.navbar-dark .navbar-brand:hover {
-    color: #333333;
+.nav-link {
+    color: #000 !important;
+    font-weight: 510;
+    font-size: 0.93rem;
+    text-decoration: none;
+    padding: 0.3rem 0;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.nav-link:hover {
+    color: #333 !important;
+}
+
+.auth-buttons {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .nav-link.btn {
-    color: black !important;
-    border-color: black !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+    border-radius: 20px;
+    padding: 0.4rem 1.2rem;
+    margin: 0 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .nav-link.btn:hover {
     background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
-.navbar-dark .navbar-nav .nav-link {
-    color: black !important;
+.nav-link.btn.btn-signup {
+    background-color: #000;
+    color: white !important;
+    border: none !important;
 }
 
-.navbar-dark .navbar-nav .nav-link:hover {
-    color: #333333 !important;
+.nav-link.btn.btn-signup:hover {
+    background-color: #333;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }
 
 /* Signup Header Styles */
 .signup-header {
     text-align: center;
     padding: 2rem 0;
-    background-color: rgb(219, 220, 221);
+    background-color: #1a237e;
     margin-bottom: 2rem;
 }
 
 .bayan-title {
-    color: black;
+    color: white;
     font-size: 3.5rem;
     font-weight: bold;
     margin: 0;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-/* Login Page Styles */
-.login-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.login-container h2 {
-    text-align: center;
-    color: #1a237e;
-    margin-bottom: 1.5rem;
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.login-form p {
-    margin: 0;
-}
-
-.login-form label {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.login-form input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
 }
 
 /* Chapter Page Styles */
@@ -347,7 +392,7 @@ footer {
     flex-direction: column;
     gap: 0.2rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.3rem;
 }
 
 .chapter-header {
@@ -358,10 +403,9 @@ footer {
 }
 
 .chapter-label {
-    background-color: #fff3e0;
     color: #5f72f0;
     font-weight: bold;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     padding: 0.25rem 0.7rem;
     border-radius: 4px;
 }
@@ -415,17 +459,16 @@ footer {
 .lesson-page-container {
     background-color: white;
     border-radius: 12px;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 1rem auto;
     max-width: 1200px;
-    width: 95%;
 }
 
 .lesson-header {
     text-align: center;
-    margin-bottom: 2rem;
-    padding: 2rem 1rem 1rem;
+    margin-bottom: 1.5rem;
+    padding: 2rem 1rem 0.8rem;
     border-bottom: 2px solid #e0e0e0;
     position: relative;
 }
@@ -438,11 +481,9 @@ footer {
 }
 
 .lesson-content {
-    padding: 1.5rem;
+    padding: 0.8rem;
     background-color: #f8f9fa;
     border-radius: 8px;
-    margin: 0 auto;
-    max-width: 1000px;
 }
 
 .lesson-card {
@@ -482,6 +523,11 @@ footer {
 .lesson-icon img {
     width: 20px;
     height: 20px;
+}
+
+.lesson-content {
+    flex: 1;
+    padding: 0;
 }
 
 .lesson-title {
@@ -638,11 +684,16 @@ footer {
 
 /* Profile Page Styles */
 .profile-icon {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid white;
+    border: 1px solid white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+    vertical-align: middle;
 }
 
 .dropdown-menu {
@@ -719,14 +770,6 @@ footer {
     background-color: #f8f9fa;
 }
 
-.profile-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid white;
-}
-
 .nav-link.dropdown-toggle::after {
     display: none;
 }
@@ -738,19 +781,24 @@ footer {
 }
 
 .welcome-message {
-    color: rgb(0, 0, 0);
+    color: #000;
     margin-right: 1rem;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    padding-top: 0.2rem;
-    margin-bottom: -0.7rem;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
 }
 
 .nav-item.dropdown {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding-top: 0.1rem;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
 }
 
 /* Dictionary Page Styles */
@@ -908,25 +956,30 @@ footer {
 .practice-header {
     text-align: center;
     margin-bottom: 2.5rem;
+    padding: 2rem;
+    background-color: #3a4ac4;
+    border-radius: 8px;
 }
 
 .practice-header h1 {
-    color: #1a237e;
+    color: white;
     font-size: 2.2rem;
     margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
 .practice-description {
-    color: #666;
+    color: rgba(255, 255, 255, 0.9);
     font-size: 1.1rem;
     margin: 0;
+    line-height: 1.5;
 }
 
 .practice-categories {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
-    padding: 1rem;
+    padding: 3rem;
 }
 
 .practice-card {
@@ -968,7 +1021,7 @@ footer {
 }
 
 .practice-button {
-    background-color: #502387;
+    background-color: #4343f4;
     color: white;
     text-decoration: none;
     padding: 0.8rem 1.2rem;
@@ -979,7 +1032,7 @@ footer {
 }
 
 .practice-button:hover {
-    background-color: #6a1b9a;
+    background-color: #2828f6;
     color: white;
     transform: translateX(5px);
 }
@@ -989,8 +1042,16 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    .practice-header {
+        padding: 1.5rem;
+    }
+
     .practice-header h1 {
         font-size: 1.8rem;
+    }
+
+    .practice-description {
+        font-size: 1rem;
     }
 
     .practice-card {
@@ -1112,11 +1173,10 @@ footer {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
-    background-color: white;
-    color: #333;
+    color: #4343f4;
     padding: 0.2rem 0.8rem;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 500;
 }
 
@@ -1302,46 +1362,32 @@ footer {
     border-top: 1px solid #e0e0e0;
 }
 
-.letter-navigation {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 1rem;
-}
-
-.next-lesson-container {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-}
-
 .nav-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #502387;
-    color: white;
+    background-color: white;
+    color: #502387;
     padding: 0.6rem 1.2rem;
     border-radius: 20px;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
     transition: all 0.3s ease;
-    border: none;
+    border: 2px solid #502387;
 }
 
 .nav-btn:hover {
-    background-color: #6a1b9a;
+    background-color: #502387;
     color: white;
     transform: translateX(0);
 }
 
-.prev-letter-btn:hover {
+.prev-btn:hover {
     transform: translateX(-5px);
 }
 
-.next-letter-btn:hover,
-.next-lesson-btn:hover {
+.next-btn:hover {
     transform: translateX(5px);
 }
 
@@ -1370,17 +1416,25 @@ footer {
 
 /* Video Lesson Styles */
 .video-container {
-    margin: 1rem 0;
+    margin: 1rem auto;
+    background-color: transparent;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    max-width: 400px;
 }
 
 .video-container video {
+    display: block;
     width: 100%;
-    max-height: 500px;
+    height: auto;
+    margin: 0;
+    background-color: transparent;
     object-fit: contain;
-    background-color: #000;
 }
 
 .lesson-text {
@@ -1404,31 +1458,105 @@ footer {
     margin: 0;
 }
 
-.letter-navigation {
-    display: flex;
-    justify-content: space-between;
-    margin: 1rem 0;
-    padding: 0 1rem;
+/* Alphabet Practice Page Styles */
+.alphabet-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-.letter-navigation .nav-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: #502387;
-    color: white;
+.alphabet-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background-color: #3a4ac4;
     border-radius: 8px;
-    text-decoration: none;
+}
+
+.alphabet-header h1 {
+    color: white;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.alphabet-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.alphabet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.alphabet-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+}
+
+.alphabet-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.letter {
+    font-size: 2.5rem;
+    color: #3a4ac4;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    margin-bottom: 0.5rem;
 }
 
-.letter-navigation .nav-btn:hover {
-    background-color: #7080e5;
+.letter-name {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
 }
 
-.letter-navigation .nav-arrow {
-    font-size: 1.2rem;
+@media (max-width: 768px) {
+    .alphabet-container {
+        padding: 1rem;
+    }
+
+    .alphabet-header {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .alphabet-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .alphabet-header p {
+        font-size: 1rem;
+    }
+
+    .alphabet-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
+    }
+
+    .alphabet-card {
+        padding: 1rem;
+        min-height: 100px;
+    }
+
+    .letter {
+        font-size: 2rem;
+    }
 }
 

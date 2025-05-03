@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header bg-primary text-white position-relative">
                     <h4 class="mb-0 position-absolute">Question {{ question_number }} of {{ total_questions }}</h4>
-                    <h4 class="mb-0 text-center">Quiz 1</h4>
+                    <h4 class="mb-0 text-center">Quiz {% if chapter == 2 %}2{% else %}1{% endif %}</h4>
                 </div>
                 <div class="card-body">
                     <!-- Video Player -->
@@ -25,7 +25,13 @@
                         </div>
                     </div>
 
-                    <h4 class="card-title text-center mb-4" style="font-size: 1.6rem; font-weight: 500;">What is the letter shown in the sign above?</h4>
+                    <h4 class="card-title text-center mb-4" style="font-size: 1.6rem; font-weight: 500;">
+                        {% if chapter == 2 %}
+                            What is the number shown in the sign above?
+                        {% else %}
+                            What is the letter shown in the sign above?
+                        {% endif %}
+                    </h4>
 
                     <!-- Answer Options -->
                     <form method="POST" class="mt-4" id="quizForm" accept-charset="UTF-8">

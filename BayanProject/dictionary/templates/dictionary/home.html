@@ -6,42 +6,207 @@
 {% endblock %}
 
 {% block content %}
-<div class="dictionary-container" dir="rtl">
-    <div class="search-section">
-        <div class="search-box">
-            <input type="text" 
-                   id="searchInput" 
-                   class="search-input" 
-                   placeholder="Live search videos..." 
-                   value="{{ search_query }}"
-                   dir="rtl">
-        </div>
-    </div>
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <!-- Dictionary Header -->
+            <div class="header-container">
+                <h1>Dictionary</h1>
+                <p>Search for and browse sign language videos</p>
+            </div>
 
-    <div class="dictionary-content">
-        {% for chapter_num, chapter_data in chapters.items %}
-            <div class="dictionary-chapter">
-                <h2 class="chapter-title">{{ chapter_data.title }}</h2>
-                <div class="videos-grid">
-                    {% for video in chapter_data.videos %}
-                        <div class="video-card">
-                            <div class="video-thumbnail-container">
-                                <a href="{% url 'dictionary:video_detail' video_id=video.id %}" class="play-button">
-                                    <span class="play-icon">▶</span>
-                                </a>
+            <div class="dictionary-container" dir="rtl">
+                <div class="search-section">
+                    <div class="search-box">
+                        <input type="text" 
+                               id="searchInput" 
+                               class="search-input" 
+                               placeholder="Search letters..." 
+                               value="{{ search_query }}"
+                               dir="rtl">
+                    </div>
+                </div>
+
+                <div class="chapter-title">
+                    <h2>Chapter 1 - Alphabet Signs</h2>
+                </div>
+
+                <div class="alphabet-grid">
+                    {% for letter in letters %}
+                        <a href="{% url 'dictionary:letter_detail' letter=letter.letter %}" class="letter-card">
+                            <div class="letter-content">
+                                <span class="letter">{{ letter.letter }}</span>
+                                <span class="letter-name">{{ letter.name }}</span>
                             </div>
-                            <div class="video-info">
-                                <h3 class="video-title">{{ video.title }}</h3>
-                            </div>
-                        </div>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
 </div>
-{% endblock %}
 
-{% block extra_js %}
-<script src="{% static 'dictionary/js/live-search.js' %}"></script>
+<style>
+.header-container {
+    background-color: #4343f4;
+    border-radius: 25px;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(67, 67, 244, 0.2);
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.header-container p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.alphabet-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    padding: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.letter-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+.letter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background-color: #e9ecef;
+}
+
+.letter-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.letter {
+    font-size: 1.8rem;
+    color: #4343f4;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.letter-name {
+    font-size: 0.75rem;
+    color: #666;
+    display: block;
+}
+
+@media (max-width: 1200px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .letter-card {
+        padding: 6px;
+    }
+
+    .letter {
+        font-size: 1.6rem;
+    }
+
+    .letter-name {
+        font-size: 0.7rem;
+    }
+
+    .header-container h1 {
+        font-size: 2rem;
+    }
+    
+    .header-container p {
+        font-size: 1rem;
+    }
+
+    .chapter-title h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .letter {
+        font-size: 1.5rem;
+    }
+}
+
+.chapter-title {
+    text-align: center;
+    margin: 5px 0;
+    padding: 15px;
+}
+
+.chapter-title h2 {
+    color: black;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Live search functionality
+    const searchInput = document.getElementById('searchInput');
+    const letters = document.querySelectorAll('.letter-card');
+
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+
+        letters.forEach(letter => {
+            const letterText = letter.querySelector('.letter').textContent.toLowerCase();
+            const letterName = letter.querySelector('.letter-name').textContent.toLowerCase();
+
+            if (letterText.includes(searchTerm) || letterName.includes(searchTerm)) {
+                letter.style.display = '';
+            } else {
+                letter.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
 {% endblock %} 

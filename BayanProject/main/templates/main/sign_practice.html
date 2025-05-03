@@ -5,40 +5,75 @@
 <div class="container-fluid px-4">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="header-container">
-                <h1>Sign Language Practice</h1>
+            <div class="header-container" style="position: relative;">
+                <a href="{% url 'sign_practice:home' %}" class="back-arrow" style="position: absolute; left: 30px; top: 50%; transform: translateY(-50%); font-size: 2.2rem; color: white; text-decoration: none;">
+                    &#8592;
+                </a>
+                <h1>Numbers Practice</h1>
                 {% if letter %}
                     <p>Practice signing the letter "{{ letter }}"</p>
                 {% else %}
-                    <p>Practice your sign language skills</p>
+                    <p>Click on a number to practice its sign language</p>
                 {% endif %}
             </div>
             
             <div class="practice-container">
-                {% if letter and video_url %}
-                    <div class="video-section">
-                        <video controls autoplay loop muted class="practice-video">
-                            <source src="{% static video_url %}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <div class="practice-instructions">
-                        <h3>Practice Instructions</h3>
-                        <ol>
-                            <li>Watch the video carefully to observe the hand movements</li>
-                            <li>Practice the sign in front of a mirror</li>
-                            <li>Repeat the movement several times until you feel comfortable</li>
-                            <li>Try to make the sign without watching the video</li>
-                        </ol>
-                        <div class="practice-controls">
-                            <a href="{% url 'lesson_list' chapter=1 %}" class="btn btn-secondary">Back to Lessons</a>
+                {% if is_numbers %}
+                    {% if selected_number and video_url %}
+                        <div class="video-section">
+                            <video controls autoplay loop muted class="practice-video">
+                                <source src="{% static video_url %}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
                         </div>
-                    </div>
+                            <div class="practice-controls">
+                                <a href="{% url 'lesson_list' chapter=2 %}" class="btn btn-secondary">Back to Lessons</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="practice-grid">
+                            {% for number in numbers %}
+                            <a href="{% url 'number_detail' number=number %}" class="sign-link" id="number-{{ number }}">
+                                <div class="sign-card {% if number|stringformat:'s' == selected_number %}selected{% endif %}">
+                                    <span class="sign-symbol">{{ number }}</span>
+                                    <span class="sign-label">{{ number_words|get_item:number }}</span>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 {% else %}
-                    <div class="practice-grid">
-                        <p>Please select a letter from the lessons to practice.</p>
-                        <a href="{% url 'lesson_list' chapter=1 %}" class="btn btn-primary">Go to Lessons</a>
-                    </div>
+                    {% if letter and video_url %}
+                        <div class="video-section">
+                            <video controls autoplay loop muted class="practice-video">
+                                <source src="{% static video_url %}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="practice-instructions">
+                            <h3>Practice Instructions</h3>
+                            <ol>
+                                <li>Watch the video carefully to observe the hand movements</li>
+                                <li>Practice the sign in front of a mirror</li>
+                                <li>Repeat the movement several times until you feel comfortable</li>
+                                <li>Try to make the sign without watching the video</li>
+                            </ol>
+                            <div class="practice-controls">
+                                <a href="{% url 'lesson_list' chapter=1 %}" class="btn btn-secondary">Back to Lessons</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="practice-grid">
+                            {% for letter in letters %}
+                            <a href="{% url 'sign_practice' %}?letter={{ letter }}" class="sign-link" id="letter-{{ letter }}">
+                                <div class="sign-card {% if letter == selected_letter %}selected{% endif %}">
+                                    <span class="sign-symbol">{{ letter }}</span>
+                                    <span class="sign-label">{{ letter_names|get_item:letter }}</span>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -156,6 +191,60 @@
     .practice-instructions {
         padding: 15px;
     }
+}
+
+.practice-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 20px;
+    padding: 10px;
+}
+
+.sign-link {
+    text-decoration: none;
+}
+
+.sign-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #2a3cff;
+    background: #f8f9fa;
+    border: none;
+    border-radius: 16px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    min-width: 80px;
+    min-height: 100px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(67, 67, 244, 0.08);
+    border-bottom: none;
+    padding: 18px 0 10px 0;
+}
+
+.sign-card.selected, .sign-card:hover {
+    background: #e8ebff;
+    color: #1a1a2e;
+    box-shadow: 0 4px 15px rgba(67, 67, 244, 0.12);
+}
+
+.sign-symbol {
+    font-size: 2.2rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+.sign-label {
+    font-size: 1rem;
+    color: #4a4a4a;
+    margin-top: 8px;
+    font-weight: 400;
+    text-align: center;
+    opacity: 0.8;
 }
 </style>
 {% endblock %}

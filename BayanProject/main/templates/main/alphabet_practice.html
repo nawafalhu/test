@@ -5,7 +5,10 @@
 <div class="container-fluid px-4">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="header-container">
+            <div class="header-container" style="position: relative;">
+                <a href="{% url 'sign_practice:home' %}" class="back-arrow" style="position: absolute; left: 30px; top: 50%; transform: translateY(-50%); font-size: 2.2rem; color: white; text-decoration: none;">
+                    &#8592;
+                </a>
                 <h1>Alphabet Practice</h1>
                 <p>Click on a letter to practice its sign language</p>
             </div>

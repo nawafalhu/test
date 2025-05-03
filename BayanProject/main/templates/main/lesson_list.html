@@ -84,7 +84,7 @@
         <span class="chapter-label">CHAPTER {{ chapter.number }}</span>
         <h1>{{ chapter.title }}</h1>
         <p>{{ chapter.description }}</p>
-        <div class="progress-counter" id="progressCounter">{{ completed_lessons|length }} of 4 lessons completed</div>
+        <div class="progress-counter" id="progressCounter">{{ completed_lessons|length }} of {% if chapter.number == 2 %}3{% else %}4{% endif %} lessons completed</div>
 
     </div>
 
@@ -117,7 +117,12 @@
     <!-- Start/Continue Learning Button -->
     <div class="start-learning-container">
         {% if completed_lessons %}
-            {% if completed_lessons|length == 4 %}
+            {% if chapter.number == 2 and completed_lessons|length == 3 %}
+                <a href="{% url 'lesson_view' chapter=chapter.number lesson=1 %}" class="start-learning-btn" id="learningButton">
+                    All Lessons Completed
+                    <span class="start-icon">▶</span>
+                </a>
+            {% elif chapter.number != 2 and completed_lessons|length == 4 %}
                 <a href="{% url 'lesson_view' chapter=chapter.number lesson=1 %}" class="start-learning-btn" id="learningButton">
                     All Lessons Completed
                     <span class="start-icon">▶</span>
@@ -130,9 +135,9 @@
             {% endif %}
         {% else %}
             <a href="{% url 'lesson_view' chapter=chapter.number lesson=next_lesson %}" class="start-learning-btn" id="learningButton">
-                Start Learning
-                <span class="start-icon">▶</span>
-            </a>
+            Start Learning
+            <span class="start-icon">▶</span>
+        </a>
         {% endif %}
     </div>
 </div>
@@ -147,8 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get next lesson number from Django context
     const nextLesson = parseInt("{{ next_lesson }}");
     const completedLessonsCount = parseInt("{{ completed_lessons|length }}");
-    const allLessonsCompleted = completedLessonsCount === 4;
     const currentChapter = parseInt("{{ chapter.number }}");
+    const totalLessons = currentChapter === 2 ? 3 : 4;
+    const allLessonsCompleted = completedLessonsCount === totalLessons;
 
     // Only allow chapters 1, 2, 3
     if (![1, 2, 3].includes(currentChapter)) {
@@ -159,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Update timeline progress height
     if (timelineProgress) {
-        const progressPercentage = (nextLesson / 4) * 100;
+        const progressPercentage = (nextLesson / totalLessons) * 100;
         timelineProgress.style.height = `${progressPercentage}%`;
     }
     
@@ -167,13 +173,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (lessonCards) {
         lessonCards.forEach(function(card) {
             if (allLessonsCompleted) {
-                card.classList.add('clickable');
-                card.addEventListener('click', function() {
-                    const lessonNumber = this.dataset.lesson;
-                    const baseUrl = window.location.origin;
-                    const lessonUrl = `${baseUrl}/lesson/${currentChapter}/${lessonNumber}/`;
-                    window.location.href = lessonUrl;
-                });
+                const lessonNumber = parseInt(card.dataset.lesson);
+                if (lessonNumber <= totalLessons) {
+                    card.classList.add('clickable');
+                    card.addEventListener('click', function() {
+                        const lessonUrl = `${window.location.origin}/lesson/${currentChapter}/${lessonNumber}/`;
+                        window.location.href = lessonUrl;
+                    });
+                } else {
+                    card.style.display = 'none';
+                }
+            } else {
+                const lessonNumber = parseInt(card.dataset.lesson);
+                if (lessonNumber > totalLessons) {
+                    card.style.display = 'none';
+                }
             }
         });
     }

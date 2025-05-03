@@ -1,0 +1,224 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/dictionary.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <!-- Dictionary Header -->
+            <div class="header-container">
+                <h1>Dictionary</h1>
+                <p>Search for and browse sign language videos</p>
+            </div>
+
+            <div class="dictionary-container" dir="rtl">
+                <div class="search-section">
+                    <div class="search-box">
+                        <input type="text" 
+                               id="searchInput" 
+                               class="search-input" 
+                               placeholder="Search numbers..." 
+                               value="{{ search_query }}"
+                               dir="rtl">
+                    </div>
+                </div>
+
+                <div class="chapter-title">
+                    <h2>Chapter 2 - Numbers Signs</h2>
+                </div>
+
+                {% for lesson_key, lesson in lessons.items %}
+                <div class="lesson-section">
+                    <h3 class="lesson-title">{{ lesson.title }}</h3>
+                    <p class="lesson-description">{{ lesson.description }}</p>
+                    
+                    <div class="numbers-grid">
+                        {% for video in lesson.videos %}
+                        <a href="{% url 'dictionary:video_detail' video_path=video.path %}" class="number-card">
+                            <div class="number-content">
+                                <span class="number">{{ video.title }}</span>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.header-container {
+    background-color: #4343f4;
+    border-radius: 25px;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(67, 67, 244, 0.2);
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.header-container p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.lesson-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-title {
+    color: #4343f4;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.lesson-description {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    padding: 15px;
+}
+
+.number-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+.number-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background-color: #e9ecef;
+}
+
+.number-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.number {
+    font-size: 1.8rem;
+    color: #4343f4;
+    display: block;
+    margin-bottom: 2px;
+}
+
+@media (max-width: 1200px) {
+    .numbers-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .numbers-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .numbers-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .number-card {
+        padding: 6px;
+    }
+
+    .number {
+        font-size: 1.6rem;
+    }
+
+    .header-container h1 {
+        font-size: 2rem;
+    }
+    
+    .header-container p {
+        font-size: 1rem;
+    }
+
+    .lesson-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .numbers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .number {
+        font-size: 1.5rem;
+    }
+}
+
+.chapter-title {
+    text-align: center;
+    margin: 5px 0;
+    padding: 15px;
+}
+
+.chapter-title h2 {
+    color: black;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Live search functionality
+    const searchInput = document.getElementById('searchInput');
+    const numberCards = document.querySelectorAll('.number-card');
+
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+
+        numberCards.forEach(card => {
+            const numberText = card.querySelector('.number').textContent.toLowerCase();
+
+            if (numberText.includes(searchTerm)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %} 

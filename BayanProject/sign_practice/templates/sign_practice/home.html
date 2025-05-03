@@ -3,9 +3,9 @@
 {% block content %}
 <div class="practice-container">
     <!-- Practice Header -->
-    <div class="practice-header">
-        <h1>Sign Language Practice</h1>
-        <p class="practice-description">Practice your sign language skills with our interactive exercises</p>
+    <div class="practice-header" style="background-color: #4343f4; border-radius: 25px; color: white; padding: 30px 20px; text-align: center; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(67, 67, 244, 0.2);">
+        <h1 style="margin: 0; font-size: 2.5rem; font-weight: bold; color: white;">Sign Language Practice</h1>
+        <p style="margin: 10px 0 0; font-size: 1.2rem; opacity: 0.9;">Practice your sign language skills with our interactive exercises</p>
     </div>
 
     <!-- Practice Categories -->
@@ -13,7 +13,7 @@
         <!-- Alphabet Practice -->
         <div class="practice-card">
             <div class="practice-card-header" style="display: flex; flex-direction: column; align-items: center;">
-                <span class="chapter-label" style=" color: #5f72f0; font-weight: bold; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; margin-bottom: 0.3rem;">CHAPTER 1</span>
+                <span class="chapter-label" style="color: #5f72f0; font-weight: bold; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; margin-bottom: 0.3rem;">CHAPTER 1</span>
                 <h2 style="text-align: center; margin: 0;">Alphabet Practice</h2>
                 <span class="practice-icon">🔤</span>
             </div>
@@ -29,7 +29,7 @@
                 <span class="practice-icon">🔢</span>
             </div>
             <p>Learn to sign numbers and practice counting</p>
-            <a href="#" class="practice-button">Start Practice</a>
+            <a href="{% url 'sign_practice' %}?chapter=2" class="practice-button">Start Practice</a>
         </div>
 
         <!-- Common Phrases -->
