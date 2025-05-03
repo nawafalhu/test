@@ -336,7 +336,7 @@
                         <span class="nav-arrow">→</span>
                     </a>
                     {% if lesson == 3 %}
-                    <a href="{% url 'quiz_start' chapter=2 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                    <a href="{% url 'quiz_question' question_number=1 %}" class="nav-btn next-lesson-btn" style="display: none;">
                         Take Quiz
                         <span class="nav-arrow">→</span>
                     </a>
@@ -374,11 +374,11 @@
                 Next Letter
                 <span class="nav-arrow">→</span>
             </a>
-            {% if lesson == 4 %}
-            <a href="{% url 'quiz_start' chapter=1 %}" class="nav-btn next-lesson-btn" style="display: none;">
+            {% if lesson == 3 %}
+            <a href="{% url 'quiz_question' question_number=1 %}" class="nav-btn next-lesson-btn" style="display: none;">
                 Take Quiz
-                <span class="nav-arrow">→</span>
-            </a>
+                    <span class="nav-arrow">→</span>
+                </a>
             {% else %}
             <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
                     Next Lesson
@@ -387,53 +387,22 @@
             {% endif %}
         </div>
     </div>
-    {% elif chapter == 2 %}
+    {% elif chapter != 2 %}
     <div class="lesson-navigation">
         <div class="letter-navigation">
-            <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
-                <span class="nav-arrow">←</span>
-                Previous Number
-            </a>
-            <a href="#" class="nav-btn practice-btn" id="practice-btn">
-                Practice Number
-            </a>
-            <a href="#" class="nav-btn next-letter-btn">
-                Next Number
-                <span class="nav-arrow">→</span>
-            </a>
-            {% if lesson == 3 %}
-            <a href="{% url 'quiz_start' chapter=2 %}" class="nav-btn next-lesson-btn" style="display: none;">
-                Take Quiz
-                <span class="nav-arrow">→</span>
-            </a>
-            {% else %}
-            <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
-                Next Lesson
-                <span class="nav-arrow">→</span>
-            </a>
-            {% endif %}
-        </div>
-    </div>
-    {% elif chapter == 3 %}
-    <div class="lesson-navigation">
-        <div class="letter-navigation">
-            {% if lesson > 1 %}
+        {% if lesson > 1 %}
             <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'-1' %}" class="nav-btn prev-btn">
                 <span class="nav-arrow">←</span>
                 Previous Lesson
             </a>
-            {% endif %}
-            {% if lesson == 4 %}
-            <a href="{% url 'quiz_start' chapter=3 %}" class="nav-btn next-lesson-btn" style="display: none;">
-                Take Quiz
-                <span class="nav-arrow">→</span>
-            </a>
-            {% elif lesson < 4 %}
+        {% endif %}
+        
+        {% if lesson < 3 %}
             <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-btn">
                 Next Lesson
                 <span class="nav-arrow">→</span>
             </a>
-            {% endif %}
+        {% endif %}
         </div>
     </div>
     {% endif %}
