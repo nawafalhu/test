@@ -13,7 +13,7 @@
                 <p>Click on a letter to practice its sign language</p>
             </div>
             
-            <div class="alphabet-practice-container">
+            <div class="alphabet-practice-container" dir="rtl">
                 <div class="alphabet-grid">
                     {% for letter in letters %}
                     <a href="{% url 'letter_detail' letter=letter %}" class="letter-link" id="letter-{{ letter }}">
@@ -66,6 +66,7 @@
     grid-template-columns: repeat(9, 1fr);
     gap: 20px;
     padding: 10px;
+    direction: rtl;
 }
 
 .letter-box {
@@ -76,6 +77,7 @@
     transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    direction: ltr;
 }
 
 .letter-box:hover {

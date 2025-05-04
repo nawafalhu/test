@@ -65,17 +65,29 @@
         </div>
         <h2 class="chapter-title">Common Words</h2>
         <div class="chapter-footer">
-            <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn">
+            {% if chapter3_completed_count == 0 %}
+                <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn" id="chapter3Button">
                 START
                 <span class="continue-icon">▶</span>
             </a>
+            {% elif chapter3_completed_count < 3 %}
+                <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn" id="chapter3Button">
+                    CONTINUE
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% else %}
+                <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn" id="chapter3Button" style="background-color: #4CAF50;">
+                    COMPLETED
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% endif %}
         </div>
         <div class="progress-section">
             <div class="progress-info">
-                <span class="progress-text">0 of 4 lessons completed</span>
+                <span class="progress-text" id="chapter3Progress">{{ chapter3_completed_count|default:0 }} of 3 lessons completed</span>
             </div>
             <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 0%"></div>
+                <div class="progress-bar" id="chapter3ProgressBar"></div>
             </div>
         </div>
     </div>
@@ -120,6 +132,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const total2 = 3;
         const percent2 = (completed2 / total2) * 100;
         chapter2ProgressBar.style.width = percent2 + '%';
+    }
+
+    // Chapter 3 progress bar
+    const chapter3Progress = document.getElementById('chapter3Progress');
+    const chapter3ProgressBar = document.getElementById('chapter3ProgressBar');
+    if (chapter3Progress && chapter3ProgressBar) {
+        const completed3 = parseInt(chapter3Progress.textContent.split(' ')[0]);
+        const total3 = 3;
+        const percent3 = (completed3 / total3) * 100;
+        chapter3ProgressBar.style.width = percent3 + '%';
     }
 });
 </script>

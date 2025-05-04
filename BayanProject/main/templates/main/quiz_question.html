@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header bg-primary text-white position-relative">
                     <h4 class="mb-0 position-absolute">Question {{ question_number }} of {{ total_questions }}</h4>
-                    <h4 class="mb-0 text-center">Quiz {% if chapter == 2 %}2{% else %}1{% endif %}</h4>
+                    <h4 class="mb-0 text-center">Quiz {% if chapter == 2 %}2{% elif chapter == 3 %}3{% else %}1{% endif %}</h4>
                 </div>
                 <div class="card-body">
                     <!-- Video Player -->

@@ -1,0 +1,338 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <!-- Back button -->
+            <a href="{% url 'lesson_view' chapter=3 lesson=lesson_number %}" class="back-to-chapter" id="back-to-phrases">
+                <i class="fas fa-arrow-left"></i> Back to Lesson {{ lesson_number }}
+            </a>
+            <div class="letter-practice-container" id="phrase-container">
+                <div class="letter-header">
+                    <h2>Phrase Practice: {{ phrase }}</h2>
+                    <div class="prediction-display">
+                        <span class="prediction-label">Model Prediction:</span>
+                        <span class="prediction-value" id="prediction-value">-</span>
+                    </div>
+                </div>
+                <div class="letter-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="letter-box">
+                                <h1 class="display-letter" style="font-size:2.2rem;">{{ phrase }}</h1>
+                                <p class="letter-name">{{ translation }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="camera-section">
+                                <video id="video" width="100%" autoplay></video>
+                                <div class="camera-controls">
+                                    <button id="start-camera" class="btn camera-btn start-btn">
+                                        <i class="fas fa-camera"></i> Start Camera
+                                    </button>
+                                    <button id="stop-camera" class="btn camera-btn stop-btn" disabled>
+                                        <i class="fas fa-stop"></i> Stop Camera
+                                    </button>
+                                </div>
+                                <canvas id="canvas" style="display: none;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navigation-buttons">
+                        <a href="{% url 'sign_practice:common_phrases_practice' %}" class="back-btn">
+                            <i class="fas fa-arrow-right"></i> Back to Phrases
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.back-to-chapter {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #4343f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(67, 67, 244, 0.2);
+}
+.back-to-chapter:hover {
+    background-color: #3535d4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(67, 67, 244, 0.3);
+    color: white;
+    text-decoration: none;
+}
+.back-to-chapter i {
+    margin-right: 8px;
+}
+.letter-practice-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 20px 0;
+    transition: background-color 0.5s ease;
+}
+.letter-header {
+    background-color: #4343f4;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    position: relative;
+}
+.letter-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+}
+.prediction-display {
+    margin-top: 10px;
+    padding: 8px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 5px;
+    display: inline-block;
+}
+.prediction-label {
+    font-size: 1rem;
+    margin-right: 10px;
+}
+.prediction-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.letter-content {
+    padding: 20px;
+}
+.letter-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.display-letter {
+    font-size: 2.2rem;
+    color: #4343f4;
+    margin: 0;
+    line-height: 1;
+}
+.camera-section {
+    height: 100%;
+    min-height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-bottom: 10px;
+}
+.camera-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+}
+.btn {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+}
+.start-btn {
+    background-color: #4343f4;
+    color: white;
+}
+.start-btn:hover {
+    background-color: #3535d4;
+}
+.stop-btn {
+    background-color: #dc3545;
+    color: white;
+}
+.stop-btn:hover {
+    background-color: #c82333;
+}
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+.back-btn {
+    display: inline-block;
+    padding: 10px 30px;
+    border: 2px solid #4343f4;
+    border-radius: 25px;
+    color: #4343f4;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.back-btn:hover {
+    background-color: #4343f4;
+    color: white;
+    text-decoration: none;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script>
+    let video = document.getElementById('video');
+    let canvas = document.getElementById('canvas');
+    let startButton = document.getElementById('start-camera');
+    let stopButton = document.getElementById('stop-camera');
+    let container = document.getElementById('phrase-container');
+    let predictionValue = document.getElementById('prediction-value');
+    let stream = null;
+    let model = null;
+    let isProcessing = false;
+    let correctPredictionTimeout = null;
+    let isWaitingForDelay = false;
+
+    // Load the model
+    async function loadModel() {
+        try {
+            // Create a simple model for testing
+            model = tf.sequential();
+            model.add(tf.layers.conv2d({
+                inputShape: [224, 224, 3],
+                kernelSize: 3,
+                filters: 32,
+                activation: 'relu'
+            }));
+            model.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
+            model.add(tf.layers.conv2d({
+                kernelSize: 3,
+                filters: 64,
+                activation: 'relu'
+            }));
+            model.add(tf.layers.maxPooling2d({poolSize: 2, strides: 2}));
+            model.add(tf.layers.flatten());
+            model.add(tf.layers.dense({units: 128, activation: 'relu'}));
+            model.add(tf.layers.dropout({rate: 0.5}));
+            model.add(tf.layers.dense({units: 2, activation: 'softmax'}));
+            // Compile the model
+            model.compile({
+                optimizer: 'adam',
+                loss: 'categoricalCrossentropy',
+                metrics: ['accuracy']
+            });
+            predictionValue.textContent = 'Model Ready';
+        } catch (error) {
+            console.error('Error creating model:', error);
+            alert('Error creating the model. Please try again later.');
+        }
+    }
+
+    // Process frame and make prediction
+    async function processFrame() {
+        if (!isProcessing) return;
+        try {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            // Convert canvas to tensor
+            let tensor = tf.browser.fromPixels(canvas)
+                .resizeNearestNeighbor([224, 224])
+                .toFloat()
+                .expandDims();
+            // Normalize the image
+            tensor = tensor.div(255.0);
+            // Make prediction
+            const predictions = await model.predict(tensor);
+            const probabilities = predictions.dataSync();
+            const yesConfidence = probabilities[0] * 100;
+            const noConfidence = probabilities[1] * 100;
+            // Update prediction display
+            const predictionText = `Yes: ${yesConfidence.toFixed(1)}%, No: ${noConfidence.toFixed(1)}%`;
+            predictionValue.textContent = predictionText;
+            // If Yes confidence is above 50.1% and not already waiting for delay
+            if (yesConfidence >= 50.1 && !isWaitingForDelay) {
+                isWaitingForDelay = true;
+                if (correctPredictionTimeout) {
+                    clearTimeout(correctPredictionTimeout);
+                }
+                correctPredictionTimeout = setTimeout(() => {
+                    container.classList.add('correct');
+                    isWaitingForDelay = false;
+                }, 3000);
+            } else if (yesConfidence < 50.1) {
+                isWaitingForDelay = false;
+                container.classList.remove('correct');
+                if (correctPredictionTimeout) {
+                    clearTimeout(correctPredictionTimeout);
+                    correctPredictionTimeout = null;
+                }
+            }
+            tf.dispose([tensor, predictions]);
+        } catch (error) {
+            console.error('Error in processFrame:', error);
+            predictionValue.textContent = 'Error in prediction';
+        }
+        requestAnimationFrame(processFrame);
+    }
+
+    function startCamera() {
+        container.classList.remove('correct');
+        isWaitingForDelay = false;
+        if (correctPredictionTimeout) {
+            clearTimeout(correctPredictionTimeout);
+            correctPredictionTimeout = null;
+        }
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(mediaStream) {
+                stream = mediaStream;
+                video.srcObject = stream;
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                isProcessing = true;
+                processFrame();
+            })
+            .catch(function(err) {
+                console.error('Error accessing camera:', err);
+                alert('Error accessing camera. Please make sure you have granted camera permissions.');
+            });
+    }
+
+    function stopCamera() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            video.srcObject = null;
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            isProcessing = false;
+            isWaitingForDelay = false;
+            if (correctPredictionTimeout) {
+                clearTimeout(correctPredictionTimeout);
+                correctPredictionTimeout = null;
+            }
+        }
+    }
+
+    startButton.addEventListener('click', startCamera);
+    stopButton.addEventListener('click', stopCamera);
+    loadModel();
+</script>
+{% endblock %} 

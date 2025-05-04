@@ -84,7 +84,7 @@
         <span class="chapter-label">CHAPTER {{ chapter.number }}</span>
         <h1>{{ chapter.title }}</h1>
         <p>{{ chapter.description }}</p>
-        <div class="progress-counter" id="progressCounter">{{ completed_lessons|length }} of {% if chapter.number == 2 %}3{% else %}4{% endif %} lessons completed</div>
+        <div class="progress-counter" id="progressCounter">{{ completed_lessons|length }} of {% if chapter.number == 2 or chapter.number == 3 %}3{% else %}4{% endif %} lessons completed</div>
 
     </div>
 
@@ -94,6 +94,7 @@
         <div class="timeline-progress" id="timelineProgress"></div>
         
         {% for lesson in lessons %}
+        {% if chapter.number != 3 or lesson.number <= 3 %}
         <div class="lesson-card {% if lesson.number in completed_lessons %}completed{% endif %}" data-lesson="{{ lesson.number }}">
             <div class="lesson-icon">
                 {% if lesson.type == 'vocabulary' %}
@@ -111,6 +112,7 @@
             </div>
             <div class="lesson-arrow">→</div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 
@@ -122,6 +124,21 @@
                     All Lessons Completed
                     <span class="start-icon">▶</span>
                 </a>
+            {% elif chapter.number == 3 and completed_lessons|length == 3 %}
+                <a href="{% url 'lesson_view' chapter=chapter.number lesson=1 %}" class="start-learning-btn" id="learningButton" style="background-color: #4CAF50;">
+                    All Lessons Completed
+                    <span class="start-icon">▶</span>
+                </a>
+            {% elif chapter.number == 3 and completed_lessons|length == 0 %}
+                <a href="{% url 'lesson_view' chapter=chapter.number lesson=next_lesson %}" class="start-learning-btn" id="learningButton">
+                    Start Learning
+                    <span class="start-icon">▶</span>
+                </a>
+            {% elif chapter.number == 3 %}
+                <a href="{% url 'lesson_view' chapter=chapter.number lesson=next_lesson %}" class="start-learning-btn" id="learningButton">
+                    Continue Learning
+                    <span class="start-icon">▶</span>
+                </a>
             {% elif chapter.number != 2 and completed_lessons|length == 4 %}
                 <a href="{% url 'lesson_view' chapter=chapter.number lesson=1 %}" class="start-learning-btn" id="learningButton">
                     All Lessons Completed
@@ -129,9 +146,9 @@
                 </a>
             {% else %}
                 <a href="{% url 'lesson_view' chapter=chapter.number lesson=next_lesson %}" class="start-learning-btn" id="learningButton">
-                    Continue Learning
-                    <span class="start-icon">▶</span>
-                </a>
+                Continue Learning
+                <span class="start-icon">▶</span>
+            </a>
             {% endif %}
         {% else %}
             <a href="{% url 'lesson_view' chapter=chapter.number lesson=next_lesson %}" class="start-learning-btn" id="learningButton">
@@ -153,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextLesson = parseInt("{{ next_lesson }}");
     const completedLessonsCount = parseInt("{{ completed_lessons|length }}");
     const currentChapter = parseInt("{{ chapter.number }}");
-    const totalLessons = currentChapter === 2 ? 3 : 4;
+    const totalLessons = (currentChapter === 2 || currentChapter === 3) ? 3 : 4;
     const allLessonsCompleted = completedLessonsCount === totalLessons;
 
     // Only allow chapters 1, 2, 3
@@ -172,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make lesson cards clickable only when all lessons are completed
     if (lessonCards) {
         lessonCards.forEach(function(card) {
-            if (allLessonsCompleted) {
+            if (allLessonsCompleted && [1, 2, 3].includes(currentChapter)) {
                 const lessonNumber = parseInt(card.dataset.lesson);
                 if (lessonNumber <= totalLessons) {
                     card.classList.add('clickable');

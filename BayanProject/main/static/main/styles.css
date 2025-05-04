@@ -1560,3 +1560,17 @@ footer {
     }
 }
 
+.profile-container h2 {
+    margin-bottom: 2rem !important;
+}
+
+.profile-title {
+    margin-bottom: 0 !important;
+    font-size: 1.9rem;
+}
+
+.profile-title-spacer {
+    height: 1rem;
+    margin-bottom: 1rem;
+}
+

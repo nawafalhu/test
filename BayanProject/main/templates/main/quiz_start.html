@@ -40,8 +40,11 @@
 }
 </style>
 <div class="lesson-page-container">
-    <div class="lesson-header">
-        <h1 class="quiz-title-custom">Chapter {{ chapter }} Quiz</h1>
+    <div class="lesson-header" style="position: relative;">
+        <h1 class="quiz-title-custom" style="position: relative; display: flex; align-items: center; justify-content: center;">
+            <a href="{% url 'quiz' %}" class="back-arrow" style="position: absolute; left: 32px; top: 50%; transform: translateY(-50%); font-size: 2.2rem; color: white; text-decoration: none;">←</a>
+            Chapter {{ chapter }} Quiz
+        </h1>
     </div>
     <div class="quiz-content">
         <div class="quiz-instructions">
@@ -54,7 +57,7 @@
             </ul>
         </div>
         <div class="quiz-start-button">
-            <form action="{% url 'quiz_question' question_number=1 %}" method="get" style="display:inline;">
+            <form action="{% url 'quiz_question' question_number=1 %}?chapter=3" method="get" style="display:inline;">
                 <input type="hidden" name="chapter" value="{{ chapter }}">
                 <button type="submit" class="quiz-start-btn-custom">Start Quiz</button>
             </form>

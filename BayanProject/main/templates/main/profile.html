@@ -2,9 +2,10 @@
 
 {% block content %}
 <div class="profile-container">
-    <h2>Account Settings</h2>
+    <h2 class="profile-title">Profile Information</h2>
+    <div class="profile-title-spacer"></div>
+    
     <div class="profile-section">
-        <h3>Profile Information</h3>
         <form method="post" class="profile-form">
             {% csrf_token %}
             <div class="form-group">
@@ -12,6 +13,11 @@
                 <input type="text" class="form-control" value="{{ user.username }}" readonly>
             </div>
             <!-- Add more profile fields as needed -->
+        </form>
+        <form id="logout-form" method="post" action="{% url 'logout' %}" style="margin-top: 15px;">
+            {% csrf_token %}
+            <a href="{% url 'password_change' %}" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; margin-bottom: 15px;">Change Password</a>
+            <button type="submit" class="btn btn-danger" style="width: 100%; font-size: 1.1rem;">Logout</button>
         </form>
     </div>
 </div>

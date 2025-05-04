@@ -19,5 +19,6 @@ urlpatterns = [
     path('alphabet-practice/', views.alphabet_practice, name='alphabet_practice'),
     path('letter/<str:letter>/', views.letter_detail, name='letter_detail'),
     path('number/<int:number>/', views.number_detail, name='number_detail'),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 

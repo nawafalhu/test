@@ -22,7 +22,7 @@
                 <div class="video-section">
                     <div class="video-container">
                         <video id="letterVideo" class="letter-video" width="900" height="600" autoplay loop muted>
-                            <source src="{% static 'videos/videos/'|add:letter|add:'.mp4' %}" type="video/mp4">
+                            <source src="{% static video_path %}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>

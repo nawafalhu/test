@@ -33,9 +33,15 @@ def home(request):
         user=request.user,
         chapter=2
     ).count()
+    # Get completed lessons count for chapter 3
+    chapter3_completed_count = UserProgress.objects.filter(
+        user=request.user,
+        chapter=3
+    ).count()
     return render(request, 'main/home.html', {
         'chapter1_completed_count': chapter1_completed_count,
-        'chapter2_completed_count': chapter2_completed_count
+        'chapter2_completed_count': chapter2_completed_count,
+        'chapter3_completed_count': chapter3_completed_count
     })
 
 @login_required
@@ -110,7 +116,7 @@ def get_chapter_info(chapter):
             ]
         },
         3: {
-            'title': 'Common Words',
+            'title': 'Common words',
             'description': 'Learn essential words and phrases for everyday communication.',
             'lessons': [
                 {'number': 1, 'title': 'Emotions & Feelings', 'description': 'Discover new vocabulary', 'type': 'vocabulary'},
@@ -493,6 +499,43 @@ def quiz_question(request, question_number):
             'video_path': video_url,
             'options': all_options,
             'correct_answer': str(int(correct_number)),
+            'current_score': current_score,
+            'debug': True,
+            'current_video': current_video,
+            'chapter': chapter
+        })
+    elif chapter == 3:
+        # Chapter 3: Common phrases quiz using static/chapter3/*.mp4
+        phrases_dir = os.path.join(settings.BASE_DIR, 'static', 'chapter3')
+        video_files = [f for f in os.listdir(phrases_dir) if f.endswith('.mp4')]
+        phrase_names = [f.replace('.mp4', '') for f in video_files]
+        if not video_files:
+            return render(request, 'main/quiz_error.html', {
+                'error': 'No phrase videos available for the quiz.'
+            })
+        used_videos = request.session.get('quiz_progress', [])
+        available_videos = [(v, n) for v, n in zip(video_files, phrase_names) if v not in used_videos]
+        if not available_videos:
+            return redirect('quiz_question', question_number=11)
+        current_video, correct_phrase = random.choice(available_videos)
+        used_videos.append(current_video)
+        request.session['quiz_progress'] = used_videos
+        request.session['current_video'] = current_video
+        request.session['current_correct_answer'] = correct_phrase
+        request.session.modified = True
+        # Prepare options as phrases
+        other_phrases = [n for n in phrase_names if n != correct_phrase]
+        wrong_answers = random.sample(other_phrases, 3)
+        all_options = wrong_answers + [correct_phrase]
+        random.shuffle(all_options)
+        current_score = len([ans for ans in request.session.get('correct_answers', []) if ans.get('correct', False)])
+        video_url = static('chapter3/' + current_video)
+        return render(request, 'main/quiz_question.html', {
+            'question_number': question_number,
+            'total_questions': 10,
+            'video_path': video_url,
+            'options': all_options,
+            'correct_answer': correct_phrase,
             'current_score': current_score,
             'debug': True,
             'current_video': current_video,

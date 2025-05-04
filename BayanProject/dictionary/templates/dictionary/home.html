@@ -27,10 +27,10 @@
                     </div>
                 </div>
 
-                <div class="chapter-title">
+                {% if not search_query %}
+                    <div class="chapter-title chapter-title-1">
                     <h2>Chapter 1 - Alphabet Signs</h2>
                 </div>
-
                 <div class="alphabet-grid">
                     {% for letter in letters %}
                         <a href="{% url 'dictionary:letter_detail' letter=letter.letter %}" class="letter-card">
@@ -41,6 +41,62 @@
                         </a>
                     {% endfor %}
                 </div>
+                    <div class="chapter-title chapter-title-2">
+                    <h2>Chapter 2 - Numbers Signs</h2>
+                </div>
+                    <div class="alphabet-grid numbers-grid-ltr">
+                    {% for number in numbers %}
+                        <a href="{% url 'dictionary:letter_detail' letter=number.number %}" class="letter-card">
+                            <div class="letter-content">
+                                <span class="letter">{{ number.number }}</span>
+                                <span class="letter-name">{{ number.name }}</span>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+                    <div class="chapter-title chapter-title-3">
+                        <h2>Chapter 3 - Common Words Signs</h2>
+                    </div>
+                    <div class="chapter3-grid">
+                        {% for phrase in common_phrases %}
+                            <a href="{% url 'dictionary:letter_detail' letter=phrase.phrase %}" class="letter-card">
+                                <div class="letter-content">
+                                    <span class="letter">{{ phrase.phrase }}</span>
+                                    <span class="letter-name">{{ phrase.translation }}</span>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alphabet-grid">
+                        {% for letter in letters %}
+                            <a href="{% url 'dictionary:letter_detail' letter=letter.letter %}" class="letter-card">
+                                <div class="letter-content">
+                                    <span class="letter">{{ letter.letter }}</span>
+                                    <span class="letter-name">{{ letter.name }}</span>
+                                </div>
+                            </a>
+                        {% endfor %}
+                        {% for number in numbers %}
+                            <a href="{% url 'dictionary:letter_detail' letter=number.number %}" class="letter-card">
+                                <div class="letter-content">
+                                    <span class="letter">{{ number.number }}</span>
+                                    <span class="letter-name">{{ number.name }}</span>
+                                </div>
+                            </a>
+                        {% endfor %}
+                        {% for phrase in common_phrases %}
+                            {% if search_query|lower in phrase.phrase|lower or search_query|lower in phrase.translation|lower %}
+                            <a href="{% url 'dictionary:letter_detail' letter=phrase.phrase %}" class="letter-card">
+                                <div class="letter-content">
+                                    <span class="letter">{{ phrase.phrase }}</span>
+                                    <span class="letter-name">{{ phrase.translation }}</span>
+                                </div>
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -104,11 +160,14 @@
     justify-content: center;
 }
 
-.letter {
+.letter-card .letter {
+    white-space: nowrap;
+    direction: rtl;
     font-size: 1.8rem;
     color: #4343f4;
     display: block;
     margin-bottom: 2px;
+    font-family: inherit;
 }
 
 .letter-name {
@@ -175,7 +234,7 @@
 
 .chapter-title {
     text-align: center;
-    margin: 5px 0;
+    margin: 30px 0 15px;
     padding: 15px;
 }
 
@@ -185,6 +244,35 @@
     font-weight: 600;
     margin: 0;
 }
+
+.chapter3-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+}
+
+@media (max-width: 992px) {
+    .chapter3-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .chapter3-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.numbers-grid-ltr {
+    direction: ltr;
+}
+.numbers-grid-ltr .letter-card {
+    direction: ltr;
+    text-align: center;
+}
 </style>
 
 <script>
@@ -192,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Live search functionality
     const searchInput = document.getElementById('searchInput');
     const letters = document.querySelectorAll('.letter-card');
+    const chapterTitles = document.querySelectorAll('.chapter-title');
 
     searchInput.addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase();
@@ -206,6 +295,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 letter.style.display = 'none';
             }
         });
+
+        // Hide chapter titles if searching
+        if (searchTerm.length > 0) {
+            chapterTitles.forEach(title => title.style.display = 'none');
+        } else {
+            chapterTitles.forEach(title => title.style.display = '');
+        }
     });
 });
 </script>

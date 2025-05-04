@@ -72,16 +72,6 @@ CHAPTER2_LESSONS = {
 def dictionary_home(request):
     search_query = request.GET.get('q', '').lower()
     
-    # Get current chapter from request
-    current_chapter = request.GET.get('chapter', '1')
-    
-    if current_chapter == '2':
-        # Return Chapter 2 structure
-        return render(request, 'dictionary/chapter2.html', {
-            'lessons': CHAPTER2_LESSONS,
-            'search_query': search_query
-        })
-    
     # Arabic alphabet letters and their English names
     letters = [
         {'letter': 'ا', 'name': 'Alif'},
@@ -114,14 +104,53 @@ def dictionary_home(request):
         {'letter': 'ي', 'name': 'Ya'}
     ]
 
+    # Numbers data (1-15)
+    numbers = [
+        {'number': '1', 'name': 'One'},
+        {'number': '2', 'name': 'Two'},
+        {'number': '3', 'name': 'Three'},
+        {'number': '4', 'name': 'Four'},
+        {'number': '5', 'name': 'Five'},
+        {'number': '6', 'name': 'Six'},
+        {'number': '7', 'name': 'Seven'},
+        {'number': '8', 'name': 'Eight'},
+        {'number': '9', 'name': 'Nine'},
+        {'number': '10', 'name': 'Ten'},
+        {'number': '11', 'name': 'Eleven'},
+        {'number': '12', 'name': 'Twelve'},
+        {'number': '13', 'name': 'Thirteen'},
+        {'number': '14', 'name': 'Fourteen'},
+        {'number': '15', 'name': 'Fifteen'}
+    ]
+
     # Add video paths to each letter
-    videos_path = 'C:/Users/MSM21/OneDrive/Desktop/New folder/test/BayanProject/static/videos/videos'
     for letter_info in letters:
         video_file = f"{letter_info['letter']}.mp4"
         letter_info['video_path'] = f'videos/videos/{video_file}'
 
+    # Add video paths to each number
+    for number_info in numbers:
+        video_file = f"{number_info['number']}.mp4"
+        number_info['video_path'] = f'videos/chapter2/{video_file}'
+
+    # Common phrases for Chapter 3
+    common_phrases = [
+        {'phrase': 'السلام عليكم', 'translation': 'Peace be upon you'},
+        {'phrase': 'وعليكم السلام', 'translation': 'And peace be upon you'},
+        {'phrase': 'صباح الخير', 'translation': 'Good morning'},
+        {'phrase': 'صباح النور', 'translation': 'Good morning (response)'},
+        {'phrase': 'كيف هي أمورك ؟', 'translation': '? How are things'},
+        {'phrase': 'كيف صحتك ؟', 'translation': '? How is your health'},
+        {'phrase': 'كيف حالك ؟', 'translation': '? How are you'},
+        {'phrase': 'كيف حال أولادك ؟', 'translation': '? How are your children'},
+        {'phrase': 'أتوصي بشيء ؟', 'translation': '? Do you need anything'},
+        {'phrase': 'اعتن بنفسك', 'translation': 'Take care of yourself'},
+        {'phrase': 'أراك قريبا', 'translation': 'See you soon'},
+        {'phrase': 'مع السلامة', 'translation': 'Goodbye'},
+    ]
+
     if search_query:
-        # Filter letters based on search query
+        # Filter letters and numbers based on search query
         filtered_letters = [
             letter for letter in letters
             if search_query in letter['letter'].lower() or 
@@ -129,9 +158,18 @@ def dictionary_home(request):
         ]
         letters = filtered_letters
 
+        filtered_numbers = [
+            number for number in numbers
+            if search_query in number['number'].lower() or 
+            search_query in number['name'].lower()
+        ]
+        numbers = filtered_numbers
+
     return render(request, 'dictionary/home.html', {
         'letters': letters,
-        'search_query': search_query
+        'numbers': numbers,
+        'search_query': search_query,
+        'common_phrases': common_phrases
     })
 
 @login_required
@@ -213,8 +251,8 @@ def video_detail(request, video_id):
 
 @login_required
 def letter_detail(request, letter):
-    # Find the letter info from the letters list
-    letters = [
+    # Names for letters
+    letter_names = [
         {'letter': 'ا', 'name': 'Alif'},
         {'letter': 'ب', 'name': 'Ba'},
         {'letter': 'ت', 'name': 'Ta'},
@@ -231,7 +269,7 @@ def letter_detail(request, letter):
         {'letter': 'ص', 'name': 'Sad'},
         {'letter': 'ض', 'name': 'Dad'},
         {'letter': 'ط', 'name': 'Ta'},
-        {'letter': 'ظ', 'Za': 'Za'},
+        {'letter': 'ظ', 'name': 'Za'},
         {'letter': 'ع', 'name': 'Ayn'},
         {'letter': 'غ', 'name': 'Ghayn'},
         {'letter': 'ف', 'name': 'Fa'},
@@ -244,12 +282,70 @@ def letter_detail(request, letter):
         {'letter': 'و', 'name': 'Waw'},
         {'letter': 'ي', 'name': 'Ya'}
     ]
-    
-    letter_info = next((l for l in letters if l['letter'] == letter), None)
-    if not letter_info:
-        return redirect('dictionary:home')
-    
-    return render(request, 'dictionary/letter_detail.html', {
-        'letter': letter,
-        'letter_name': letter_info['name']
-    }) 
+    # Numbers data
+    numbers = [
+        {'letter': '1', 'name': 'One'},
+        {'letter': '2', 'name': 'Two'},
+        {'letter': '3', 'name': 'Three'},
+        {'letter': '4', 'name': 'Four'},
+        {'letter': '5', 'name': 'Five'},
+        {'letter': '6', 'name': 'Six'},
+        {'letter': '7', 'name': 'Seven'},
+        {'letter': '8', 'name': 'Eight'},
+        {'letter': '9', 'name': 'Nine'},
+        {'letter': '10', 'name': 'Ten'},
+        {'letter': '11', 'name': 'Eleven'},
+        {'letter': '12', 'name': 'Twelve'},
+        {'letter': '13', 'name': 'Thirteen'},
+        {'letter': '14', 'name': 'Fourteen'},
+        {'letter': '15', 'name': 'Fifteen'}
+    ]
+    # Common phrases for Chapter 3
+    common_phrases = [
+        {'phrase': 'السلام عليكم', 'translation': 'Peace be upon you'},
+        {'phrase': 'وعليكم السلام', 'translation': 'And peace be upon you'},
+        {'phrase': 'صباح الخير', 'translation': 'Good morning'},
+        {'phrase': 'صباح النور', 'translation': 'Good morning (response)'},
+        {'phrase': 'كيف هي أمورك ؟', 'translation': 'How are things?'},
+        {'phrase': 'كيف صحتك ؟', 'translation': 'How is your health?'},
+        {'phrase': 'كيف حالك ؟', 'translation': 'How are you?'},
+        {'phrase': 'كيف حال أولادك ؟', 'translation': 'How are your children?'},
+        {'phrase': 'أتوصي بشيء ؟', 'translation': 'Do you need anything?'},
+        {'phrase': 'اعتن بنفسك', 'translation': 'Take care of yourself'},
+        {'phrase': 'أراك قريبا', 'translation': 'See you soon'},
+        {'phrase': 'مع السلامة', 'translation': 'Goodbye'},
+    ]
+    # Check if it's a letter
+    letter_info = next((l for l in letter_names if l['letter'] == letter), None)
+    if letter_info:
+        video_path = f'videos/videos/{letter}.mp4'
+        template = 'dictionary/letter_detail.html'
+        context = {
+            'letter': letter,
+            'letter_name': letter_info['name'],
+            'video_path': video_path
+        }
+        return render(request, template, context)
+    # Check if it's a number
+    number_info = next((n for n in numbers if n['letter'] == letter), None)
+    if number_info:
+        video_path = f'videos/chapter2/{letter}.mp4'
+        template = 'dictionary/number_detail.html'
+        context = {
+            'letter': letter,
+            'letter_name': number_info['name'],
+            'video_path': video_path
+        }
+        return render(request, template, context)
+    # Check if it's a phrase
+    phrase_info = next((p for p in common_phrases if p['phrase'] == letter), None)
+    if phrase_info:
+        video_path = f'chapter3/{letter}.mp4'
+        template = 'dictionary/phrase_detail.html'
+        context = {
+            'phrase': letter,
+            'translation': phrase_info['translation'],
+            'video_path': video_path
+        }
+        return render(request, template, context)
+    return redirect('dictionary:home') 

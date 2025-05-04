@@ -50,18 +50,11 @@
                                 Your browser does not support the video tag.
                             </video>
                         </div>
-                        <div class="practice-instructions">
-                            <h3>Practice Instructions</h3>
-                            <ol>
-                                <li>Watch the video carefully to observe the hand movements</li>
-                                <li>Practice the sign in front of a mirror</li>
-                                <li>Repeat the movement several times until you feel comfortable</li>
-                                <li>Try to make the sign without watching the video</li>
-                            </ol>
+                         
                             <div class="practice-controls">
                                 <a href="{% url 'lesson_list' chapter=1 %}" class="btn btn-secondary">Back to Lessons</a>
                             </div>
-                        </div>
+                        
                     {% else %}
                         <div class="practice-grid">
                             {% for letter in letters %}

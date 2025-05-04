@@ -228,7 +228,7 @@
         {% elif chapter == 2 %}
             <h1>Numbers Signs - Lesson {{ lesson }}</h1>
         {% elif chapter == 3 %}
-            <h1>Common Words</h1>
+            <h1>Common Words - Lesson {{ lesson }}</h1>
         {% endif %}
     </div>
     <div class="lesson-content">
@@ -351,10 +351,63 @@
         {% elif chapter == 3 %}
             <div class="video-container">
                 <video controls width="100%" autoplay loop muted>
-                    <source src="{% static 'videos/videos/ض.mp4' %}" type="video/mp4">
+                    {% if lesson == 1 %}
+                        <source src="{% static 'chapter3/السلام عليكم.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/وعليكم السلام.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/صباح الخير.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/صباح النور.mp4' %}" type="video/mp4">
+                    {% elif lesson == 2 %}
+                        <source src="{% static 'chapter3/كيف هي أمورك ؟.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/كيف صحتك ؟.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/كيف حالك ؟.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/كيف حال أولادك ؟.mp4' %}" type="video/mp4">
+                    {% elif lesson == 3 %}
+                        <source src="{% static 'chapter3/أتوصي بشيء ؟.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/اعتن بنفسك.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/أراك قريبا.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/مع السلامة.mp4' %}" type="video/mp4">
+                    {% endif %}
                     Your browser does not support the video tag.
                 </video>
-                <div class="video-title">ض</div>
+                <div class="video-title">
+                    {% if lesson == 1 %}
+                        Greetings
+                    {% elif lesson == 2 %}
+                        How are you?
+                    {% elif lesson == 3 %}
+                        Goodbyes
+                    {% endif %}
+                </div>
+                <div class="video-subtitle" id="videoSubtitle">
+                    Loading...
+                </div>
+            </div>
+            <!-- Navigation for Chapter 3 -->
+            <div class="lesson-navigation">
+                <div class="letter-navigation">
+                    <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
+                        <span class="nav-arrow">←</span>
+                        Previous Word
+                    </a>
+                    <a href="#" class="nav-btn practice-btn" id="practice-btn">
+                        Practice Word
+                    </a>
+                    <a href="#" class="nav-btn next-letter-btn">
+                        Next Word
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% if lesson == 3 %}
+                    <a href="{% url 'quiz_start' chapter=3 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Take Quiz
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Next Lesson
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
     </div>
@@ -387,7 +440,7 @@
             {% endif %}
         </div>
     </div>
-    {% elif chapter != 2 %}
+    {% elif chapter != 2 and chapter != 3 %}
     <div class="lesson-navigation">
         <div class="letter-navigation">
         {% if lesson > 1 %}
@@ -494,15 +547,28 @@ document.addEventListener('DOMContentLoaded', function() {
             ];
         }
     } else if (currentChapter === 3) {
-        videos = [
-            { src: "{% static 'videos/videos/ض.mp4' %}", title: "ض", position: "Fifteenth" },
-            { src: "{% static 'videos/videos/ط.mp4' %}", title: "ط", position: "Sixteenth" },
-            { src: "{% static 'videos/videos/ظ.mp4' %}", title: "ظ", position: "Seventeenth" },
-            { src: "{% static 'videos/videos/ع.mp4' %}", title: "ع", position: "Eighteenth" },
-            { src: "{% static 'videos/videos/غ.mp4' %}", title: "غ", position: "Nineteenth" },
-            { src: "{% static 'videos/videos/ف.mp4' %}", title: "ف", position: "Twentieth" },
-            { src: "{% static 'videos/videos/ق.mp4' %}", title: "ق", position: "Twenty-first" }
-        ];
+        if (currentLesson === 1) {
+            videos = [
+                { src: "{% static 'chapter3/السلام عليكم.mp4' %}", title: "السلام عليكم", position: "First" },
+                { src: "{% static 'chapter3/وعليكم السلام.mp4' %}", title: "وعليكم السلام", position: "Second" },
+                { src: "{% static 'chapter3/صباح الخير.mp4' %}", title: "صباح الخير", position: "Third" },
+                { src: "{% static 'chapter3/صباح النور.mp4' %}", title: "صباح النور", position: "Fourth" }
+            ];
+        } else if (currentLesson === 2) {
+            videos = [
+                { src: "{% static 'chapter3/كيف هي أمورك ؟.mp4' %}", title: "كيف هي أمورك ؟", position: "Fifth" },
+                { src: "{% static 'chapter3/كيف صحتك ؟.mp4' %}", title: "كيف صحتك ؟", position: "Sixth" },
+                { src: "{% static 'chapter3/كيف حالك ؟.mp4' %}", title: "كيف حالك ؟", position: "Seventh" },
+                { src: "{% static 'chapter3/كيف حال أولادك ؟.mp4' %}", title: "كيف حال أولادك ؟", position: "Eighth" }
+            ];
+        } else if (currentLesson === 3) {
+            videos = [
+                { src: "{% static 'chapter3/أتوصي بشيء ؟.mp4' %}", title: "أتوصي بشيء ؟", position: "Ninth" },
+                { src: "{% static 'chapter3/اعتن بنفسك.mp4' %}", title: "اعتن بنفسك", position: "Tenth" },
+                { src: "{% static 'chapter3/أراك قريبا.mp4' %}", title: "أراك قريبا", position: "Eleventh" },
+                { src: "{% static 'chapter3/مع السلامة.mp4' %}", title: "مع السلامة", position: "Twelfth" }
+            ];
+        }
     }
 
     // Function to get CSRF token from cookies
@@ -575,6 +641,8 @@ document.addEventListener('DOMContentLoaded', function() {
             videoSubtitle.textContent = `${video.position} letter of the Arabic alphabet`;
         } else if (currentChapter === 2) {
             videoSubtitle.textContent = `${video.position} number`;
+        } else if (currentChapter === 3) {
+            videoSubtitle.textContent = `${video.position} word`;
         }
         videoElement.load();
         videoElement.play();
@@ -586,33 +654,26 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (currentChapter === 2) {
             const numberUrl = `/number/${video.title}/`;
             practiceBtn.href = numberUrl;
+        } else if (currentChapter === 3) {
+            const phraseUrl = `{% url 'sign_practice:phrase_detail' phrase='PHRASE_PLACEHOLDER' %}`.replace('PHRASE_PLACEHOLDER', encodeURIComponent(video.title));
+            practiceBtn.href = phraseUrl;
         }
     
         // Update navigation buttons visibility
         prevLetterBtn.style.display = currentVideoIndex > 0 ? 'flex' : 'none';
         nextLetterBtn.style.display = currentVideoIndex < videos.length - 1 ? 'flex' : 'none';
         
-        // Show next lesson or quiz button when all letters are viewed
+        // Show next lesson or quiz button when all words are viewed
         if (currentVideoIndex === videos.length - 1) {
-            console.log('Reached last number of lesson', currentLesson);
+            console.log('Reached last word of lesson', currentLesson);
             if (nextLessonBtn) {
                 console.log('Showing next button');
                 nextLessonBtn.style.display = 'flex';
                 
-                // If this is the last number of lesson 3 in chapter 2, update the button to go to quiz
-                if (currentChapter === 2 && currentLesson === 3) {
+                // If this is the last word of lesson 3 in chapter 3, update the button to go to quiz
+                if (currentChapter === 3 && currentLesson === 3) {
                     nextLessonBtn.textContent = 'Take Quiz';
-                    nextLessonBtn.href = "{% url 'quiz_start' chapter=2 %}";
-                }
-                // If this is the last letter of lesson 4 in chapter 1, update the button to go to quiz
-                if (currentChapter === 1 && currentLesson === 4) {
-                    nextLessonBtn.textContent = 'Take Quiz';
-                    nextLessonBtn.href = "{% url 'quiz_start' chapter=1 %}";
-                }
-                // If this is the last letter of lesson 3 in chapter 1, update the button to go to lesson 4
-                if (currentChapter === 1 && currentLesson === 3) {
-                    nextLessonBtn.textContent = 'Next Lesson';
-                    nextLessonBtn.href = `{window.location.origin}/lesson/1/4/`;
+                    nextLessonBtn.href = "{% url 'quiz_start' chapter=3 %}";
                 }
             }
         } else {
@@ -665,22 +726,10 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 console.log('Server response:', data);
                 if (data.status === 'success') {
-                    // If this is the last number of lesson 3 in chapter 2, go to quiz
-                    if (currentChapter === 2 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
+                    // If this is the last word of lesson 3 in chapter 3, go to quiz
+                    if (currentChapter === 3 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
                         console.log('Redirecting to quiz start');
-                        window.location.href = "{% url 'quiz_start' chapter=2 %}";
-                        return;
-                    }
-                    // If this is the last letter of lesson 4 in chapter 1, go to quiz
-                    if (currentChapter === 1 && currentLesson === 4 && currentVideoIndex === videos.length - 1) {
-                        console.log('Redirecting to quiz start');
-                        window.location.href = "{% url 'quiz_start' chapter=1 %}";
-                        return;
-                    }
-                    // If this is the last letter of lesson 3 in chapter 1, go to lesson 4
-                    if (currentChapter === 1 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
-                        console.log('Redirecting to lesson 4');
-                        window.location.href = `${window.location.origin}/lesson/1/4/`;
+                        window.location.href = "{% url 'quiz_start' chapter=3 %}";
                         return;
                     }
                     

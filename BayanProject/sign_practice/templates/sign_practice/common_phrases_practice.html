@@ -1,0 +1,129 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="header-container" style="position: relative;">
+                <a href="{% url 'sign_practice:home' %}" class="back-arrow" style="position: absolute; left: 30px; top: 50%; transform: translateY(-50%); font-size: 2.2rem; color: white; text-decoration: none;">
+                    &#8592;
+                </a>
+                <h1>Common Words Practice</h1>
+                <p>Click on a word to practice its sign language</p>
+            </div>
+            <div class="practice-container">
+                <div class="practice-grid">
+                    {% for phrase in phrases %}
+                    <a href="{% url 'sign_practice:phrase_detail' phrase=phrase.phrase %}" class="sign-link" id="phrase-{{ forloop.counter }}">
+                        <div class="sign-card">
+                            <span class="sign-symbol" style="font-size:1.5rem;">{{ phrase.phrase }}</span>
+                            <span class="sign-translation">{{ phrase.translation }}</span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.header-container {
+    background-color: #4343f4;
+    border-radius: 25px;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(67, 67, 244, 0.2);
+}
+.header-container h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+}
+.header-container p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+.practice-container {
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 0 20px;
+}
+.practice-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 10px;
+    direction: rtl;
+}
+.sign-link {
+    text-decoration: none;
+}
+.sign-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #2a3cff;
+    background: #f8f9fa;
+    border: none;
+    border-radius: 16px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    min-width: 80px;
+    min-height: 100px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(67, 67, 244, 0.08);
+    border-bottom: none;
+    padding: 18px 0 10px 0;
+    direction: rtl;
+    text-align: right;
+}
+.sign-card.selected, .sign-card:hover {
+    background: #e8ebff;
+    color: #1a1a2e;
+    box-shadow: 0 4px 15px rgba(67, 67, 244, 0.12);
+}
+.sign-symbol {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+.sign-translation {
+    font-size: 0.95rem;
+    color: #666;
+    text-align: center;
+    margin-top: 6px;
+    font-weight: normal;
+}
+@media (max-width: 768px) {
+    .practice-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 576px) {
+    .practice-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .header-container h1 {
+        font-size: 2rem;
+    }
+    .header-container p {
+        font-size: 1rem;
+    }
+    .practice-container {
+        padding: 15px;
+    }
+}
+</style>
+{% endblock %} 
