@@ -31,7 +31,6 @@
                         <a href="{% url 'sign_practice:home' %}" class="drawer-link{% if request.resolver_match.namespace == 'sign_practice' %} active{% endif %}">Sign Practice</a>
                         <a href="{% url 'quiz' %}" class="drawer-link{% if request.resolver_match.url_name == 'quiz' %} active{% endif %}">Quiz</a>
                         <a href="{% url 'dictionary:home' %}" class="drawer-link{% if request.resolver_match.namespace == 'dictionary' %} active{% endif %}">Dictionary</a>
-                        <a href="{% url 'contact_us' %}" class="drawer-link{% if request.resolver_match.url_name == 'contact_us' %} active{% endif %}">Contact Us</a>
                     </div>
                     <div class="drawer-auth">
                         {% if user.is_authenticated %}
@@ -51,7 +50,6 @@
                     <a href="{% url 'sign_practice:home' %}" class="nav-link{% if request.resolver_match.namespace == 'sign_practice' %} active{% endif %}">Sign Practice</a>
                     <a href="{% url 'quiz' %}" class="nav-link{% if request.resolver_match.url_name == 'quiz' %} active{% endif %}">Quiz</a>
                     <a href="{% url 'dictionary:home' %}" class="nav-link{% if request.resolver_match.namespace == 'dictionary' %} active{% endif %}">Dictionary</a>
-                    <a href="{% url 'contact_us' %}" class="nav-link{% if request.resolver_match.url_name == 'contact_us' %} active{% endif %}">Contact Us</a>
                 </div>
                 <div class="auth-buttons desktop-only">
                     {% if user.is_authenticated %}

@@ -2,6 +2,10 @@
 
 {% block content %}
 <div class="contact-page-container">
+    <a href="{% url 'profile' %}" class="back-button">
+        <span>←</span> Back to Profile
+    </a>
+
     <div class="contact-header">
         <h1>Contact Us</h1>
         <p>Have a question or feedback? We'd love to hear from you!</p>
@@ -28,6 +32,27 @@
         max-width: 800px;
         margin: 0 auto;
         padding: 2rem;
+        position: relative;
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        color: #666;
+        text-decoration: none;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+
+    .back-button span {
+        margin-right: 0.5rem;
+        font-size: 1.3rem;
+    }
+
+    .back-button:hover {
+        color: #1a237e;
+        transform: translateX(-5px);
     }
 
     .contact-header {
@@ -116,6 +141,11 @@
 
         .contact-form-container {
             padding: 1.5rem;
+        }
+
+        .back-button {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
         }
     }
 </style>
