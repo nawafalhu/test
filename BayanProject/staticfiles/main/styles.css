@@ -264,25 +264,18 @@ footer {
 /* Navbar Styles - Applied across all pages */
 .navbar .container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     padding: 0.3rem 1rem;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    gap: 2rem;
 }
 
 .navbar-brand {
-    float: left;
-    position: relative;
-    padding: 0.3rem 0;
-    margin: 0;
     font-size: 1.5rem !important;
-    line-height: 1.2;
     color: #5f72f0 !important;
     font-weight: bold;
-    margin-right: 2rem;
     text-decoration: none;
 }
 
@@ -290,17 +283,6 @@ footer {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    margin-left: 2rem;
-    position: relative;
-}
-
-.nav-items::before {
-    content: '';
-    position: absolute;
-    left: -1rem;
-    height: 20px;
-    width: 1px;
-    background-color: #eaeaea;
 }
 
 .nav-link {
@@ -309,50 +291,180 @@ footer {
     font-size: 0.93rem;
     text-decoration: none;
     padding: 0.3rem 0;
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
+    transition: color 0.3s;
 }
 
-.nav-link:hover {
-    color: #333 !important;
+.nav-link:hover, .nav-link.active {
+    color: #4343f4 !important;
 }
 
-.auth-buttons {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+/* Custom Burger Menu */
+.custom-burger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 1001;
 }
 
-.nav-link.btn {
-    color: #000 !important;
-    border: 1px solid #000 !important;
-    border-radius: 20px;
-    padding: 0.4rem 1.2rem;
-    margin: 0 0.5rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.nav-link.btn:hover {
-    background-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-.nav-link.btn.btn-signup {
-    background-color: #000;
-    color: white !important;
-    border: none !important;
-}
-
-.nav-link.btn.btn-signup:hover {
+.custom-burger span {
+    display: block;
+    width: 25px;
+    height: 3px;
     background-color: #333;
+    margin: 5px 0;
+    transition: all 0.3s ease;
 }
 
-.navbar-nav {
+/* Navigation Drawer */
+.nav-drawer {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.nav-drawer.active {
+    right: 0;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 1rem;
+}
+
+.drawer-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.close-drawer {
+    display: none !important;
+}
+
+.drawer-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.drawer-link {
+    color: #333;
+    text-decoration: none;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.drawer-link:hover, .drawer-link.active {
+    color: #4343f4 !important;
+    background-color: #e8edff !important;
+}
+
+.drawer-auth {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eaeaea;
+}
+
+.drawer-user {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.drawer-profile-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.drawer-username {
+    font-weight: 500;
+    color: #333;
+}
+
+.logout-link {
+    color: #dc3545 !important;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .custom-burger {
+        display: block;
+    }
+
+    .navbar .container {
+        padding: 0.3rem 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.3rem !important;
+    }
+
+    .auth-buttons {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .nav-items {
+        flex: 1;
+        justify-content: center;
+        gap: 2rem;
+        margin: 0;
+    }
+    .navbar .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0;
+    }
+    .navbar-brand {
+        border-left: 1px solid #eaeaea;
+        padding-left: 1.5rem;
+        margin-right: 2rem;
+    }
+    .nav-items {
+        margin-left: 0;
+    }
+    .auth-buttons {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .welcome-message {
+        margin-right: 0.5rem;
+    }
+    .profile-icon {
+        cursor: pointer;
+        transition: box-shadow 0.2s;
+    }
+    .profile-icon:hover {
+        box-shadow: 0 0 0 2px #4343f4;
+    }
 }
 
 /* Signup Header Styles */
@@ -1557,6 +1669,62 @@ footer {
 
     .letter {
         font-size: 2rem;
+    }
+}
+
+.profile-container h2 {
+    margin-bottom: 2rem !important;
+}
+
+.profile-title {
+    margin-bottom: 0 !important;
+    font-size: 1.9rem;
+}
+
+.profile-title-spacer {
+    height: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* لون أزرق للتبويب النشط في drawer في جميع الحالات */
+.drawer-link.active,
+.drawer-link:active,
+.drawer-link:focus,
+.drawer-link:visited,
+.drawer-link:hover {
+    color: #4343f4 !important;
+    background-color: #e8edff !important;
+}
+
+/* خط فاصل رأسي بين اسم الموقع والتبويبات */
+@media (min-width: 769px) {
+    .navbar-brand {
+        border-left: 1px solid #eaeaea;
+        padding-left: 1.5rem;
+        margin-right: 2rem;
+    }
+    .nav-items {
+        margin-left: 0;
+    }
+}
+
+/* محاذاة اسم المستخدم والأيقونة لليمين تمامًا */
+@media (min-width: 769px) {
+    .auth-buttons {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .welcome-message {
+        margin-right: 0.5rem;
+    }
+    .profile-icon {
+        cursor: pointer;
+        transition: box-shadow 0.2s;
+    }
+    .profile-icon:hover {
+        box-shadow: 0 0 0 2px #4343f4;
     }
 }
 
