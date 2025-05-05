@@ -8,10 +8,11 @@ from django.template.defaulttags import register
 import random
 import os
 from django.conf import settings
-from .models import QuizScore, UserProgress
+from .models import QuizScore, UserProgress, ContactMessage
 from django.http import JsonResponse
 from django.db.models import Max
 from django.templatetags.static import static
+from django.contrib import messages
 
 @register.filter
 def multiply(value, arg):
@@ -598,3 +599,21 @@ def number_detail(request, number):
         'chapter': 2,
     }
     return render(request, 'main/number_detail.html', context)
+
+@login_required
+def contact_us(request):
+    if request.method == 'POST':
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        
+        # Save the message to the database
+        ContactMessage.objects.create(
+            user=request.user,
+            subject=subject,
+            message=message
+        )
+        
+        messages.success(request, 'Your message has been sent successfully!')
+        return redirect('contact_us')
+    
+    return render(request, 'main/contact.html')

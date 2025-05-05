@@ -1728,3 +1728,57 @@ footer {
     }
 }
 
+/* Contact Us Section Styles */
+.contact-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eaeaea;
+}
+
+.contact-title {
+    color: #1a237e;
+    font-size: 1.5rem;
+    margin-bottom: 0 !important;
+}
+
+.contact-title-spacer {
+    height: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.contact-form label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.contact-form .form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    font-size: 1rem;
+}
+
+.contact-form textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contact-form .form-control:focus {
+    border-color: #5f72f0;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(95, 114, 240, 0.2);
+}
+

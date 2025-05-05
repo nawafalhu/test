@@ -33,8 +33,21 @@ class UserProgress(models.Model):
     completed_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ['user', 'chapter', 'lesson']
+        unique_together = ('user', 'chapter', 'lesson')
         ordering = ['chapter', 'lesson']
 
     def __str__(self):
         return f"{self.user.username} - Chapter {self.chapter}, Lesson {self.lesson}"
+
+class ContactMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Message from {self.user.username}: {self.subject}"
+
+    class Meta:
+        ordering = ['-created_at']

@@ -16,6 +16,7 @@ urlpatterns = [
     path('quiz/start/<int:chapter>/', views.quiz_start, name='quiz_start'),
     path('quiz/question/<int:question_number>/', views.quiz_question, name='quiz_question'),
     path('profile/', views.profile_view, name='profile'),
+    path('contact-us/', views.contact_us, name='contact_us'),
     path('alphabet-practice/', views.alphabet_practice, name='alphabet_practice'),
     path('letter/<str:letter>/', views.letter_detail, name='letter_detail'),
     path('number/<int:number>/', views.number_detail, name='number_detail'),
