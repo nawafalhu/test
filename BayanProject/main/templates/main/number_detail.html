@@ -9,17 +9,7 @@
             <a href="{% url 'lesson_view' chapter=chapter lesson=lesson_number %}" class="back-to-chapter" id="back-to-lesson">
                 <i class="fas fa-arrow-left"></i> Back to Lesson {{ lesson_number }}
             </a>
-            
-            <!-- Video Section -->
-            <div class="video-section">
-                <div class="video-container">
-                    <video id="numberVideo" class="letter-video" width="900" height="600" autoplay loop muted>
-                        <source src="{% static 'chapter2/' %}{{ number }}.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
-            
+              
             <div class="letter-practice-container" id="number-container">
                 <div class="letter-header">
                     <h2>Number Practice: {{ number }} ({{ number_word }})</h2>
