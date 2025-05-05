@@ -665,24 +665,34 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Show next lesson or quiz button when all words are viewed
         if (currentVideoIndex === videos.length - 1) {
-            console.log('Reached last word of lesson', currentLesson);
             if (nextLessonBtn) {
-                console.log('Showing next button');
-                nextLessonBtn.style.display = 'flex';
-                // If this is the last letter of lesson 4 in chapter 1, update the button to go to quiz
-                if (currentChapter === 1 && currentLesson === 4) {
-                    nextLessonBtn.textContent = 'Take Quiz';
-                    nextLessonBtn.href = "{% url 'quiz_start' chapter=1 %}";
-                }
-                // If this is the last number of lesson 3 in chapter 2, update the button to go to quiz
-                else if (currentChapter === 2 && currentLesson === 3) {
-                    nextLessonBtn.textContent = 'Take Quiz';
-                    nextLessonBtn.href = "{% url 'quiz_start' chapter=2 %}";
-                }
-                // If this is the last word of lesson 3 in chapter 3, update the button to go to quiz
-                else if (currentChapter === 3 && currentLesson === 3) {
-                    nextLessonBtn.textContent = 'Take Quiz';
-                    nextLessonBtn.href = "{% url 'quiz_start' chapter=3 %}";
+                // Special case: chapter 1, lesson 3, last letter
+                if (currentChapter === 1 && currentLesson === 3) {
+                    nextLessonBtn.textContent = 'Next Lesson';
+                    nextLessonBtn.href = '/lesson/1/4/';
+                    nextLessonBtn.style.display = 'flex';
+                } else {
+                    // Check if this is the last lesson in the chapter
+                    let isLastLesson = false;
+                    if ((currentChapter === 1 && currentLesson == 4) ||
+                        (currentChapter === 2 && currentLesson == 3) ||
+                        (currentChapter === 3 && currentLesson == 3)) {
+                        isLastLesson = true;
+                    }
+                    if (isLastLesson) {
+                        nextLessonBtn.textContent = 'Take Quiz';
+                        if (currentChapter === 1) {
+                            nextLessonBtn.href = "{% url 'quiz_start' chapter=1 %}";
+                        } else if (currentChapter === 2) {
+                            nextLessonBtn.href = "{% url 'quiz_start' chapter=2 %}";
+                        } else if (currentChapter === 3) {
+                            nextLessonBtn.href = "{% url 'quiz_start' chapter=3 %}";
+                        }
+                    } else {
+                        nextLessonBtn.textContent = 'Next Lesson';
+                        nextLessonBtn.href = `/lesson/${currentChapter}/${parseInt(currentLesson) + 1}/`;
+                    }
+                    nextLessonBtn.style.display = 'flex';
                 }
             }
         } else {
@@ -721,32 +731,63 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Next lesson button clicked');
             console.log('Current lesson:', currentLesson);
             console.log('Current chapter:', currentChapter);
-            
-            // If this is the last letter of lesson 4 in chapter 1, go to quiz
-            if (currentChapter === 1 && currentLesson === 4 && currentVideoIndex === videos.length - 1) {
-                console.log('Redirecting to quiz start for chapter 1');
-                window.location.href = "{% url 'quiz_start' chapter=1 %}";
+
+            // Special case: chapter 1, lesson 3, last letter
+            if (currentChapter === 1 && currentLesson == 3 && currentVideoIndex === videos.length - 1) {
+                // Mark lesson 3 as complete, then go to lesson 4
+                fetch("{% url 'mark_lesson_complete' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `chapter=1&lesson=3`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = '/lesson/1/4/';
+                })
+                .catch(error => {
+                    window.location.href = '/lesson/1/4/';
+                });
                 return;
             }
-            // If this is the last letter of lesson 3 in chapter 1, go to lesson 4
-            if (currentChapter === 1 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
-                console.log('Redirecting to lesson 4 of chapter 1');
-                window.location.href = `/lesson/1/4/`;
+
+            // Check if this is the last lesson in the chapter and last video/word/number
+            let isLastLesson = false;
+            if ((currentChapter === 1 && currentLesson == 4) ||
+                (currentChapter === 2 && currentLesson == 3) ||
+                (currentChapter === 3 && currentLesson == 3)) {
+                isLastLesson = true;
+            }
+            if (isLastLesson && currentVideoIndex === videos.length - 1) {
+                // Mark as complete then go to quiz
+                let quizUrl = '';
+                if (currentChapter === 1) {
+                    quizUrl = "{% url 'quiz_start' chapter=1 %}";
+                } else if (currentChapter === 2) {
+                    quizUrl = "{% url 'quiz_start' chapter=2 %}";
+                } else if (currentChapter === 3) {
+                    quizUrl = "{% url 'quiz_start' chapter=3 %}";
+                }
+                fetch("{% url 'mark_lesson_complete' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `chapter=${currentChapter}&lesson=${currentLesson}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = quizUrl;
+                })
+                .catch(error => {
+                    window.location.href = quizUrl;
+                });
                 return;
             }
-            // If this is the last number of lesson 3 in chapter 2, go to quiz
-            if (currentChapter === 2 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
-                console.log('Redirecting to quiz start for chapter 2');
-                window.location.href = "{% url 'quiz_start' chapter=2 %}";
-                return;
-            }
-            // If this is the last word of lesson 3 in chapter 3, go to quiz
-            if (currentChapter === 3 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
-                console.log('Redirecting to quiz start for chapter 3');
-                window.location.href = "{% url 'quiz_start' chapter=3 %}";
-                return;
-            }
-            // First mark the lesson as complete
+            // First mark the lesson as complete for other cases
             fetch("{% url 'mark_lesson_complete' %}", {
                 method: 'POST',
                 headers: {
@@ -757,22 +798,18 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Server response:', data);
-                if (data.status === 'success') {
-                    // For other cases, continue to next lesson
-                    const nextLesson = data.next_lesson;
-                    console.log('Next lesson:', nextLesson);
-                    
-                    if (nextLesson <= 3) {
-                        const baseUrl = window.location.origin;
-                        const nextLessonUrl = `${baseUrl}/lesson/${currentChapter}/${nextLesson}/`;
-                        console.log('Redirecting to:', nextLessonUrl);
-                        window.location.href = nextLessonUrl;
-                    } else {
-                        const baseUrl = window.location.origin;
-                        const lessonListUrl = `${baseUrl}/lesson/${currentChapter}/`;
-                        window.location.href = lessonListUrl;
-                    }
+                // For other cases, continue to next lesson
+                const nextLesson = data.next_lesson;
+                console.log('Next lesson:', nextLesson);
+                if (nextLesson <= 3) {
+                    const baseUrl = window.location.origin;
+                    const nextLessonUrl = `${baseUrl}/lesson/${currentChapter}/${nextLesson}/`;
+                    console.log('Redirecting to:', nextLessonUrl);
+                    window.location.href = nextLessonUrl;
+                } else {
+                    const baseUrl = window.location.origin;
+                    const lessonListUrl = `${baseUrl}/lesson/${currentChapter}/`;
+                    window.location.href = lessonListUrl;
                 }
             })
             .catch(error => {

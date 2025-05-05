@@ -186,25 +186,20 @@ document.addEventListener('DOMContentLoaded', function() {
         timelineProgress.style.height = `${progressPercentage}%`;
     }
     
-    // Make lesson cards clickable only when all lessons are completed
+    // Make all completed lesson cards clickable
     if (lessonCards) {
         lessonCards.forEach(function(card) {
-            if (allLessonsCompleted && [1, 2, 3].includes(currentChapter)) {
-                const lessonNumber = parseInt(card.dataset.lesson);
-                if (lessonNumber <= totalLessons) {
-                    card.classList.add('clickable');
-                    card.addEventListener('click', function() {
-                        const lessonUrl = `${window.location.origin}/lesson/${currentChapter}/${lessonNumber}/`;
-                        window.location.href = lessonUrl;
-                    });
-                } else {
-                    card.style.display = 'none';
-                }
-            } else {
-                const lessonNumber = parseInt(card.dataset.lesson);
-                if (lessonNumber > totalLessons) {
-                    card.style.display = 'none';
-                }
+            const lessonNumber = parseInt(card.dataset.lesson);
+            if (lessonNumber > totalLessons) {
+                card.style.display = 'none';
+                return;
+            }
+            if (card.classList.contains('completed')) {
+                card.classList.add('clickable');
+                card.addEventListener('click', function() {
+                    const lessonUrl = `${window.location.origin}/lesson/${currentChapter}/${lessonNumber}/`;
+                    window.location.href = lessonUrl;
+                });
             }
         });
     }
