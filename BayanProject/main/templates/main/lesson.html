@@ -669,9 +669,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (nextLessonBtn) {
                 console.log('Showing next button');
                 nextLessonBtn.style.display = 'flex';
-                
+                // If this is the last letter of lesson 4 in chapter 1, update the button to go to quiz
+                if (currentChapter === 1 && currentLesson === 4) {
+                    nextLessonBtn.textContent = 'Take Quiz';
+                    nextLessonBtn.href = "{% url 'quiz_start' chapter=1 %}";
+                }
                 // If this is the last number of lesson 3 in chapter 2, update the button to go to quiz
-                if (currentChapter === 2 && currentLesson === 3) {
+                else if (currentChapter === 2 && currentLesson === 3) {
                     nextLessonBtn.textContent = 'Take Quiz';
                     nextLessonBtn.href = "{% url 'quiz_start' chapter=2 %}";
                 }
@@ -718,6 +722,18 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Current lesson:', currentLesson);
             console.log('Current chapter:', currentChapter);
             
+            // If this is the last letter of lesson 4 in chapter 1, go to quiz
+            if (currentChapter === 1 && currentLesson === 4 && currentVideoIndex === videos.length - 1) {
+                console.log('Redirecting to quiz start for chapter 1');
+                window.location.href = "{% url 'quiz_start' chapter=1 %}";
+                return;
+            }
+            // If this is the last letter of lesson 3 in chapter 1, go to lesson 4
+            if (currentChapter === 1 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
+                console.log('Redirecting to lesson 4 of chapter 1');
+                window.location.href = `/lesson/1/4/`;
+                return;
+            }
             // If this is the last number of lesson 3 in chapter 2, go to quiz
             if (currentChapter === 2 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
                 console.log('Redirecting to quiz start for chapter 2');
