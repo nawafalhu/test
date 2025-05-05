@@ -329,7 +329,7 @@ def letter_detail(request, letter):
     # Check if it's a number
     number_info = next((n for n in numbers if n['letter'] == letter), None)
     if number_info:
-        video_path = f'videos/chapter2/{letter}.mp4'
+        video_path = f'chapter2/{letter}.mp4'
         template = 'dictionary/number_detail.html'
         context = {
             'letter': letter,

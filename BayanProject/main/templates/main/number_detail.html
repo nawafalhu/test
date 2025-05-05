@@ -10,6 +10,16 @@
                 <i class="fas fa-arrow-left"></i> Back to Lesson {{ lesson_number }}
             </a>
             
+            <!-- Video Section -->
+            <div class="video-section">
+                <div class="video-container">
+                    <video id="numberVideo" class="letter-video" width="900" height="600" autoplay loop muted>
+                        <source src="{% static 'chapter2/' %}{{ number }}.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+            
             <div class="letter-practice-container" id="number-container">
                 <div class="letter-header">
                     <h2>Number Practice: {{ number }} ({{ number_word }})</h2>
@@ -259,6 +269,38 @@
 .next-btn i {
     margin-left: 5px;
 }
+
+.video-section {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container {
+    position: relative;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto 2rem auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.letter-video {
+    width: 100% !important;
+    max-width: 800px !important;
+    height: auto !important;
+    display: block;
+    background-color: #000;
+    border-radius: 8px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
 </style>
 {% endblock %}
 
@@ -433,5 +475,21 @@
 
     // Load model when page loads
     loadModel();
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('numberVideo');
+    if (video) {
+        video.addEventListener('error', function(e) {
+            console.error('Video error:', video.error);
+            alert('Error loading video. Please try again later.');
+        });
+        video.play().catch(function(error) {
+            console.log('Autoplay prevented:', error);
+            video.controls = true;
+        });
+    }
+});
 </script>
 {% endblock %} 

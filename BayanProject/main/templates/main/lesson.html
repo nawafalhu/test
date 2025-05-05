@@ -670,8 +670,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Showing next button');
                 nextLessonBtn.style.display = 'flex';
                 
+                // If this is the last number of lesson 3 in chapter 2, update the button to go to quiz
+                if (currentChapter === 2 && currentLesson === 3) {
+                    nextLessonBtn.textContent = 'Take Quiz';
+                    nextLessonBtn.href = "{% url 'quiz_start' chapter=2 %}";
+                }
                 // If this is the last word of lesson 3 in chapter 3, update the button to go to quiz
-                if (currentChapter === 3 && currentLesson === 3) {
+                else if (currentChapter === 3 && currentLesson === 3) {
                     nextLessonBtn.textContent = 'Take Quiz';
                     nextLessonBtn.href = "{% url 'quiz_start' chapter=3 %}";
                 }
@@ -713,6 +718,18 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Current lesson:', currentLesson);
             console.log('Current chapter:', currentChapter);
             
+            // If this is the last number of lesson 3 in chapter 2, go to quiz
+            if (currentChapter === 2 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
+                console.log('Redirecting to quiz start for chapter 2');
+                window.location.href = "{% url 'quiz_start' chapter=2 %}";
+                return;
+            }
+            // If this is the last word of lesson 3 in chapter 3, go to quiz
+            if (currentChapter === 3 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
+                console.log('Redirecting to quiz start for chapter 3');
+                window.location.href = "{% url 'quiz_start' chapter=3 %}";
+                return;
+            }
             // First mark the lesson as complete
             fetch("{% url 'mark_lesson_complete' %}", {
                 method: 'POST',
@@ -726,13 +743,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 console.log('Server response:', data);
                 if (data.status === 'success') {
-                    // If this is the last word of lesson 3 in chapter 3, go to quiz
-                    if (currentChapter === 3 && currentLesson === 3 && currentVideoIndex === videos.length - 1) {
-                        console.log('Redirecting to quiz start');
-                        window.location.href = "{% url 'quiz_start' chapter=3 %}";
-                        return;
-                    }
-                    
                     // For other cases, continue to next lesson
                     const nextLesson = data.next_lesson;
                     console.log('Next lesson:', nextLesson);
